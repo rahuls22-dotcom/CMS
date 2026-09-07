@@ -223,20 +223,23 @@ svg{flex:none}
 .col.ctx{border-left:1px solid var(--border);background:var(--surface-3)}
 .lh{padding:12px 13px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;gap:10px}
 .lh .t{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.ownseg{display:flex;background:var(--surface-2);border-radius:6px;padding:2px;gap:1px}
-.ownseg button{border:0;background:transparent;color:var(--ink-3);font-weight:700;font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:4px 7px;border-radius:4px;display:flex;align-items:center;gap:4px}
-.ownseg button i{font-style:normal;font-weight:800;font-size:9.5px;opacity:.75}
-.ownseg button.on{background:var(--surface);color:var(--navy);box-shadow:var(--sh)}
+.lcount{font-size:11.5px;font-weight:700;color:var(--ink-3);background:var(--surface-2);border-radius:20px;padding:1px 8px}
+.searchrow{display:flex;align-items:center;gap:7px}
+.searchrow .search{flex:1;min-width:0}
+.ownsel{flex:none;border:1px solid var(--border);background:var(--surface-2);border-radius:8px;padding:7px 6px;font:inherit;font-size:11.5px;font-weight:600;color:var(--ink-2);outline:none;max-width:112px}
+.ownsel:focus{border-color:var(--focus)}
 .lh .t h3{font-size:14px;font-weight:700}
 .search{display:flex;align-items:center;gap:7px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 10px}
 .search input{border:0;background:transparent;outline:none;font:inherit;font-size:12.5px;color:var(--ink);width:100%}
 .tabs{display:flex;gap:2px;border-bottom:1.5px solid var(--border);margin:0 -13px;padding:0 13px}
-.tabs button{flex:1;border:0;background:transparent;color:var(--ink-3);font-weight:700;font-size:11.5px;padding:8px 2px 9px;display:flex;align-items:center;justify-content:center;gap:5px;position:relative;letter-spacing:.01em}
+.tabs button{flex:1;border:0;background:transparent;color:var(--ink-3);font-weight:700;font-size:11.5px;padding:7px 2px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;letter-spacing:.01em;min-width:0}
+.tabs button .l{white-space:nowrap}
 .tabs button:hover{color:var(--ink-2)}
 .tabs button.on{color:var(--navy)}
 .tabs button.on::after{content:"";position:absolute;left:4px;right:4px;bottom:-1.5px;height:2.5px;background:var(--navy);border-radius:2px}
-.tabs button .b{font-size:10px;font-weight:800;background:var(--surface-2);color:var(--ink-3);border-radius:4px;padding:1px 5px}
-.tabs button.on .b{background:var(--tint-2);color:var(--navy)}
+.tabs button .b{font-size:12.5px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums;line-height:1.2}
+.tabs button.on .b{color:var(--navy)}
+.tabsub{font-size:11px;font-weight:600;color:var(--ink-3);padding-top:9px}
 .subfilter{display:flex;gap:6px}
 .chipf{border:1px solid var(--border-2);background:var(--surface);color:var(--ink-2);font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px}
 .chipf.on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -366,6 +369,10 @@ svg{flex:none}
 .f input,.f select,.f textarea{width:100%;border:1px solid var(--border-2);background:var(--surface);border-radius:8px;padding:9px 11px;font:inherit;font-size:12.5px;color:var(--ink);outline:none}
 .f input:focus,.f select:focus,.f textarea:focus{border-color:var(--focus)}
 .f textarea{resize:vertical;min-height:60px}
+.ta-lg{min-height:104px;line-height:1.5}
+.cc{text-align:right;font-size:11px;color:var(--ink-3);margin-top:5px;font-variant-numeric:tabular-nums}
+.btn.wide{width:100%;justify-content:center;padding:11px;font-size:13.5px;margin-top:2px}
+.btn.wide:disabled{background:var(--border-2);border-color:var(--border-2);color:#fff;opacity:1}
 .opts{display:flex;flex-direction:column;gap:7px}
 .opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border-2);border-radius:9px;padding:10px 12px;cursor:pointer;transition:.12s}
 .opt:hover{border-color:var(--blue)}
@@ -452,14 +459,14 @@ let CHATS=[
   msgs:[{w:'them',t:"Hi, I got a mail from the IT dept about my ITR. My Form 16 shows a different TDS than 26AS — which do we file with?",tm:'1 Sep, 9:10 AM'},
         {w:'them',t:"This is a bit urgent, due date is the 3rd right?",tm:'1 Sep, 6:40 PM'}],
   tasks:[],docs:[{n:'Form 16 (FY 2025-26)',s:'RECEIVED'},{n:'AIS / 26AS statement',s:'REQUESTED'}],
-  history:[{d:'Jun 2026',c:'Advance Tax',o:'Query Resolved'},{d:'Mar 2026',c:'Tax Planning',o:'Task Completed'}]},
+  history:[{d:'Jun 2026',c:'Advance Tax',o:'Session closed'},{d:'Mar 2026',c:'Tax Planning',o:'Session closed'}]},
 
  {id:'c2',client:'Priya Nair',email:'priya.nair@outlook.com',phone:'+91 99301 55708',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
   closed:false,remind:true,hrs:6,openedHrs:9,pings:0,burst:false,sinceAction:6,
   msgs:[{w:'them',t:"Ready to file, go ahead!",tm:'1 Sep, 5:02 PM'},
         {w:'me',t:"Great — I'll run a final check on your capital gains schedule and confirm before we file.",tm:'1 Sep, 5:03 PM'}],
   tasks:[],docs:[{n:'Investment proofs',s:'VERIFIED'}],
-  history:[{d:'Aug 2026',c:'ITR Filing',o:'Task Completed'}]},
+  history:[{d:'Aug 2026',c:'ITR Filing',o:'Session closed'}]},
 
  {id:'c3',client:'Vikram Shah',email:'vikram.shah@gmail.com',phone:'+91 98450 77219',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Neha Reddy',category:'Advance Tax',
   closed:false,remind:false,hrs:31,openedHrs:31,pings:1,burst:false,sinceAction:31,
@@ -483,7 +490,7 @@ let CHATS=[
   closed:false,remind:true,hrs:5,openedHrs:5,pings:0,burst:false,sinceAction:5,
   msgs:[{w:'them',t:"Is HRA exemption available if I pay rent to my parents?",tm:'3 Sep, 1:30 PM'},
         {w:'me',t:"ok, will check",tm:'3 Sep, 1:34 PM'}],
-  tasks:[],docs:[],history:[{d:'Jul 2026',c:'General Query',o:'Query Resolved'}]},
+  tasks:[],docs:[],history:[{d:'Jul 2026',c:'General Query',o:'Session closed'}]},
 
  {id:'c7',client:'Test User 5',email:'testuser5@gmail.com',phone:'+91 88790 21134',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:20,openedHrs:20,pings:0,burst:false,sinceAction:20,
@@ -498,20 +505,20 @@ let CHATS=[
         {w:'me',t:"Thanks. To respond I'll also need last year's ITR-V and the demand notice PDF — could you upload both?",tm:'2 Sep, 4:15 PM'}],
   tasks:[{id:'t3',type:'MOM',title:'File MOM — notice review call',owner:'You',ownerId:'me',status:'OPEN',due:'5 Sep 2026',pri:'Low'}],
   docs:[{n:'143(1) intimation',s:'RECEIVED'},{n:'Prior-year ITR-V',s:'REQUESTED'},{n:'Demand notice PDF',s:'REQUESTED'}],
-  history:[{d:'May 2026',c:'ITR Filing',o:'Task Completed'}]},
+  history:[{d:'May 2026',c:'ITR Filing',o:'Session closed'}]},
 
  {id:'c10',client:'Farid Ansari',email:'farid.a@gmail.com',phone:'+91 97400 12938',tier:'Advanced',advisorId:'me',advisor:'You',category:'Tax Planning',
-  closed:true,remind:false,hrs:5,openedHrs:20,sinceAction:5,pings:0,burst:false,disp:{cat:'Query Resolved'},
+  closed:true,remind:false,hrs:5,openedHrs:20,sinceAction:5,pings:0,burst:false,disp:{mom:'Advised to declare FD interest in the year it accrues; noted against the plan.',feedback:''},
   msgs:[{w:'them',t:"Should I move my FD interest declaration to this year?",tm:'6 Sep, 10:00 AM'},
         {w:'me',t:"No — declare it in the year it accrues. I've noted it against your plan.",tm:'6 Sep, 11:30 AM'},
-        {w:'sys',t:'Closed · Query Resolved',tm:'6 Sep, 11:31 AM'}],
+        {w:'sys',t:'Session closed',tm:'6 Sep, 11:31 AM'}],
   tasks:[],docs:[],history:[]},
  {id:'c9',client:'Karan Bhatia',email:'karan.b@gmail.com',phone:'+91 98330 66201',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:2,openedHrs:2,pings:0,burst:false,sinceAction:2,reopened:true,
   msgs:[{w:'me',t:"All done — 80C fully utilised, you're optimised for the year.",tm:'28 Aug, 5:00 PM'},
-        {w:'sys',t:'Session closed · Query Resolved',tm:'28 Aug, 5:01 PM'},
+        {w:'sys',t:'Session closed',tm:'28 Aug, 5:01 PM'},
         {w:'them',t:"Actually one more — does NPS give extra deduction beyond 80C?",tm:'4 Sep, 11:00 AM'}],
-  tasks:[],docs:[],history:[{d:'28 Aug 2026',c:'Tax Planning',o:'Query Resolved'}]},
+  tasks:[],docs:[],history:[{d:'28 Aug 2026',c:'Tax Planning',o:'Session closed'}]},
 ];
 
 const AGENTS=[
@@ -604,7 +611,8 @@ const ago=h=>h<1?Math.round(h*60)+'m':h<48?Math.round(h)+'h':Math.round(h/24)+'d
 const left=h=>h<=0?'overdue':h<1?Math.round(h*60)+'m':h<48?Math.round(h)+'h':Math.round(h/24)+'d';
 const prev=c=>{const m=[...c.msgs].reverse().find(x=>x.w!=='sys');return m?(m.w==='me'?'You: ':'')+(m.f?'📎 '+m.f:m.t):'—';};
 const STP={NEW:['sp-new','New message'],FOLLOWUP:['sp-pend','Action pending'],CLOSURE:['sp-open','Open session'],CLOSED:['sp-closed','Closed']};
-const TABL={ALL:'All',NEW:'New chats',FOLLOWUP:'Action pending',CLOSURE:'Open session'};
+const TABL={ALL:'All chats',NEW:'New chats',FOLLOWUP:'Action pending',CLOSURE:'Open sessions'};
+const TABSHORT={ALL:'All',NEW:'New',FOLLOWUP:'On me',CLOSURE:'Open'};
 const spill=c=>{const[k,l]=STP[statusOf(c)];return `<span class="stat-pill ${k}"><span class="d"></span>${l}</span>`;};
 
 TEAM_SEED.forEach(a=>CHATS.push(mk.apply(null,a)));
@@ -917,14 +925,15 @@ function chat(){
   return `<div class="inbox">
    <div class="col list">
     <div class="lh">
-      <div class="t"><h3>My chats</h3>${S.role==='advisor'?ownSeg():`<span style="font-size:11.5px;color:var(--ink-3)">${l.length} shown</span>`}</div>
-      <div class="search">${I.search}<input id="q" placeholder="Search client or category" value="${S.q}"></div>
-      <div class="tabs">
-       <button data-tab="ALL" class="${S.tab==='ALL'?'on':''}">All <span class="b">${cnt.ALL}</span></button>
-       <button data-tab="NEW" class="${S.tab==='NEW'?'on':''}">New chats <span class="b">${cnt.NEW}</span></button>
-       <button data-tab="CLOSURE" class="${S.tab==='CLOSURE'?'on':''}">Open sessions <span class="b">${cnt.CLOSURE}</span></button>
-       <button data-tab="FOLLOWUP" class="${S.tab==='FOLLOWUP'?'on':''}">Action pending <span class="b">${cnt.FOLLOWUP}</span></button>
+      <div class="t"><h3>My chats</h3><span class="lcount">${scope().filter(c=>!c.closed).length}</span></div>
+      <div class="searchrow">
+        <div class="search">${I.search}<input id="q" placeholder="Search client or category" value="${S.q}"></div>
+        ${S.role==='advisor'?ownSel():''}
       </div>
+      <div class="tabs">
+       ${['ALL','NEW','CLOSURE','FOLLOWUP'].map(k=>`<button data-tab="${k}" class="${S.tab===k?'on':''}" title="${TABL[k]}"><span class="l">${TABSHORT[k]}</span><span class="b">${cnt[k]}</span></button>`).join('')}
+      </div>
+      <div class="tabsub">${TABL[S.tab]||'Filtered'} · ${l.length}</div>
       ${S.from?`<div class="fromb">${I.arrow} Showing <b>${S.from}</b> from your dashboard <button class="clrf" data-clearfrom="1">clear</button></div>`:''}
     </div>
     <div class="clist">${l.length?l.map(({c,p})=>crow(c,p)).join(''):`<div class="empty">${S.own!=='all'?`No ${S.own} chats in this tab. <button class="viewall" data-own="all">Show all</button>`:'Nothing in this tab.'}</div>`}</div>
@@ -933,11 +942,11 @@ function chat(){
    ${c?ctx(c):'<div class="col ctx"></div>'}
   </div>`;
 }
-function ownSeg(){
-  const base=listBase();
+function ownSel(){
+  const base=listBase();                                  /* counts scoped to the active tab */
   const n=o=>o==='all'?base.length:base.filter(c=>ownOf(c)===o).length;
-  return `<div class="ownseg">${[['all','All'],['primary','Primary'],['secondary','Secondary']]
-    .map(([k,l])=>`<button class="${S.own===k?'on':''}" data-own="${k}" title="${l} — ${n(k)} chat(s)">${l}<i>${n(k)}</i></button>`).join('')}</div>`;
+  return `<select class="ownsel" id="ownsel" title="Filter by ownership">${[['all','All'],['primary','Primary'],['secondary','Secondary']]
+    .map(([k,lbl])=>`<option value="${k}"${S.own===k?' selected':''}>${lbl} (${n(k)})</option>`).join('')}</select>`;
 }
 function crow(c,p){
   return `<div class="crow ${c.id===S.active?'on':''}" data-chat="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
@@ -960,9 +969,9 @@ function conv(c){
     <div class="acts">${c.closed?'':closeB(c)}</div>
    </div>
    <div class="thread" id="th">${c.msgs.map(mb).join('')}</div>
-   ${c.reopened&&!c.closed?`<div class="onme reopened"><div class="ic">${I.reply}</div><div class="tx"><div class="tt">Reopened by the client</div><div class="ts">Closed as "${c.disp?.cat||'resolved'}" — the client replied, so it came back into <b>Open session</b>. Prior disposition kept as history.</div></div></div>`:''}
+   ${c.reopened&&!c.closed?`<div class="onme reopened"><div class="ic">${I.reply}</div><div class="tx"><div class="tt">Reopened by the client</div><div class="ts">The client replied after this session was closed, so it came back into <b>Open sessions</b>. The prior MOM is kept as history.</div></div></div>`:''}
    ${showOnMe?onMeBanner(c,hold):''}
-   ${c.closed?`<div class="closedbar">${I.check}<span>Closed as "${c.disp?.cat}". If the client writes again it reopens into <b>Open session</b>.</span><button class="btn sm" data-act="simreply">Simulate client message</button></div>`:composer(c)}
+   ${c.closed?`<div class="closedbar">${I.check}<span>Session closed. MOM recorded. If the client writes again it reopens into <b>Open sessions</b>.</span><button class="btn sm" data-act="simreply">Simulate client message</button></div>`:composer(c)}
   </div>`;
 }
 function onMeBanner(c,hold){
@@ -1049,37 +1058,36 @@ function docModal(c){
    <div class="f"><label>Note (optional)</label><textarea id="dnote" placeholder="e.g. Latest copy from the IT portal."></textarea></div></div>
   <div class="mf"><button class="btn" onclick="closeM()">Cancel</button><button class="btn pri" data-act="saved" data-c="${c.id}">Send request</button></div>`);
 }
-let CL={cat:null,task:false,fu:false};
 function closeModal(c){
   if(blocked(c)){modal(`<div class="mh"><div><h3>Can't close yet</h3><div class="s">Enforced server-side, not just the button.</div></div><button class="x" onclick="closeM()">${I.x}</button></div>
    <div class="mb"><div class="warn red"><div class="wh">${I.lock} ${openTasks(c).length} open task(s)</div><ul>${openTasks(c).map(t=>`<li>${I.check} ${t.title}</li>`).join('')}</ul></div></div>
    <div class="mf"><button class="btn pri" onclick="closeM()">Got it</button></div>`);return;}
-  CL={cat:null,task:false,fu:false};
-  const hold=isHolding(c);
-  modal(`<div class="mh"><div><h3>Close chat</h3><div class="s">Stops the close timer. Pick the outcome.</div></div><button class="x" onclick="closeM()">${I.x}</button></div>
+  modal(`<div class="mh"><div><h3>Close this Session?</h3></div><button class="x" onclick="closeM()">${I.x}</button></div>
   <div class="mb">
-   ${hold?`<div class="warn amb"><div class="wh">${I.alert} Holding reply detected</div><div class="wt">Your last message was "${[...c.msgs].reverse().find(m=>m.w==='me').t}". Closing sends this to the RM audit queue.</div></div>`:''}
-   <div class="f"><label>Outcome <span class="rq">*</span></label><div class="opts" id="cc">
-    ${[['Query Resolved','Answered fully in chat'],['Task Completed','Action taken outside chat'],['No Action Needed','Informational only'],['Escalated','Handed off — comment required'],['Duplicate','Comment required']].map(([t,s])=>`<div class="opt" data-c="${t}"><div class="rd"></div><div><div class="ot">${t}</div><div class="os">${s}</div></div></div>`).join('')}</div></div>
-   <label class="ckl"><input type="checkbox" id="cfu"><div><div class="l1">Follow-up needed</div><div class="l2">Creates a real task that ages — not just a date.</div></div></label>
-   <div class="f" id="cw" style="display:none"><label>Comment <span class="rq">*</span></label><textarea id="cm" maxlength="200"></textarea></div>
-  </div>
-  <div class="mf"><button class="btn" onclick="closeM()">Cancel</button><button class="btn pri" id="cs" data-act="doclose" data-c="${c.id}" disabled>${I.check} Close chat</button></div>`);
-  const k=document.getElementById('cc');
-  k.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{k.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel');CL.cat=o.dataset.c;document.getElementById('cw').style.display=/Escalated|Duplicate/.test(CL.cat)?'block':'none';val();});
-  document.getElementById('cfu').onchange=e=>CL.fu=e.target.checked;
-  const cm=document.getElementById('cm');if(cm)cm.oninput=val;
+   <div class="f"><textarea id="mom" maxlength="500" placeholder="Enter MOM" class="ta-lg"></textarea><div class="cc"><span id="momc">0</span>/500</div></div>
+   <div class="f"><textarea id="fb" maxlength="500" placeholder="Enter Feedback" class="ta-lg"></textarea><div class="cc"><span id="fbc">0</span>/500</div></div>
+   <button class="btn pri wide" id="cs" data-act="doclose" data-c="${c.id}" disabled>Close Session</button>
+  </div>`);
+  const mom=document.getElementById('mom'), fb=document.getElementById('fb'), btn=document.getElementById('cs');
+  const sync=()=>{document.getElementById('momc').textContent=mom.value.length;
+                  document.getElementById('fbc').textContent=fb.value.length;
+                  btn.disabled=mom.value.trim().length===0;};
+  mom.oninput=sync; fb.oninput=sync; mom.focus();
 }
-function val(){const b=document.getElementById('cs');if(!b)return;let ok=!!CL.cat;if(/Escalated|Duplicate/.test(CL.cat||'')){const cm=document.getElementById('cm');ok=ok&&cm&&cm.value.trim().length>0;}b.disabled=!ok;}
+
 function seg(id){const e=document.getElementById(id);if(!e)return;e.querySelectorAll('.sb').forEach(b=>b.onclick=()=>{e.querySelectorAll('.sb').forEach(x=>x.classList.remove('on'));b.classList.add('on');});}
 function doClose(c){
-  const hold=isHolding(c);c.closed=true;c.remind=false;c.disp={cat:CL.cat};DAY.closed++;
-  c.msgs.push({w:'sys',t:`Closed · ${CL.cat}`,tm:now()});
-  if(CL.fu)c.tasks.push({id:'t'+Date.now(),title:`Follow-up: ${c.category}`,owner:'You',ownerId:'me',status:'OPEN',due:'4 Oct 2026',pri:'Medium'});
+  const hold=isHolding(c);
+  const mom=(document.getElementById('mom')||{}).value||'';
+  const fb=(document.getElementById('fb')||{}).value||'';
+  c.closed=true;c.remind=false;c.disp={mom:mom.trim(),feedback:fb.trim()};DAY.closed++;
+  c.msgs.push({w:'sys',t:'Session closed',tm:now()});
   close();render();
-  if(hold&&/Query Resolved|Task Completed/.test(CL.cat))toast('Closed — flagged to RM audit (holding reply)','warn',I.alert);
-  else toast('Chat closed'+(CL.fu?' · follow-up task created':''),'good',I.check);
+  /* audit no longer depends on a disposition category — the holding reply alone triggers it */
+  if(hold)toast('Closed — flagged for review (holding reply)','warn',I.alert);
+  else toast('Session closed','good',I.check);
 }
+
 function binds(root){root.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;
  if(a==='send')el.onclick=send;
  else if(a==='task')el.onclick=()=>taskModal(cur());
@@ -1121,6 +1129,7 @@ function wire(){
  document.querySelectorAll('[data-chat]').forEach(e=>e.onclick=()=>{S.active=e.dataset.chat;render();bot();});
  document.querySelectorAll('[data-profile]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.profile);toast(`Opening ${c.client}'s profile`,'info',I.ext);});
  document.querySelectorAll('[data-own]').forEach(e=>e.onclick=()=>{S.own=e.dataset.own;render();});
+ const osel=document.getElementById('ownsel');if(osel)osel.onchange=e=>{S.own=e.target.value;render();};
  document.querySelectorAll('[data-tab]').forEach(e=>e.onclick=()=>{S.tab=e.dataset.tab;S.from='';render();});
  document.querySelectorAll('[data-tt]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const[ci,ti]=e.dataset.tt.split(':');const c=CHATS.find(x=>x.id===ci),k=c.tasks.find(x=>x.id===ti);k.status=k.status==='OPEN'?'DONE':'OPEN';render();toast(k.status==='DONE'?'Task done':'Task reopened','',I.check);});
  const q=document.getElementById('q');if(q)q.oninput=e=>{S.q=e.target.value;const p=q.selectionStart;render();const n=document.getElementById('q');if(n){n.focus();n.setSelectionRange(p,p);}};
