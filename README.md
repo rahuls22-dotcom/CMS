@@ -105,4 +105,19 @@ Open `index.html` and use the **Advisor / Admin** switch in the top bar.
 
 ---
 
+## Deploy
+
+Static site — no build step.
+
+**Vercel:** import the repo at [vercel.com/new](https://vercel.com/new). Framework preset **Other**, build command **empty**, output directory **root**. `vercel.json` just enables clean URLs (`/spec` instead of `/spec.html`).
+
+Or from the CLI:
+```bash
+npx vercel --prod
+```
+
+Routes: `/` → prototype · `/spec` → spec.
+
+---
+
 *Status: Phase 1 spec + prototype. Not production code — the prototype is a design artefact with in-memory data.*
