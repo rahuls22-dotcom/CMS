@@ -1,0 +1,455 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Advisor Chat Console Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Open+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --navy:#1266dc; --green:#128a3e; --green-soft:#e7f6ec;
+  --red:#c62828; --red-soft:#fdeaea; --amber:#b5710d; --amber-soft:#fdf1de;
+  --violet:#5b4fe0; --violet-soft:#eeecfd; --blue:#1266dc; --blue-soft:#eef5fe;
+  --ground:#f4f6f9; --surface:#fff; --surface-2:#f1f4f8;
+  --border:#e1e7ef; --border-2:#cfd8e3;
+  --ink:#16233b; --ink-2:#525a70; --ink-3:#868da0;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --disp:"Plus Jakarta Sans",var(--sans);
+}
+:root[data-theme="dark"]{
+  --navy:#8fa4e8; --green:#3fc274; --green-soft:#14301f; --red:#f0777c; --red-soft:#341a1d;
+  --amber:#d9a24e; --amber-soft:#332714; --violet:#a494e8; --violet-soft:#221d3d;
+  --blue:#7fa3f0; --blue-soft:#17203c;
+  --ground:#0e1222; --surface:#161b2e; --surface-2:#1d2338; --border:#2a3048; --border-2:#38405c;
+  --ink:#e9ecf4; --ink-2:#a6adc0; --ink-3:#767e94;
+}
+:root:not([data-theme]){@media (prefers-color-scheme:dark){
+  --navy:#8fa4e8; --green:#3fc274; --green-soft:#14301f; --red:#f0777c; --red-soft:#341a1d;
+  --amber:#d9a24e; --amber-soft:#332714; --violet:#a494e8; --violet-soft:#221d3d;
+  --blue:#7fa3f0; --blue-soft:#17203c;
+  --ground:#0e1222; --surface:#161b2e; --surface-2:#1d2338; --border:#2a3048; --border-2:#38405c;
+  --ink:#e9ecf4; --ink-2:#a6adc0; --ink-3:#767e94;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px 80px}
+h1,h2,h3{font-family:var(--disp);margin:0;letter-spacing:-.02em}
+code{font-family:var(--mono);font-size:.87em;background:var(--surface-2);padding:1px 5px;border-radius:4px;white-space:nowrap}
+header{border-bottom:1px solid var(--border);background:var(--surface);margin-bottom:30px}
+.hin{max-width:820px;margin:0 auto;padding:34px 24px 26px}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:clamp(26px,4.4vw,36px);font-weight:800;margin:9px 0 10px}
+.lede{font-size:15.5px;color:var(--ink-2);max-width:60ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.tag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--border)}
+.tag.g{background:var(--green-soft);color:var(--green);border-color:transparent}
+.demo{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 11px;border-radius:7px;background:var(--navy);color:#fff;text-decoration:none;border:0}
+:root[data-theme="dark"] .demo{color:#0e1222}
+.demo:hover{opacity:.88}
+section{margin-bottom:38px}
+h2{font-size:11.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--navy);padding-bottom:8px;border-bottom:2px solid var(--navy);margin-bottom:16px;display:flex;align-items:baseline;gap:9px}
+h2 .n{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);font-weight:600}
+h3{font-size:16px;font-weight:700;margin:22px 0 7px}
+ul{margin:0 0 12px;padding-left:19px}
+li{margin-bottom:4px}
+li::marker{color:var(--ink-3)}
+.tw{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--border);border-radius:9px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:440px}
+th{text-align:left;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:9px 13px;background:var(--surface-2);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+.prin{display:flex;gap:11px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border)}
+.prin:last-child{border-bottom:0}
+.prin .pn{font-family:var(--mono);font-size:11.5px;color:var(--navy);font-weight:600;flex:none;width:22px}
+.prin .pt{font-family:var(--disp);font-weight:700;font-size:15px}
+.pbox{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:6px 16px}
+.phase{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.ph{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pnum{font-family:var(--disp);font-weight:800;font-size:12px;padding:4px 10px;border-radius:7px;flex:none}
+.pnum.a{background:var(--green-soft);color:var(--green)}
+.pnum.b{background:var(--amber-soft);color:var(--amber)}
+.pnum.c{background:var(--violet-soft);color:var(--violet)}
+.pnum.d{background:var(--blue-soft);color:var(--blue)}
+.ph .pt{font-family:var(--disp);font-weight:700;font-size:16px;flex:1}
+.pb{padding:14px 18px}
+.pb h3{margin-top:14px;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:800}
+.pb h3:first-child{margin-top:0}
+.pri{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px}
+.pri.r{background:var(--red-soft);color:var(--red)}
+.pri.y{background:var(--amber-soft);color:var(--amber)}
+.pri.n{background:var(--surface-2);color:var(--ink-3)}
+.formula{background:var(--surface);border:1px solid var(--border-2);border-radius:9px;padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.75;overflow-x:auto;margin:10px 0}
+.formula .c{color:var(--ink-3)}
+.formula b{color:var(--navy);font-weight:600}
+.p2{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--amber-soft);color:var(--amber);margin-left:6px}
+.note{background:var(--surface-2);border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:13.5px;color:var(--ink-2)}
+.foot{color:var(--ink-3);font-size:12px;text-align:center;padding-top:8px;border-top:1px solid var(--border);margin-top:30px}
+@media (max-width:600px){.hin{padding:26px 20px 22px}.wrap{padding:0 20px 50px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header><div class="hin">
+  <div class="eyebrow">Prosperr · Product spec</div>
+  <h1>Advisor Chat Console</h1>
+  <p class="lede">Chat workflow only. Four phases. Phase 1 is the ask.</p>
+  <div class="meta">
+    <span class="tag">Engineering managers</span>
+    <span class="tag">Advisor + Admin</span>
+    <span class="tag g">Phase 1 = build now</span>
+    <a class="demo" href="https://claude.ai/code/artifact/1cd88a5e-7748-49ee-a214-977892ded3c2" target="_blank" rel="noopener">▶ Open prototype</a>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="n">01</span> Problem</h2>
+  <ul>
+    <li><strong>49%</strong> of chats got zero advisor reply, ever.</li>
+    <li>Open chats grew <strong>47%</strong> Jun→Jul; volume grew <strong>17%</strong>.</li>
+    <li>SLA measures first response only — "ok, will check" passes it.</li>
+    <li>Chats are rarely closed; we have no reliable closure signal today.</li>
+  </ul>
+  <div class="note">Root cause: advisors are rewarded for replying, never asked to finish.</div>
+</section>
+
+<section>
+  <h2><span class="n">02</span> Personas &amp; pain points</h2>
+
+  <div class="tw"><table>
+    <thead><tr><th>Persona</th><th>Job</th><th>Judged on</th></tr></thead>
+    <tbody>
+      <tr><td>Advisor</td><td>Answer and resolve their own client chats</td><td>Client outcomes, closure</td></tr>
+      <tr><td>Admin</td><td>Spot which agents are falling behind, before clients do</td><td>Team throughput, escalations</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Advisor pain</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Pain today</th><th>Phase 1 answer</th></tr></thead>
+    <tbody>
+      <tr><td>No idea which chat to open first — triage by scrolling</td><td>Priority sort + reason on every row</td></tr>
+      <tr><td>Replies to look responsive; the real work slips</td><td>Two clocks — reply speed no longer hides drift</td></tr>
+      <tr><td>Chats they "handled" go quiet and rot</td><td>Reply never clears the plate; Open session holds it</td></tr>
+      <tr><td>"Will check" is forgotten by the next morning</td><td>Holding-reply detection + on-me banner</td></tr>
+      <tr><td>No warning before a chat breaches</td><td>Close-by on every row and tile</td></tr>
+      <tr><td>Closing is invisible work — nothing prompts it</td><td>Close is a primary action; disposition is one tap</td></tr>
+      <tr><td>Who is this client, what happened last time?</td><td>Customer type + past conversations in the chat</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Admin pain</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Pain today</th><th>Answer</th><th>Phase</th></tr></thead>
+    <tbody>
+      <tr><td>No view of how much chat work is outstanding</td><td>Open Chats widget, split response pending vs waiting for closure</td><td><span class="pri n">1</span></td></tr>
+      <tr><td>Finds out about problems from clients, not the system</td><td>Agents at risk widget on the dashboard</td><td><span class="pri n">1</span></td></tr>
+      <tr><td>Can't tell which agent is carrying the risk</td><td>At-risk agents with open item counts → agent grid</td><td><span class="pri n">1</span></td></tr>
+      <tr><td>Has to ask agents for status</td><td>Drill agent → their chats → the chat</td><td><span class="pri y">2</span></td></tr>
+      <tr><td>Can see the problem, can't act on it</td><td>Nudge, reassign, escalate</td><td><span class="pri y">2</span></td></tr>
+      <tr><td>No per-agent numbers to coach on</td><td>Per-agent performance and trends</td><td><span class="pri y">3–4</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Phase 1 for admin is <strong>visibility only</strong> — two widgets and a link into the agent grid that already exists.</div>
+</section>
+
+<section>
+  <h2><span class="n">03</span> Principles</h2>
+  <div class="pbox">
+    <div class="prin"><span class="pn">P1</span><span class="pt">Two clocks, not one — reply speed and closure are separate failures.</span></div>
+    <div class="prin"><span class="pn">P2</span><span class="pt">Status is derived, never declared. No dropdowns.</span></div>
+    <div class="prin"><span class="pn">P3</span><span class="pt">A reply is not a resolution. Only Close or "Not on me" clears the plate.</span></div>
+    <div class="prin"><span class="pn">P4</span><span class="pt">Priority states its reason, not just a colour.</span></div>
+    <div class="prin"><span class="pn">P5</span><span class="pt">Closure is the success metric. First response is a warning signal only.</span></div>
+    <div class="prin"><span class="pn">P6</span><span class="pt">Start from the dashboard, not the inbox.</span></div>
+    <div class="prin"><span class="pn">P7</span><span class="pt">Admin sees the same model, aggregated per agent. One definition.</span></div>
+    <div class="prin"><span class="pn">P8</span><span class="pt">Observe before intervening. Phase 1 admin is read-only.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span> Definitions</h2>
+
+  <h3>Status <span style="font-weight:400;font-size:13px;color:var(--ink-3)">— derived</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>Status</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td>New</td><td>Client sent last message</td></tr>
+      <tr><td>Action pending</td><td>Advisor sent last <strong>and</strong> (flagged <strong>or</strong> holding reply)</td></tr>
+      <tr><td>Open session</td><td>Advisor sent last, nothing flagged — <em>or</em> a closed chat the client reopened</td></tr>
+      <tr><td>Closed</td><td>Disposition recorded</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Automated messages never count as the last human message.</li>
+  </ul>
+
+  <h3>Reopening a closed chat</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Step</th><th>Behaviour</th></tr></thead>
+    <tbody>
+      <tr><td>Client writes on a closed chat</td><td>Chat reopens automatically</td></tr>
+      <tr><td>Where it lands</td><td><strong>Open session</strong> — not New. It is an existing session resuming, not a new chat.</td></tr>
+      <tr><td>Prior disposition</td><td>Kept as history. Never overwritten.</td></tr>
+      <tr><td>Clocks</td><td>Both restart from the reopen.</td></tr>
+      <tr><td>Marking</td><td><code>reopened</code> tag on the row; banner in the chat naming the earlier disposition.</td></tr>
+    </tbody>
+  </table></div>
+  <ul><li>A reopened chat is itself a signal — it may mean the earlier closure was premature.</li></ul>
+
+  <h3>Ownership — primary / secondary</h3>
+  <ul>
+    <li>Every chat has a <strong>primary</strong> owner; some also carry a <strong>secondary</strong> advisor.</li>
+    <li>Shown as a facet, <em>not</em> a tab and <em>not</em> a switch — tabs carry state, chips carry ownership.</li>
+    <li>Chips: <strong>All / Primary / Secondary</strong>, counted within the active tab. Default <strong>All</strong>.</li>
+    <li>Rows carry a <code>2ND</code> tag; the chat header and context panel name the other advisor.</li>
+    <li>Rationale: a hard switch hides half the book behind a control the advisor may never flip — the exact failure this product exists to prevent.</li>
+  </ul>
+
+  <h3>Two clocks</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Clock</th><th>Target</th><th>Counts</th></tr></thead>
+    <tbody>
+      <tr><td>First response</td><td><code>12 hours</code></td><td>Business hours only — <strong>09:00–20:00</strong>, <strong>Saturdays excluded</strong>. The clock pauses 20:00→09:00.</td></tr>
+      <tr><td>Resolution / close</td><td><code>48 hours</code></td><td>Flat for every chat. No category or tier variation.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Both targets are flat — not per tier, not per category.</li>
+    <li>First response catches silence. Resolution catches drift.</li>
+  </ul>
+
+  <h3>Priority</h3>
+  <p style="margin:0 0 10px;color:var(--ink-2)">Three inputs only. Nothing else feeds the score.</p>
+  <div class="formula">
+score = ( <b>aging</b> + 2 × <b>recent action</b> ) × <b>approaching SLA</b>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Input</th><th>Definition</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td>Aging</td><td>Chat created → now</td><td>Base weight</td></tr>
+      <tr><td>Recent action</td><td>Last action → now</td><td>Double weight — an untouched chat is the real risk</td></tr>
+      <tr><td>Approaching SLA</td><td>How much of the applicable SLA is consumed</td><td><code>1×</code> &lt;50% · <code>1.5×</code> &lt;75% · <code>2.5×</code> &lt;90% · <code>4×</code> beyond</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin:0 0 6px;font-weight:700">Actions that reset the recent-action clock</p>
+  <ul>
+    <li>Response sent</li>
+    <li>Task created</li>
+    <li>Marked action pending</li>
+    <li>Document requested</li>
+    <li>Session closed</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th>Band</th><th>Score</th><th>Colour</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pri r">At Risk</span></td><td>≥ 150 — or either hard condition below, whatever the score</td><td>Red</td></tr>
+      <tr><td><span class="pri y">Less Risky</span></td><td>60 – 149</td><td>Yellow</td></tr>
+      <tr><td><span class="pri n">Later</span></td><td>Below 60</td><td>None</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Worked example</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Step</th><th>Rahul</th><th>Aditya</th></tr></thead>
+    <tbody>
+      <tr><td>Aging (created → now)</td><td>30h</td><td>30h</td></tr>
+      <tr><td>Recent action (last action → now)</td><td>26h</td><td>2h</td></tr>
+      <tr><td>Base <code>aging + 2 × recent</code></td><td>30 + 52 = <strong>82</strong></td><td>30 + 4 = <strong>34</strong></td></tr>
+      <tr><td>Approaching SLA</td><td>30h of 48h = 63% → <code>×1.5</code></td><td>63% → <code>×1.5</code></td></tr>
+      <tr><td><strong>Score</strong></td><td><strong>123</strong></td><td><strong>51</strong></td></tr>
+      <tr><td><strong>Band</strong></td><td><span class="pri y">Less Risky</span></td><td><span class="pri n">Later</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Same age, same SLA. The only difference is that Rahul hasn't been touched in 26 hours. That is what the score is for.</div>
+
+  <h3>Action flag</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Trigger</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Plain reply</td><td>→ Open session</td></tr>
+      <tr><td><code>☐ Requires my action</code></td><td>→ Action pending</td></tr>
+      <tr><td>Holding reply detected</td><td>→ Action pending + in-chat banner</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Holding reply = last advisor message is filler only ("ok", "will check", "noted"). Fixed phrase list, not NLP.</li>
+    <li>Aging does not reset on an action-flagged reply.</li>
+    <li>Exit: Close, or "Not on me".</li>
+  </ul>
+
+  <h3>Agent at risk <span style="font-weight:400;font-size:13px;color:var(--ink-3)">— admin highlight</span></h3>
+  <p style="margin:0 0 10px;color:var(--ink-2)">No score. An agent is highlighted if they hold even one at-risk chat.</p>
+  <div class="formula">
+<span class="c">// a chat is At Risk on either hard condition</span>
+chat_at_risk = <b>not_closed_in_time</b>  <span class="c">age &gt; 48h close target</span>
+             <b>OR no_response_sent</b>   <span class="c">zero agent reply AND waiting &gt; 12 business hours</span>
+
+agent_at_risk = <b>count(chat_at_risk) &gt; 0</b>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Condition</th><th>Test</th><th>Shown as</th></tr></thead>
+    <tbody>
+      <tr><td>Chat not closed</td><td>Chat age exceeds the 48h close target</td><td>"2 past close target"</td></tr>
+      <tr><td>Response not sent</td><td>No agent message at all, and waiting exceeds 12 business hours</td><td>"3 no response sent"</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Same definition drives the chat's At Risk band and the agent's highlight — one rule, two altitudes.</li>
+    <li>Computed per agent, not stored. Not a performance rating.</li>
+    <li>Widget shows the breakdown, not just a count, so the admin knows which condition fired.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">05</span> Phase implementation</h2>
+
+  <div class="tw"><table>
+    <thead><tr><th>Phase</th><th>Persona focus</th><th>Problem statement solved</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pnum a" style="padding:2px 8px">Phase 1</span></td><td>Advisor <span style="color:var(--ink-3)">(primary)</span><br>Admin <span style="color:var(--ink-3)">(read-only)</span></td>
+        <td>Advisor: which chat first · replies that don't resolve · chats going stale · closure never happens.<br>Admin: no view of outstanding chat work, or which agent is carrying the risk. <em>Two widgets only.</em></td></tr>
+      <tr><td><span class="pnum b" style="padding:2px 8px">Phase 2</span></td><td>Admin <span style="color:var(--ink-3)">(primary)</span><br>Advisor</td>
+        <td>Admin: can see the problem but can't act on it — no way to drill into an agent's chats, see which have action pending, or intervene.<br>Advisor: closure can be faked while work is still open.</td></tr>
+      <tr><td><span class="pnum c" style="padding:2px 8px">Phase 3</span></td><td>Admin</td>
+        <td>The model is hand-tuned and static — thresholds guessed, risk weights fixed, no quality check on how chats were closed.</td></tr>
+      <tr><td><span class="pnum d" style="padding:2px 8px">Phase 4</span></td><td>Admin + Ops</td>
+        <td>Work is assigned and reviewed manually. No trend, no capacity view, no forecasting.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="phase">
+    <div class="ph"><span class="pnum a">Phase 1</span><span class="pt">Triage &amp; Respond</span>
+      <a class="demo" href="https://claude.ai/code/artifact/1cd88a5e-7748-49ee-a214-977892ded3c2" target="_blank" rel="noopener">▶ Prototype</a></div>
+    <div class="pb">
+      <h3>Advisor</h3>
+      <ul>
+        <li>Status tiles: Action pending · New chats · Open session · Open tasks. Each opens that filtered list.</li>
+        <li>At risk widget — priority + reason + close-by.</li>
+        <li>Chat tabs: <strong>All · New chats · Open session · Action pending</strong>. Sorted by priority.</li>
+        <li>Ownership facet: <strong>All / Primary / Secondary</strong> chips, plus a <code>2ND</code> tag on secondary rows. Defaults to All so nothing is hidden.</li>
+        <li>Row shows: client, tier, band, reason, time on plate, close by.</li>
+        <li>Reply + <code>☐ Requires my action</code>.</li>
+        <li>On-me banner with <em>Not on me</em> and <em>Close</em> inline.</li>
+        <li>Close → disposition: Query Resolved · Task Completed · No Action Needed · Escalated · Duplicate. Comment required on last two.</li>
+        <li>Holding-reply closure allowed, but flagged to audit.</li>
+        <li>Context panel: customer type, both ETAs, documents, past conversations.</li>
+      </ul>
+
+      <h3>Admin <span style="font-weight:600;text-transform:none;letter-spacing:0;color:var(--ink-3)">— two widgets on the existing dashboard</span></h3>
+      <ul>
+        <li>Existing dashboard widgets are unchanged. Two are added.</li>
+        <li><strong>Open Chats</strong> widget — total, split into <em>response pending</em> and <em>waiting for closure</em>.</li>
+        <li><strong>Agents at risk</strong> widget — agents with at-risk chats and their open item count.</li>
+        <li>Clicking either → the existing agent grid. That screen is unchanged.</li>
+      </ul>
+      <div class="note">That is the entire admin scope for Phase 1: two widgets and a link to a screen that already exists. Everything deeper is Phase 2.</div>
+
+      <h3>Acceptance</h3>
+      <ul>
+        <li>A reply never clears ownership. Only Close or Not on me does.</li>
+        <li>Action-flagged reply does not reset aging.</li>
+        <li>Every priority row shows a reason.</li>
+        <li>Every tile and row lands on a correctly filtered destination.</li>
+        <li>Status is not settable by hand anywhere.</li>
+        <li>Admin counts reconcile exactly with advisor counts.</li>
+        <li>Open chats split adds up: response pending + waiting for closure = total open.</li>
+        <li>Both admin widgets link to the existing agent grid, which is not modified.</li>
+      </ul>
+
+      <h3>Metrics</h3>
+      <ul>
+        <li>Chats with zero reply: 49% → <strong>&lt;5%</strong></li>
+        <li>Median open → closed, by category</li>
+        <li>% closed with a disposition</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="ph"><span class="pnum b">Phase 2</span><span class="pt">Admin acts · Closure is earned</span></div>
+    <div class="pb">
+      <h3>Admin — from watching to acting</h3>
+      <ul>
+        <li>Drill agent → their chats → individual chat, with <strong>action pending</strong> marked per chat.</li>
+        <li>Admin chat filters: unanswered · at risk · action pending · blocked from closure.</li>
+        <li><strong>Nudge</strong> — lands in the agent's Action pending. Logged, visible to both sides.</li>
+        <li><strong>Reassign</strong> — first-response clock restarts, the 48h close clock does not.</li>
+        <li><strong>Escalate</strong> — on second breach, actionable by someone other than the blocked agent.</li>
+        <li>Admin sees holding-reply closures flagged for review.</li>
+      </ul>
+      <h3>Advisor — closure accountability</h3>
+      <ul>
+        <li>Task-gated closure — no close while any linked task is <code>OPEN</code>. Enforced server-side, not just the button.</li>
+        <li>Task aging — ships <em>with</em> the gate, never after.</li>
+        <li>MOM as a task type, created from a completed meeting.</li>
+        <li>Meetings today on the advisor dashboard.</li>
+        <li>Day ladder: D1 amber + digest · D2 orange + one push · D3+ red + repeating. Never per message.</li>
+      </ul>
+      <h3>Acceptance</h3>
+      <ul>
+        <li>Close rejected by API when an open task exists.</li>
+        <li>Open task past threshold surfaces to admin.</li>
+        <li>Every nudge is attributable and visible to the agent.</li>
+        <li>No per-message notifications.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="ph"><span class="pnum c">Phase 3</span><span class="pt">Tune &amp; assure quality</span></div>
+    <div class="pb">
+      <ul>
+        <li>Category risk computed live from breach rates.</li>
+        <li>Threshold calibration against observed agent capacity.</li>
+        <li>Audit queue workflow — review holding-reply and premature closures.</li>
+        <li>Reopen-rate tracking as a closure-quality signal.</li>
+        <li>Per-segment SLA config — targets editable without a deploy.</li>
+        <li>Admin saved views and alerting on breach conditions.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="ph"><span class="pnum d">Phase 4</span><span class="pt">Scale &amp; intelligence</span></div>
+    <div class="pb">
+      <ul>
+        <li>Load-balanced routing — assign by capacity, not by hand.</li>
+        <li>Agent trend lines — performance over time, not just today.</li>
+        <li>Capacity planning and peak-season forecasting.</li>
+        <li>Coaching insights — recurring failure patterns per agent.</li>
+        <li>Bulk admin actions across an agent's book.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span> Out of scope</h2>
+  <ul>
+    <li>Milestone / case-outcome tracking.</li>
+    <li>Client-facing status tracker.</li>
+    <li>Self-serve bot.</li>
+    <li>Per-topic granularity inside one chat — status is chat-level.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">07</span> Open questions</h2>
+  <ul>
+    <li><strong>Sundays?</strong> The first-response clock excludes Saturdays and pauses 20:00–09:00. Sunday handling was not stated — assume excluded?</li>
+    <li><strong>Third at-risk condition?</strong> Two are defined — chat not closed, response not sent. A third was mentioned but not named.</li>
+    <li>Status derived on read, or materialised with a recompute job?</li>
+    <li>Holding-reply phrase list — config or code? Prefer config.</li>
+    <li>Cost of the server-side close gate on a hot endpoint? <span class="p2">Phase 2</span></li>
+    <li>Can category risk be computed live, or nightly job? <span class="p2">Phase 3</span></li>
+    <li>Is client tier reliably present on every chat today?</li>
+    <li>Can admin rollups run off the same computation, guaranteed not to drift?</li>
+    <li>Largest book size — decides live vs periodic rollup.</li>
+  </ul>
+</section>
+
+<p class="foot">Prosperr · Advisor Chat Console · <a href="https://claude.ai/code/artifact/1cd88a5e-7748-49ee-a214-977892ded3c2" target="_blank" rel="noopener" style="color:var(--navy)">Prototype</a></p>
+</div>
