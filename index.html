@@ -110,6 +110,8 @@ svg{flex:none}
 .row .t2{color:var(--ink-2);font-size:12px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row .right{display:flex;align-items:center;gap:9px;flex:none}
 .row .meta{font-size:11.5px;color:var(--ink-3);text-align:right;white-space:nowrap}
+.row .tmeta{display:flex;flex-direction:column;gap:2px;text-align:right;font-size:11px;color:var(--ink-3);white-space:nowrap}
+.row .tmeta b{color:var(--ink-2);font-weight:700}
 .row .meta b{display:block;color:var(--ink-2);font-weight:600}
 .qa{border:1px solid var(--border-2);background:var(--surface);color:var(--ink-2);font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:7px;white-space:nowrap}
 .qa:hover{border-color:var(--blue);color:var(--blue)}
@@ -220,7 +222,11 @@ svg{flex:none}
 .col.list{border-right:1px solid var(--border);background:var(--surface-3)}
 .col.ctx{border-left:1px solid var(--border);background:var(--surface-3)}
 .lh{padding:12px 13px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;gap:10px}
-.lh .t{display:flex;align-items:center;justify-content:space-between}
+.lh .t{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ownseg{display:flex;background:var(--surface-2);border-radius:6px;padding:2px;gap:1px}
+.ownseg button{border:0;background:transparent;color:var(--ink-3);font-weight:700;font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:4px 7px;border-radius:4px;display:flex;align-items:center;gap:4px}
+.ownseg button i{font-style:normal;font-weight:800;font-size:9.5px;opacity:.75}
+.ownseg button.on{background:var(--surface);color:var(--navy);box-shadow:var(--sh)}
 .lh .t h3{font-size:14px;font-weight:700}
 .search{display:flex;align-items:center;gap:7px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 10px}
 .search input{border:0;background:transparent;outline:none;font:inherit;font-size:12.5px;color:var(--ink);width:100%}
@@ -245,7 +251,7 @@ svg{flex:none}
 .crow .r1{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .crow .nm{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px;min-width:0}
 .crow .tm{font-size:10.5px;color:var(--ink-3);white-space:nowrap;flex:none}
-.crow .pv{color:var(--ink-2);font-size:11.5px;margin:2px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .pv{color:var(--ink-2);font-size:11.5px;margin:2px 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .crow .r3{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
 /* conversation */
@@ -334,6 +340,10 @@ svg{flex:none}
 .dst.req{background:var(--amber-soft);color:var(--amber)}
 .dst.rec{background:var(--blue-soft);color:var(--blue)}
 .dst.ver{background:var(--green-soft);color:var(--green-deep)}
+.cs.soon{opacity:.5;pointer-events:none}
+.soontag{font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:var(--surface-2);color:var(--ink-3);padding:2px 5px;border-radius:3px;text-transform:uppercase}
+.proflink{border:0;background:transparent;color:var(--navy);font-weight:700;font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 4px;border-radius:4px}
+.proflink:hover{background:var(--tint)}
 .hist{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:9px 11px;margin-bottom:7px;cursor:pointer}
 .hist:hover{border-color:var(--border-2)}
 .hist .hd{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
@@ -421,6 +431,7 @@ const I={
  clipboard:sv('<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M12 11v4M10 13h4"/>',20),
  phone:sv('<path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.2a2 2 0 012.1-.5c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/>',20),
  chat:sv('<path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8v.5z"/>',20),
+ ext:sv('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>',13),
  team:sv('<path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.9M16 3.1A4 4 0 0116 11"/>',20)
 };
 const AC=['#2f4676','#0e7c46','#3a4f96','#5c4a9e','#186b7a','#7a4a2e','#2c5f4a','#5a3a6e'];
@@ -436,52 +447,52 @@ const BIZ={open:9,close:20,skipSat:true};
 const ACTIONS=['Response sent','Task created','Marked action pending','Document requested','Session closed'];
 
 let CHATS=[
- {id:'c1',client:'Rahul Menon',email:'rahul.menon@gmail.com',tier:'Premium',advisorId:'me',advisor:'You',category:'ITR Filing',
+ {id:'c1',client:'Rahul Menon',email:'rahul.menon@gmail.com',phone:'+91 98200 41122',tier:'Premium',advisorId:'me',advisor:'You',category:'ITR Filing',
   closed:false,remind:false,hrs:26,openedHrs:30,pings:2,burst:false,sinceAction:26,
   msgs:[{w:'them',t:"Hi, I got a mail from the IT dept about my ITR. My Form 16 shows a different TDS than 26AS — which do we file with?",tm:'1 Sep, 9:10 AM'},
         {w:'them',t:"This is a bit urgent, due date is the 3rd right?",tm:'1 Sep, 6:40 PM'}],
   tasks:[],docs:[{n:'Form 16 (FY 2025-26)',s:'RECEIVED'},{n:'AIS / 26AS statement',s:'REQUESTED'}],
   history:[{d:'Jun 2026',c:'Advance Tax',o:'Query Resolved'},{d:'Mar 2026',c:'Tax Planning',o:'Task Completed'}]},
 
- {id:'c2',client:'Priya Nair',email:'priya.nair@outlook.com',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
+ {id:'c2',client:'Priya Nair',email:'priya.nair@outlook.com',phone:'+91 99301 55708',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
   closed:false,remind:true,hrs:6,openedHrs:9,pings:0,burst:false,sinceAction:6,
   msgs:[{w:'them',t:"Ready to file, go ahead!",tm:'1 Sep, 5:02 PM'},
         {w:'me',t:"Great — I'll run a final check on your capital gains schedule and confirm before we file.",tm:'1 Sep, 5:03 PM'}],
   tasks:[],docs:[{n:'Investment proofs',s:'VERIFIED'}],
   history:[{d:'Aug 2026',c:'ITR Filing',o:'Task Completed'}]},
 
- {id:'c3',client:'Vikram Shah',email:'vikram.shah@gmail.com',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Neha Reddy',category:'Advance Tax',
+ {id:'c3',client:'Vikram Shah',email:'vikram.shah@gmail.com',phone:'+91 98450 77219',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Neha Reddy',category:'Advance Tax',
   closed:false,remind:false,hrs:31,openedHrs:31,pings:1,burst:false,sinceAction:31,
   msgs:[{w:'them',t:"I sold some ESOPs last quarter — do I owe advance tax on that before the 15th?",tm:'31 Aug, 11:20 AM'}],
   tasks:[{id:'t1',type:'Workings',title:'Compute capital gains on ESOP sale',owner:'You',ownerId:'me',status:'OPEN',due:'4 Sep 2026',pri:'High'}],
   docs:[{n:'ESOP sale statement',s:'RECEIVED'}],history:[]},
 
- {id:'c4',client:'Neha Kulkarni',email:'neha.k@gmail.com',tier:'Elite',advisorId:'me',advisor:'You',category:'General Query',
+ {id:'c4',client:'Neha Kulkarni',email:'neha.k@gmail.com',phone:'+91 97690 30154',tier:'Elite',advisorId:'me',advisor:'You',category:'General Query',
   closed:false,remind:false,hrs:10,openedHrs:10,pings:3,burst:true,sinceAction:10,
   msgs:[{w:'them',t:"Quick one — can I switch to the new regime midway this year?",tm:'3 Sep, 8:31 AM'},
         {w:'them',t:"Also does it affect my 80C already declared?",tm:'3 Sep, 8:33 AM'},
         {w:'them',t:"And my employer TDS — do I need to tell them?",tm:'3 Sep, 8:44 AM'}],
   tasks:[],docs:[],history:[]},
 
- {id:'c5',client:'Aditya Sharma',email:'aditya.s@gmail.com',tier:'Basic',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Aditya Menon',category:'General Query',
+ {id:'c5',client:'Aditya Sharma',email:'aditya.s@gmail.com',phone:'+91 98111 62240',tier:'Basic',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Aditya Menon',category:'General Query',
   closed:false,remind:false,hrs:1.5,openedHrs:1.5,pings:0,burst:false,sinceAction:1.5,
   msgs:[{w:'them',t:"Hello, I just subscribed. Where do I upload my Form 16?",tm:'4 Sep, 9:40 AM'}],
   tasks:[],docs:[],history:[]},
 
- {id:'c6',client:'Sana Kapoor',email:'sana.k@gmail.com',tier:'Basic',advisorId:'me',advisor:'You',category:'General Query',
+ {id:'c6',client:'Sana Kapoor',email:'sana.k@gmail.com',phone:'+91 90040 18876',tier:'Basic',advisorId:'me',advisor:'You',category:'General Query',
   closed:false,remind:true,hrs:5,openedHrs:5,pings:0,burst:false,sinceAction:5,
   msgs:[{w:'them',t:"Is HRA exemption available if I pay rent to my parents?",tm:'3 Sep, 1:30 PM'},
         {w:'me',t:"ok, will check",tm:'3 Sep, 1:34 PM'}],
   tasks:[],docs:[],history:[{d:'Jul 2026',c:'General Query',o:'Query Resolved'}]},
 
- {id:'c7',client:'Test User 5',email:'testuser5@gmail.com',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'c7',client:'Test User 5',email:'testuser5@gmail.com',phone:'+91 88790 21134',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:20,openedHrs:20,pings:0,burst:false,sinceAction:20,
   msgs:[{w:'them',t:"Can you check my projected tax for this year?",tm:'2 Sep, 3:40 PM'},
         {w:'me',t:"Your tax computation for FY 2025-26 is ready — take a look and tell me if you'd like to optimise further.",tm:'3 Sep, 12:03 PM',f:'Computation_FY25-26.pdf'}],
   tasks:[{id:'t2',type:'MOM',title:'File MOM — tax planning call (28 Aug)',owner:'You',ownerId:'me',status:'OPEN',due:'4 Sep 2026',pri:'Medium'}],
   docs:[{n:'Salary slips (Q1)',s:'VERIFIED'}],history:[]},
 
- {id:'c8',client:'Meera Iyer',email:'meera.iyer@gmail.com',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'Notice / Compliance',
+ {id:'c8',client:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'Notice / Compliance',
   closed:false,remind:false,hrs:40,openedHrs:40,pings:0,burst:false,sinceAction:40,
   msgs:[{w:'them',t:"Got a 143(1) intimation, forwarding it now.",tm:'2 Sep, 2:00 PM'},
         {w:'me',t:"Thanks. To respond I'll also need last year's ITR-V and the demand notice PDF — could you upload both?",tm:'2 Sep, 4:15 PM'}],
@@ -489,13 +500,13 @@ let CHATS=[
   docs:[{n:'143(1) intimation',s:'RECEIVED'},{n:'Prior-year ITR-V',s:'REQUESTED'},{n:'Demand notice PDF',s:'REQUESTED'}],
   history:[{d:'May 2026',c:'ITR Filing',o:'Task Completed'}]},
 
- {id:'c10',client:'Farid Ansari',email:'farid.a@gmail.com',tier:'Advanced',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'c10',client:'Farid Ansari',email:'farid.a@gmail.com',phone:'+91 97400 12938',tier:'Advanced',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:true,remind:false,hrs:5,openedHrs:20,sinceAction:5,pings:0,burst:false,disp:{cat:'Query Resolved'},
   msgs:[{w:'them',t:"Should I move my FD interest declaration to this year?",tm:'6 Sep, 10:00 AM'},
         {w:'me',t:"No — declare it in the year it accrues. I've noted it against your plan.",tm:'6 Sep, 11:30 AM'},
         {w:'sys',t:'Closed · Query Resolved',tm:'6 Sep, 11:31 AM'}],
   tasks:[],docs:[],history:[]},
- {id:'c9',client:'Karan Bhatia',email:'karan.b@gmail.com',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'c9',client:'Karan Bhatia',email:'karan.b@gmail.com',phone:'+91 98330 66201',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:2,openedHrs:2,pings:0,burst:false,sinceAction:2,reopened:true,
   msgs:[{w:'me',t:"All done — 80C fully utilised, you're optimised for the year.",tm:'28 Aug, 5:00 PM'},
         {w:'sys',t:'Session closed · Query Resolved',tm:'28 Aug, 5:01 PM'},
@@ -513,7 +524,7 @@ const AGENTS=[
 function mk(id,client,tier,adv,cat,st,hrs,oh,pings,burst,note){
   const m=[{w:'them',t:note||'Following up on my query.',tm:'2 Sep'}];
   if(st!=='NEW')m.push({w:'me',t:st==='FOLLOWUP'?'ok, will check':'Sharing the working now — review and confirm.',tm:'3 Sep'});
-  return {id,client,email:client.toLowerCase().replace(/\s+/g,'.')+'@gmail.com',tier,advisorId:adv,
+  return {id,client,email:client.toLowerCase().replace(/\s+/g,'.')+'@gmail.com',phone:'+91 98xxx xxxxx',tier,advisorId:adv,
     advisor:(AGENTS.find(a=>a.id===adv)||{}).name,category:cat,closed:false,remind:false,
     hrs,openedHrs:oh,sinceAction:hrs,pings:pings||0,burst:!!burst,msgs:m,tasks:[],docs:[],history:[]};
 }
@@ -665,9 +676,9 @@ function dash(){
     <div class="sub">Start here — every tile and row opens the exact chats or tasks behind it.</div></div></div>
 
   <div class="statusline">
+    ${sbox('Open sessions','CLOSURE',cl.length,'var(--amber)','Answered — waiting to close','')}
+    ${sbox('New chats','NEW',nw.length,'var(--blue)','Client sent the last message',R(nw)?R(nw)+' at risk':'')}
     ${sbox('Action pending','FOLLOWUP',fu.length,'var(--red)','Flagged to you — act on it',R(fu)?R(fu)+' at risk':'')}
-    ${sbox('New chats','NEW',nw.length,'var(--blue)','New message from client',R(nw)?R(nw)+' at risk':'')}
-    ${sbox('Open session','CLOSURE',cl.length,'var(--amber)','Answered — waiting to close',cl.filter(blocked).length?cl.filter(blocked).length+' blocked':'')}
     ${sboxTask(tasks.length,mom)}
   </div>
 
@@ -685,7 +696,7 @@ function dash(){
       ${tasks.length?tasks.map(({c,t})=>`<div class="row" data-task="${t.id}">
         <div class="chk" data-tt="${c.id}:${t.id}" title="Mark done">${I.check}</div>
         <div class="body"><div class="t1">${t.title} <span class="ttype ${t.type}">${t.type}</span></div><div class="t2">${c.client} · due ${t.due}</div></div>
-        <div class="right"><span class="prio ${t.pri==='High'?'p1':t.pri==='Medium'?'p2':'p3'}">${t.pri}</span></div></div>`).join(''):`<div class="empty">No open tasks.</div>`}
+        <div class="right"><span class="qa" data-task="${t.id}">Open</span></div></div>`).join(''):`<div class="empty">No open tasks.</div>`}
     </div>
   </div>
 
@@ -720,11 +731,12 @@ function sboxTask(n,mom){
    <div class="n">${n}</div><div class="hint2">Incl. MOM · blocks closure</div>${mom?`<div style="margin-top:6px"><span class="flagmini" style="background:var(--violet-soft);color:var(--violet)">${mom} MOM pending</span></div>`:''}</button>`;
 }
 function riskRow(c,p){
+  const r=resLeft(c);
   return `<div class="row" data-open="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
    <div class="av" style="background:${avc(c.client)}">${ini(c.client)}</div>
-   <div class="body"><div class="t1">${c.client} <span class="tierchip ${c.tier}">${c.tier}</span> <span class="prio p${p.p}">${p.label}</span></div>
+   <div class="body"><div class="t1">${c.client} <span class="prio p${p.p}">${p.label}</span></div>
      <div class="t2">${p.why} · ${c.category} · "${(c.msgs.filter(m=>m.w!=='sys').slice(-1)[0]?.t||'').slice(0,44)}…"</div></div>
-   <div class="right"><div class="meta"><b>${ago(c.hrs)}</b>close ${left(resLeft(c))}</div>
+   <div class="right"><div class="tmeta"><span>Last message <b>${ago(c.hrs)}</b> ago</span><span>Close due <b style="color:${r<=0?'var(--red)':'inherit'}">${r<=0?'overdue':'in '+left(r)}</b></span></div>
      <button class="qa solid" data-open="${c.id}">Open</button></div></div>`;
 }
 /* ================= ADMIN ================= */
@@ -905,15 +917,14 @@ function chat(){
   return `<div class="inbox">
    <div class="col list">
     <div class="lh">
-      <div class="t"><h3>My chats</h3><span style="font-size:11.5px;color:var(--ink-3)">${l.length} shown</span></div>
+      <div class="t"><h3>My chats</h3>${S.role==='advisor'?ownSeg():`<span style="font-size:11.5px;color:var(--ink-3)">${l.length} shown</span>`}</div>
       <div class="search">${I.search}<input id="q" placeholder="Search client or category" value="${S.q}"></div>
       <div class="tabs">
        <button data-tab="ALL" class="${S.tab==='ALL'?'on':''}">All <span class="b">${cnt.ALL}</span></button>
-       <button data-tab="NEW" class="${S.tab==='NEW'?'on':''}">New <span class="b">${cnt.NEW}</span></button>
-       <button data-tab="CLOSURE" class="${S.tab==='CLOSURE'?'on':''}">Open <span class="b">${cnt.CLOSURE}</span></button>
-       <button data-tab="FOLLOWUP" class="${S.tab==='FOLLOWUP'?'on':''}">Action <span class="b">${cnt.FOLLOWUP}</span></button>
+       <button data-tab="NEW" class="${S.tab==='NEW'?'on':''}">New chats <span class="b">${cnt.NEW}</span></button>
+       <button data-tab="CLOSURE" class="${S.tab==='CLOSURE'?'on':''}">Open sessions <span class="b">${cnt.CLOSURE}</span></button>
+       <button data-tab="FOLLOWUP" class="${S.tab==='FOLLOWUP'?'on':''}">Action pending <span class="b">${cnt.FOLLOWUP}</span></button>
       </div>
-      ${S.role==='advisor'?ownChips():''}
       ${S.from?`<div class="fromb">${I.arrow} Showing <b>${S.from}</b> from your dashboard <button class="clrf" data-clearfrom="1">clear</button></div>`:''}
     </div>
     <div class="clist">${l.length?l.map(({c,p})=>crow(c,p)).join(''):`<div class="empty">${S.own!=='all'?`No ${S.own} chats in this tab. <button class="viewall" data-own="all">Show all</button>`:'Nothing in this tab.'}</div>`}</div>
@@ -922,17 +933,17 @@ function chat(){
    ${c?ctx(c):'<div class="col ctx"></div>'}
   </div>`;
 }
-function ownChips(){
-  const base=listBase();                       /* counts reflect the active tab */
+function ownSeg(){
+  const base=listBase();
   const n=o=>o==='all'?base.length:base.filter(c=>ownOf(c)===o).length;
-  return `<div class="subfilter">${[['all','All'],['primary','Primary'],['secondary','Secondary']]
-    .map(([k,l])=>`<button class="chipf ${S.own===k?'on':''} ${n(k)===0&&k!=='all'?'zero':''}" data-own="${k}">${l} ${n(k)}</button>`).join('')}</div>`;
+  return `<div class="ownseg">${[['all','All'],['primary','Primary'],['secondary','Secondary']]
+    .map(([k,l])=>`<button class="${S.own===k?'on':''}" data-own="${k}" title="${l} — ${n(k)} chat(s)">${l}<i>${n(k)}</i></button>`).join('')}</div>`;
 }
 function crow(c,p){
   return `<div class="crow ${c.id===S.active?'on':''}" data-chat="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
    <div class="av" style="background:${avc(c.client)}">${ini(c.client)}</div>
    <div class="cb">
-    <div class="r1"><span class="nm">${c.client}<span class="tierchip ${c.tier}">${c.tier[0]}</span>${ownOf(c)==='secondary'?'<span class="owntag">2nd</span>':''}</span><span class="tm">${ago(c.hrs)}</span></div>
+    <div class="r1"><span class="nm">${c.client}${ownOf(c)==='secondary'?'<span class="owntag">2nd</span>':''}</span><span class="tm">${ago(c.hrs)}</span></div>
     <div class="pv">${prev(c)}</div>
     <div class="r3">${p.p<3?`<span class="prio p${p.p}">${p.label}</span>`:''}<span class="why">${p.why}</span>
      ${c.reopened?`<span class="rchip y">reopened</span>`:''}${needsMyAction(c)?`<span title="Needs your action">${I.bell2}</span>`:''}${blocked(c)?`<span title="Blocked by task">${I.lock}</span>`:''}</div>
@@ -944,9 +955,9 @@ function conv(c){
   return `<div class="col conv">
    <div class="ch">
     <div class="av" style="width:38px;height:38px;background:${avc(c.client)}">${ini(c.client)}</div>
-    <div class="cb"><div class="nm">${c.client} <span class="tierchip ${c.tier}">${c.tier}</span>${ownOf(c)==='secondary'?'<span class="owntag">Secondary</span>':'<span class="owntag pri">Primary</span>'} ${p.p<3?`<span class="prio p${p.p}">${p.label}</span>`:''}</div>
-     <div class="mt">${spill(c)} · <span>${c.category}</span> · <span>${ago(c.hrs)+' waiting'}</span> · <span style="color:${resLeft(c)<=0?'var(--red)':'inherit'}">close ${left(resLeft(c))}</span></div></div>
-    <div class="acts">${c.closed?'':`<button class="btn sm" data-act="task">${I.plus} Task</button><button class="btn sm" data-act="doc">${I.doc} Doc</button>`}${c.closed?'':closeB(c)}</div>
+    <div class="cb"><div class="nm">${c.client} <span class="tierchip ${c.tier}">${c.tier}</span> <button class="proflink" data-profile="${c.id}">${I.ext} Profile</button></div>
+     <div class="mt">${spill(c)} · <span>${c.category}</span> · <span>Last message ${ago(c.hrs)} ago</span></div></div>
+    <div class="acts">${c.closed?'':closeB(c)}</div>
    </div>
    <div class="thread" id="th">${c.msgs.map(mb).join('')}</div>
    ${c.reopened&&!c.closed?`<div class="onme reopened"><div class="ic">${I.reply}</div><div class="tx"><div class="tt">Reopened by the client</div><div class="ts">Closed as "${c.disp?.cat||'resolved'}" — the client replied, so it came back into <b>Open session</b>. Prior disposition kept as history.</div></div></div>`:''}
@@ -986,7 +997,7 @@ function ctx(c){
    <div class="cs"><div class="h">Customer</div><div class="ibox">
      <div class="kv"><span class="k">Type</span><span class="v"><span class="tierchip ${c.tier}">${c.tier}</span></span></div>
      <div class="kv"><span class="k">Email</span><span class="v" style="font-size:11px">${c.email}</span></div>
-     <div class="kv"><span class="k">Your role</span><span class="v">${ownOf(c)==='secondary'?`Secondary <span style="color:var(--ink-3);font-weight:400">· ${c.coAdvisor} is primary</span>`:'Primary owner'}</span></div>
+     <div class="kv"><span class="k">Phone</span><span class="v" style="font-size:11px">${c.phone}</span></div>
    </div></div>
    <div class="cs"><div class="h">Timers</div><div class="ibox">
     <div class="clk"><div class="ci" style="background:${rr<0?'var(--red-soft)':'var(--blue-soft)'};color:${rr<0?'var(--red)':'var(--blue)'}">${I.reply}</div>
@@ -994,13 +1005,13 @@ function ctx(c){
     <div class="clk"><div class="ci" style="background:${r<=0?'var(--red-soft)':'var(--green-soft)'};color:${r<=0?'var(--red)':'var(--green-deep)'}">${I.clock}</div>
      <div><div class="lb">Close target</div><div class="vl">${r<=0?'Overdue':left(r)+' left'}</div><div class="sb">${RES_SLA}h target</div></div></div>
    </div></div>
-   <div class="cs"><div class="h">Tasks <span class="add" data-act="task">+ Add</span></div>
+   <div class="cs"><div class="h">Tasks</div>
     ${c.tasks.length?c.tasks.map(t=>`<div class="titem ${t.status!=='OPEN'?'done':''}"><div><div class="tn">${t.title}</div><div class="tm2">${t.owner} · due ${t.due}</div></div>
       <div class="chk ${t.status!=='OPEN'?'done':''}" data-tt="${c.id}:${t.id}">${I.check}</div></div>`).join(''):`<div style="font-size:11.5px;color:var(--ink-3)">None.</div>`}
     ${blocked(c)?`<div style="font-size:11px;color:var(--red);font-weight:600;display:flex;gap:5px;align-items:center;margin-top:2px">${I.lock} Blocks closure</div>`:''}</div>
-   <div class="cs"><div class="h">Documents <span class="add" data-act="doc">+ Request</span></div>
+   <div class="cs"><div class="h">Documents</div>
     ${c.docs.length?c.docs.map(d=>`<div class="ditem"><span class="dn">${d.n}</span><span class="dst ${d.s==='REQUESTED'?'req':d.s==='RECEIVED'?'rec':'ver'}">${d.s}</span></div>`).join(''):`<div style="font-size:11.5px;color:var(--ink-3)">None.</div>`}</div>
-   <div class="cs"><div class="h">${I.hist} Past conversations</div>
+   <div class="cs soon"><div class="h">${I.hist} Past conversations <span class="soontag">Later</span></div>
     ${c.history.length?c.history.map(h=>`<div class="hist"><div class="hd"><span class="ht">${h.c}</span><span class="hdt">${h.d}</span></div><div class="ho">${h.o}</div></div>`).join(''):`<div style="font-size:11.5px;color:var(--ink-3)">First conversation with this client.</div>`}</div>
   </div></div>`;
 }
@@ -1108,6 +1119,7 @@ function wire(){
    m.mom=true;render();toast('MOM task created — find it under Tasks','',I.check);});
  document.querySelectorAll('[data-open]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.open);S.active=c.id;S.view='chat';S.tab=statusOf(c);S.from='';render();});
  document.querySelectorAll('[data-chat]').forEach(e=>e.onclick=()=>{S.active=e.dataset.chat;render();bot();});
+ document.querySelectorAll('[data-profile]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.profile);toast(`Opening ${c.client}'s profile`,'info',I.ext);});
  document.querySelectorAll('[data-own]').forEach(e=>e.onclick=()=>{S.own=e.dataset.own;render();});
  document.querySelectorAll('[data-tab]').forEach(e=>e.onclick=()=>{S.tab=e.dataset.tab;S.from='';render();});
  document.querySelectorAll('[data-tt]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const[ci,ti]=e.dataset.tt.split(':');const c=CHATS.find(x=>x.id===ci),k=c.tasks.find(x=>x.id===ti);k.status=k.status==='OPEN'?'DONE':'OPEN';render();toast(k.status==='DONE'?'Task done':'Task reopened','',I.check);});
