@@ -804,12 +804,11 @@ function sboxTask(n,mom){
    <div class="n">${n}</div>${mom?`<div style="margin-top:4px"><span class="flagmini" style="background:var(--violet-soft);color:var(--violet)">${mom} MOM pending</span></div>`:''}</button>`;
 }
 function riskRow(c,p){
-  const h=slaHeadline(c), rs=replySla(c), cs=closeSla(c);
+  const rs=replySla(c), cs=closeSla(c);
   return `<div class="row" data-open="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
    <div class="av" style="background:${avc(c.client)}">${ini(c.client)}</div>
    <div class="body">
      <div class="t1">${c.client} <span class="prio p${p.p}">${p.label}</span></div>
-     <div class="slaline ${h.k}">${h.k==='breach'?I.alert:I.clock}<b>${h.t}</b>${h.d?` · ${h.d}`:''}</div>
      <div class="t2">${pendingWhat(c)} · ${c.category}</div>
    </div>
    <div class="right">
@@ -817,7 +816,13 @@ function riskRow(c,p){
      <button class="qa solid" data-open="${c.id}">Open</button>
    </div></div>`;
 }
-function slaChip(label,st){return `<span class="sla ${st.k}" title="${st.t}${st.d?' · '+st.d:''}">${label} · ${st.k==='met'?'met':st.d}</span>`;}
+function slaChip(label,st){
+  const txt = st.k==='met'    ? `${label} met`
+            : st.k==='breach' ? `${label} breached · ${st.d}`
+            : st.k==='soon'   ? `${label} due · ${st.d}`
+            :                   `${label} · ${st.d}`;
+  return `<span class="sla ${st.k}" title="${st.t}${st.d?' · '+st.d:''}">${txt}</span>`;
+}
 /* ================= ADMIN ================= */
 function adminDash(){
   const T=teamStats();
