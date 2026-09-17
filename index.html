@@ -139,9 +139,6 @@ svg{flex:none}
 .ttype.MOM{background:var(--violet-soft);color:var(--violet)}
 .ttype.Workings{background:var(--blue-soft);color:var(--blue)}
 .row.sel{background:var(--surface-2);box-shadow:inset 2px 0 0 var(--navy)}
-.fromb{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-2);background:var(--blue-soft);border:1px solid var(--border);border-radius:8px;padding:6px 9px}
-.fromb b{color:var(--ink)}
-.clrf{margin-left:auto;border:0;background:transparent;color:var(--blue);font-weight:600;font-size:11px;padding:0}
 .atbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:640px}
 .atbl th{text-align:left;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:9px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
 .atbl td{padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
@@ -220,15 +217,47 @@ svg{flex:none}
 .bar>i{display:block;height:100%}
 
 /* ---- chat 3 pane ---- */
+.inbox3{display:grid;grid-template-columns:300px 1fr;height:calc(100vh - var(--nav-h) - 42px);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+.rightwrap{display:flex;flex-direction:column;min-width:0}
+.panes{flex:1;display:grid;grid-template-columns:270px 1fr;min-height:0}
+.chdr{display:flex;align-items:center;gap:11px;padding:0 16px;height:74px;border-bottom:1px solid var(--border);background:var(--surface);flex:none}
+.chdr-b{min-width:0}
+.chdr .nm{font-family:var(--display);font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chdr-m{display:flex;gap:14px;margin-top:2px;font-size:11.5px;color:var(--ink-2);flex-wrap:wrap}
+.chdr-m .cpy{display:flex;align-items:center;gap:4px}
+.col.sess{border-right:1px solid var(--border);background:var(--surface-3);display:flex;flex-direction:column;min-height:0}
+.sh{padding:0 12px;height:52px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;flex:none}
+.sh .segs3{width:100%}
+.sh h3{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+.segs3{display:flex;width:100%;background:var(--surface-2);border-radius:8px;padding:3px;gap:2px}
+.segs3 button{flex:1;min-width:0;border:0;background:transparent;border-radius:6px;padding:7px 4px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:5px;color:var(--ink-3);transition:.12s}
+.segs3 .sl{font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.segs3 .sn{font-size:11px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;opacity:.75;flex:none}
+.segs3 button:hover{color:var(--ink-2)}
+.segs3 button.on{background:var(--surface);color:var(--navy);box-shadow:var(--sh)}
+.slist{overflow-y:auto;flex:1}
+.scard{position:relative;padding:11px 13px;border-bottom:1px solid var(--border);cursor:pointer;transition:.12s}
+.scard:hover{background:var(--surface)}
+.scard.on{background:var(--tint);box-shadow:inset 3px 0 0 var(--navy)}
+.sc1{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sct{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink-3);font-weight:600}
+.sctitle{font-weight:700;font-size:13px;margin:5px 0 4px}
+.sc3{margin-bottom:4px}
+.scprev{font-size:11.5px;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.slas.row2{flex-direction:row;gap:5px;align-items:center}
+.urow .pv{color:var(--ink-3)}
 .inbox{display:grid;grid-template-columns:312px 1fr 300px;height:calc(100vh - var(--nav-h) - 42px);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
 .col{display:flex;flex-direction:column;min-height:0}
 .col.list{border-right:1px solid var(--border);background:var(--surface-3)}
 .col.ctx{border-left:1px solid var(--border);background:var(--surface-3)}
-.lh{padding:12px 13px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;gap:10px}
-.lh .t{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lh-top{padding:0 13px;height:74px;overflow:hidden;border-bottom:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;justify-content:center;gap:7px;flex:none}
+.lh-tabs{padding:0 12px;height:52px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;flex:none}
+.lh-tabs .segs3{width:100%}
+.chmeta{font-family:var(--sans);font-weight:600;font-size:11px;color:var(--ink-3);margin-left:2px}
+.lh-top .t{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .searchrow{display:flex;align-items:center;gap:7px}
 .searchrow .search{flex:1;min-width:0}
-.ownsel{flex:none;border:1px solid var(--border);background:var(--surface-2);border-radius:8px;padding:7px 6px;font:inherit;font-size:11.5px;font-weight:600;color:var(--ink-2);outline:none;max-width:112px}
+.ownsel{flex:none;border:1px solid var(--border);background:var(--surface-2);border-radius:8px;padding:7px 4px;font:inherit;font-size:11px;font-weight:700;color:var(--ink-2);outline:none;width:74px}
 .ownsel:focus{border-color:var(--focus)}
 .lh .t h3{font-size:14px;font-weight:700}
 .search{display:flex;align-items:center;gap:7px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 10px}
@@ -241,7 +270,6 @@ svg{flex:none}
 .tabs button.on::after{content:"";position:absolute;left:4px;right:4px;bottom:-1.5px;height:2.5px;background:var(--navy);border-radius:2px}
 .tabs button .b{font-size:12.5px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums;line-height:1.2}
 .tabs button.on .b{color:var(--navy)}
-.tabsub{font-size:11px;font-weight:600;color:var(--ink-3);padding-top:9px}
 .subfilter{display:flex;gap:6px}
 .chipf{border:1px solid var(--border-2);background:var(--surface);color:var(--ink-2);font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px}
 .chipf.on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -255,13 +283,15 @@ svg{flex:none}
 .crow .cb{flex:1;min-width:0}
 .crow .r1{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .crow .nm{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px;min-width:0}
+.rmeta{display:flex;align-items:center;gap:6px;flex:none}
+.unread{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;font-variant-numeric:tabular-nums}
 .crow .tm{font-size:10.5px;color:var(--ink-3);white-space:nowrap;flex:none}
 .crow .pv{color:var(--ink-2);font-size:11.5px;margin:2px 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .crow .r3{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
 /* conversation */
 .conv{display:flex;flex-direction:column;min-height:0;background:var(--surface)}
-.ch{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px}
+.ch{padding:0 16px;height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px;flex:none}
 .ch .cb{flex:1;min-width:0}
 .ch .nm{font-family:var(--display);font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ch .mt{display:flex;align-items:center;gap:8px;margin-top:3px;color:var(--ink-2);font-size:11.5px;flex-wrap:wrap}
@@ -472,52 +502,52 @@ const BIZ={open:9,close:20,skipSat:true};
 const ACTIONS=['Response sent','Task created','Marked action pending','Document requested','Session closed'];
 
 let CHATS=[
- {id:'c1',client:'Rahul Menon',email:'rahul.menon@gmail.com',phone:'+91 98200 41122',tier:'Premium',advisorId:'me',advisor:'You',category:'ITR Filing',
+ {id:'c1',title:'ITR filing query',client:'Rahul Menon',email:'rahul.menon@gmail.com',phone:'+91 98200 41122',tier:'Premium',advisorId:'me',advisor:'You',category:'ITR Filing',
   closed:false,remind:false,hrs:26,openedHrs:30,pings:2,burst:false,sinceAction:26,
   msgs:[{w:'them',t:"Hi, I got a mail from the IT dept about my ITR. My Form 16 shows a different TDS than 26AS — which do we file with?",tm:'1 Sep, 9:10 AM'},
         {w:'them',t:"This is a bit urgent, due date is the 3rd right?",tm:'1 Sep, 6:40 PM'}],
   tasks:[],docs:[{n:'Form 16 (FY 2025-26)',s:'RECEIVED'},{n:'AIS / 26AS statement',s:'REQUESTED'}],
   history:[{d:'Jun 2026',c:'Advance Tax',o:'Session closed'},{d:'Mar 2026',c:'Tax Planning',o:'Session closed'}]},
 
- {id:'c2',client:'Priya Nair',email:'priya.nair@outlook.com',phone:'+91 99301 55708',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
+ {id:'c2',title:'Filing confirmation',client:'Priya Nair',email:'priya.nair@outlook.com',phone:'+91 99301 55708',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
   closed:false,remind:true,hrs:6,openedHrs:9,frh:1,pings:0,burst:false,sinceAction:6,
   msgs:[{w:'them',t:"Ready to file, go ahead!",tm:'1 Sep, 5:02 PM'},
         {w:'me',t:"Great — I'll run a final check on your capital gains schedule and confirm before we file.",tm:'1 Sep, 5:03 PM'}],
   tasks:[],docs:[{n:'Investment proofs',s:'VERIFIED'}],
   history:[{d:'Aug 2026',c:'ITR Filing',o:'Session closed'}]},
 
- {id:'c3',client:'Vikram Shah',email:'vikram.shah@gmail.com',phone:'+91 98450 77219',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Neha Reddy',category:'Advance Tax',
+ {id:'c3',title:'ESOP advance tax',client:'Vikram Shah',email:'vikram.shah@gmail.com',phone:'+91 98450 77219',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Neha Reddy',category:'Advance Tax',
   closed:false,remind:false,hrs:31,openedHrs:50,pings:1,burst:false,sinceAction:31,
   msgs:[{w:'them',t:"I sold some ESOPs last quarter — do I owe advance tax on that before the 15th?",tm:'31 Aug, 11:20 AM'}],
   tasks:[{id:'t1',type:'Workings',title:'Compute capital gains on ESOP sale',owner:'You',ownerId:'me',status:'OPEN',due:'4 Sep 2026',pri:'High'}],
   docs:[{n:'ESOP sale statement',s:'RECEIVED'}],history:[]},
 
- {id:'c4',client:'Neha Kulkarni',email:'neha.k@gmail.com',phone:'+91 97690 30154',tier:'Elite',advisorId:'me',advisor:'You',category:'General Query',
+ {id:'c4',title:'Regime switch',client:'Neha Kulkarni',email:'neha.k@gmail.com',phone:'+91 97690 30154',tier:'Elite',advisorId:'me',advisor:'You',category:'General Query',
   closed:false,remind:false,hrs:10,openedHrs:10,pings:3,burst:true,sinceAction:10,
   msgs:[{w:'them',t:"Quick one — can I switch to the new regime midway this year?",tm:'3 Sep, 8:31 AM'},
         {w:'them',t:"Also does it affect my 80C already declared?",tm:'3 Sep, 8:33 AM'},
         {w:'them',t:"And my employer TDS — do I need to tell them?",tm:'3 Sep, 8:44 AM'}],
   tasks:[],docs:[],history:[]},
 
- {id:'c5',client:'Aditya Sharma',email:'aditya.s@gmail.com',phone:'+91 98111 62240',tier:'Basic',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Aditya Menon',category:'General Query',
+ {id:'c5',title:'Onboarding help',client:'Aditya Sharma',email:'aditya.s@gmail.com',phone:'+91 98111 62240',tier:'Basic',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Aditya Menon',category:'General Query',
   closed:false,remind:false,hrs:1.5,openedHrs:1.5,pings:0,burst:false,sinceAction:1.5,
   msgs:[{w:'them',t:"Hello, I just subscribed. Where do I upload my Form 16?",tm:'4 Sep, 9:40 AM'}],
   tasks:[],docs:[],history:[]},
 
- {id:'c6',client:'Sana Kapoor',email:'sana.k@gmail.com',phone:'+91 90040 18876',tier:'Basic',advisorId:'me',advisor:'You',category:'General Query',
+ {id:'c6',title:'HRA exemption',client:'Sana Kapoor',email:'sana.k@gmail.com',phone:'+91 90040 18876',tier:'Basic',advisorId:'me',advisor:'You',category:'General Query',
   closed:false,remind:true,hrs:5,openedHrs:40,frh:0.1,pings:0,burst:false,sinceAction:5,
   msgs:[{w:'them',t:"Is HRA exemption available if I pay rent to my parents?",tm:'3 Sep, 1:30 PM'},
         {w:'me',t:"ok, will check",tm:'3 Sep, 1:34 PM'}],
   tasks:[],docs:[],history:[{d:'Jul 2026',c:'General Query',o:'Session closed'}]},
 
- {id:'c7',client:'Test User 5',email:'testuser5@gmail.com',phone:'+91 88790 21134',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'c7',title:'Tax projection',client:'Test User 5',email:'testuser5@gmail.com',phone:'+91 88790 21134',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:20,openedHrs:52,frh:20,pings:0,burst:false,sinceAction:20,
   msgs:[{w:'them',t:"Can you check my projected tax for this year?",tm:'2 Sep, 3:40 PM'},
         {w:'me',t:"Your tax computation for FY 2025-26 is ready — take a look and tell me if you'd like to optimise further.",tm:'3 Sep, 12:03 PM',f:'Computation_FY25-26.pdf'}],
   tasks:[{id:'t2',type:'MOM',title:'File MOM — tax planning call (28 Aug)',owner:'You',ownerId:'me',status:'OPEN',due:'4 Sep 2026',pri:'Medium'}],
   docs:[{n:'Salary slips (Q1)',s:'VERIFIED'}],history:[]},
 
- {id:'c8',client:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'Notice / Compliance',
+ {id:'c8',title:'143(1) notice',client:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'Notice / Compliance',
   closed:false,remind:false,hrs:40,openedHrs:44,frh:2,pings:0,burst:false,sinceAction:40,
   msgs:[{w:'them',t:"Got a 143(1) intimation, forwarding it now.",tm:'2 Sep, 2:00 PM'},
         {w:'me',t:"Thanks. To respond I'll also need last year's ITR-V and the demand notice PDF — could you upload both?",tm:'2 Sep, 4:15 PM'}],
@@ -525,13 +555,30 @@ let CHATS=[
   docs:[{n:'143(1) intimation',s:'RECEIVED'},{n:'Prior-year ITR-V',s:'REQUESTED'},{n:'Demand notice PDF',s:'REQUESTED'}],
   history:[{d:'May 2026',c:'ITR Filing',o:'Session closed'}]},
 
- {id:'c10',client:'Farid Ansari',email:'farid.a@gmail.com',phone:'+91 97400 12938',tier:'Advanced',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'c10',title:'FD interest timing',client:'Farid Ansari',email:'farid.a@gmail.com',phone:'+91 97400 12938',tier:'Advanced',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:true,remind:false,hrs:5,openedHrs:20,frh:1.5,sinceAction:5,pings:0,burst:false,disp:{mom:'Advised to declare FD interest in the year it accrues; noted against the plan.',feedback:''},
   msgs:[{w:'them',t:"Should I move my FD interest declaration to this year?",tm:'6 Sep, 10:00 AM'},
         {w:'me',t:"No — declare it in the year it accrues. I've noted it against your plan.",tm:'6 Sep, 11:30 AM'},
         {w:'sys',t:'Session closed',tm:'6 Sep, 11:31 AM'}],
   tasks:[],docs:[],history:[]},
- {id:'c9',client:'Karan Bhatia',email:'karan.b@gmail.com',phone:'+91 98330 66201',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+ {id:'s1',title:'Advance tax Q1',client:'Rahul Menon',email:'rahul.menon@gmail.com',phone:'+91 98200 41122',tier:'Premium',advisorId:'me',advisor:'You',category:'Advance Tax',
+  closed:true,remind:false,hrs:40,openedHrs:96,sinceAction:40,frh:3,pings:0,burst:false,disp:{mom:'Computed Q1 instalment and shared the challan.',feedback:''},
+  msgs:[{w:'them',t:"What is my Q1 advance tax instalment?",tm:'20 Aug, 10:00 AM'},
+        {w:'me',t:"Computed — ₹42,000 due by 15 Jun. Challan attached.",tm:'20 Aug, 1:00 PM'},
+        {w:'sys',t:'Session closed',tm:'20 Aug, 1:02 PM'}],
+  tasks:[],docs:[],history:[]},
+ {id:'s2',title:'ITR FY 2024-25',client:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'ITR Filing',
+  closed:true,remind:false,hrs:60,openedHrs:200,sinceAction:60,frh:2,pings:0,burst:false,disp:{mom:'Filed ITR-2 and shared the acknowledgement.',feedback:''},
+  msgs:[{w:'them',t:"Ready to file for last year.",tm:'12 Jul, 9:00 AM'},
+        {w:'me',t:"Filed. ITR-V acknowledgement attached.",tm:'12 Jul, 11:00 AM'},
+        {w:'sys',t:'Session closed',tm:'12 Jul, 11:05 AM'}],
+  tasks:[],docs:[],history:[]},
+ {id:'s3',title:'Salary restructure',client:'Test User 5',email:'testuser5@gmail.com',phone:'+91 88790 21134',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+  closed:false,remind:false,hrs:3,openedHrs:6,sinceAction:3,frh:1,pings:0,burst:false,
+  msgs:[{w:'them',t:"Can we restructure my salary to reduce tax next year?",tm:'4 Sep, 9:00 AM'},
+        {w:'me',t:"Yes — let's look at NPS and meal card components. Sharing options.",tm:'4 Sep, 10:00 AM'}],
+  tasks:[],docs:[],history:[]},
+ {id:'c9',title:'80C review',client:'Karan Bhatia',email:'karan.b@gmail.com',phone:'+91 98330 66201',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:2,openedHrs:2,frh:1,pings:0,burst:false,sinceAction:2,reopened:true,
   msgs:[{w:'me',t:"All done — 80C fully utilised, you're optimised for the year.",tm:'28 Aug, 5:00 PM'},
         {w:'sys',t:'Session closed',tm:'28 Aug, 5:01 PM'},
@@ -551,7 +598,7 @@ function mk(id,client,tier,adv,cat,st,hrs,oh,pings,burst,note){
   if(st!=='NEW')m.push({w:'me',t:st==='FOLLOWUP'?'ok, will check':'Sharing the working now — review and confirm.',tm:'3 Sep'});
   return {id,client,email:client.toLowerCase().replace(/\s+/g,'.')+'@gmail.com',phone:'+91 98xxx xxxxx',tier,advisorId:adv,
     advisor:(AGENTS.find(a=>a.id===adv)||{}).name,category:cat,closed:false,remind:false,
-    hrs,openedHrs:oh,sinceAction:hrs,pings:pings||0,burst:!!burst,msgs:m,tasks:[],docs:[],history:[]};
+    title:cat+' query',hrs,openedHrs:oh,sinceAction:hrs,pings:pings||0,burst:!!burst,msgs:m,tasks:[],docs:[],history:[]};
 }
 let MEETINGS=[
  {id:'m1',time:'09:30',client:'Test User 5',type:'Tax planning call',status:'DONE',mom:false,chat:'c7'},
@@ -598,6 +645,10 @@ const blocked=c=>openTasks(c).length>0;
 const resLeft=c=>RES_SLA-c.openedHrs;               /* 48h for every chat */
 const respLeft=c=>FR_SLA-c.hrs;                     /* 12 business hours  */
 const sinceAction=c=>c.sinceAction!=null?c.sinceAction:c.hrs;
+/* new messages waiting on me — trailing client msgs since my last reply.
+   Replying drives this to 0 without moving the chat between tabs. */
+function unread(c){let n=0;for(let i=c.msgs.length-1;i>=0;i--){const m=c.msgs[i];
+  if(m.w==='sys')continue; if(m.w==='me')break; n++;} return n;}
 
 /* ---------- SLA state — one definition, used by dashboard rows and the timers panel ----------
    reply : met (a reply was sent) | breach | soon (<=25% left) | ok
@@ -666,8 +717,8 @@ const ago=h=>h<1?Math.round(h*60)+'m':h<48?Math.round(h)+'h':Math.round(h/24)+'d
 const left=h=>h<=0?'overdue':h<1?Math.round(h*60)+'m':h<48?Math.round(h)+'h':Math.round(h/24)+'d';
 const prev=c=>{const m=[...c.msgs].reverse().find(x=>x.w!=='sys');return m?(m.w==='me'?'You: ':'')+(m.f?'📎 '+m.f:m.t):'—';};
 const STP={NEW:['sp-new','New message'],FOLLOWUP:['sp-pend','Action pending'],CLOSURE:['sp-open','Open session'],CLOSED:['sp-closed','Closed']};
-const TABL={ALL:'All chats',NEW:'New chats',FOLLOWUP:'Action pending',CLOSURE:'Open sessions'};
-const TABSHORT={ALL:'All',NEW:'New',FOLLOWUP:'On me',CLOSURE:'Open'};
+const TABL={ALL:'All chats',OPEN:'Open sessions',FOLLOWUP:'Action pending'};
+const TABSHORT={ALL:'All',OPEN:'Open',FOLLOWUP:'On me'};
 const spill=c=>{const[k,l]=STP[statusOf(c)];return `<span class="stat-pill ${k}"><span class="d"></span>${l}</span>`;};
 
 TEAM_SEED.forEach(a=>CHATS.push(mk.apply(null,a)));
@@ -696,7 +747,7 @@ function agentStats(id){
 }
 const teamStats=()=>AGENTS.map(a=>agentStats(a.id)).sort((x,y)=>({r:0,y:1,g:2}[x.flag]-{r:0,y:1,g:2}[y.flag])||y.atRisk-x.atRisk||y.open-x.open);
 
-const S={role:'advisor',view:'dash',active:'c1',tab:'FOLLOWUP',onlyMine:false,q:'',taskType:'all',activeTask:null,from:'',agent:null,own:'all'};
+const S={role:'advisor',view:'dash',active:'c1',tab:'OPEN',client:null,sess:'all',onlyMine:false,q:'',taskType:'all',activeTask:null,agent:null,own:'all'};
 const mine=()=>CHATS.filter(c=>c.advisorId==='me');
 /* whose chats the chat screen is showing: own desk, or an agent's book in admin view */
 const scope=()=>S.role==='admin'?(S.agent?CHATS.filter(c=>c.advisorId===S.agent):CHATS):mine();
@@ -738,8 +789,8 @@ function dash(){
   <div class="page-h"><div><div class="eyebrow">Friday · 4 Sep 2026</div><h1>Dashboard</h1></div></div>
 
   <div class="statusline">
-    ${sbox('Open sessions','CLOSURE',cl.length,'var(--amber)','Answered — waiting to close','')}
-    ${sbox('New chats','NEW',nw.length,'var(--blue)','Client sent the last message',R(nw)?R(nw)+' at risk':'')}
+    ${sbox('Open sessions','OPEN',cl.length,'var(--amber)','Answered — waiting to close','')}
+    ${sbox('New chats','OPEN',nw.length,'var(--blue)','Client sent the last message',R(nw)?R(nw)+' at risk':'')}
     ${sbox('Action pending','FOLLOWUP',fu.length,'var(--red)','Flagged to you — act on it',R(fu)?R(fu)+' at risk':'')}
     ${sboxTask(tasks.length,mom)}
   </div>
@@ -855,7 +906,8 @@ function adminDash(){
 }
 /* Open chats, split into the two things an admin actually asks about */
 function splitCard(total,resp,close){
-  return `<button class="tcard" data-goto="NEW">
+  /* admin drills through the agent grid, never straight into a chat (Phase 1 scope) */
+  return `<button class="tcard" data-allagents="1">
     <span class="ic" style="background:var(--blue-soft);color:var(--blue)">${I.chat}</span>
     <span class="tb"><span class="tt">Open Chats</span>
       <span class="tn"><b class="tnum">${total}</b></span>
@@ -909,10 +961,10 @@ function agentView(){
     <button class="btn" data-allagents="1">← All agents</button></div>
 
   <div class="statusline">
-    ${abox('Open',t.open,'var(--navy)','Active chats','NEW')}
+    ${abox('Open',t.open,'var(--navy)','Active chats','OPEN')}
     ${abox('At risk',t.atRisk,'var(--red)','Needs intervention','RISK')}
     ${abox('Unanswered',t.unatt,'var(--red)','Zero agent reply','UNANS')}
-    ${abox('Closed today',t.a.closedToday,'var(--green)','Completed','CLOSURE')}
+    ${abox('Closed today',t.a.closedToday,'var(--green)','Completed','ALL')}
   </div>
 
   <div class="card">
@@ -986,6 +1038,7 @@ const matchOwn=c=>S.own==='all'||ownOf(c)===S.own;
 /* everything the active tab + search allow, before the ownership facet */
 function listBase(){
   let l=S.tab==='ALL'?scope().slice()
+       :S.tab==='OPEN'?scope().filter(c=>!c.closed&&statusOf(c)!=='FOLLOWUP')
        :S.tab==='RISK'?scope().filter(c=>!c.closed&&prio(c).p<=2)
        :S.tab==='UNANS'?scope().filter(c=>!c.closed&&!c.msgs.some(m=>m.w==='me'))
        :scope().filter(c=>statusOf(c)===S.tab);
@@ -996,48 +1049,121 @@ function listFor(){
   if(S.own!=='all')l=l.filter(c=>ownOf(c)===S.own);
   return l.map(c=>({c,p:prio(c)})).sort((a,b)=>a.p.p-b.p.p||b.p.score-a.p.score);
 }
+/* ---------- users -> sessions -> chat ---------- */
+const sessionsOf=name=>scope().filter(c=>c.client===name);
+function clientList(){
+  const seen=new Map();
+  listBase().filter(matchOwn).forEach(c=>{ if(!seen.has(c.client))seen.set(c.client,[]); seen.get(c.client).push(c); });
+  return [...seen.entries()].map(([name,ss])=>{
+    const open=ss.filter(x=>!x.closed);
+    const rank=open.length?Math.min(...open.map(x=>prio(x).p)):3;
+    const all=sessionsOf(name);
+    return {name,ss,all,unread:all.reduce((n,x)=>n+unread(x),0),rank,
+            top:(open[0]||ss[0])};
+  }).sort((a,b)=>a.rank-b.rank||b.unread-a.unread);
+}
 function chat(){
-  const l=listFor();
-  if(!l.find(x=>x.c.id===S.active))S.active=l[0]?.c.id;
+  const clients=clientList();
+  if(!clients.some(x=>x.name===S.client))S.client=clients[0]?.name;
+  const me=clients.find(x=>x.name===S.client);
+  const sess=me?sessionsOf(me.name).filter(x=>S.sess==='all'?true:S.sess==='open'?!x.closed:x.closed)
+                 .sort((x,y)=>(x.closed-y.closed)||prio(x).p-prio(y).p):[];
+  if(!sess.some(x=>x.id===S.active))S.active=sess[0]?.id;
   const c=CHATS.find(x=>x.id===S.active);
-  /* counts share the list's ownership + search filters, so a tab never
-     advertises rows the list won't show */
-  const cbase=scope().filter(c=>matchOwn(c)&&matchQ(c));
-  const cnt={ALL:cbase.length,
-             NEW:cbase.filter(c=>statusOf(c)==='NEW').length,
-             CLOSURE:cbase.filter(c=>statusOf(c)==='CLOSURE').length,
-             FOLLOWUP:cbase.filter(c=>statusOf(c)==='FOLLOWUP').length};
-  return `<div class="inbox">
+  const cbase=scope().filter(x=>matchOwn(x)&&matchQ(x));
+  const cnt={ALL:new Set(cbase.map(x=>x.client)).size,
+             OPEN:new Set(cbase.filter(x=>!x.closed&&statusOf(x)!=='FOLLOWUP').map(x=>x.client)).size,
+             FOLLOWUP:new Set(cbase.filter(x=>statusOf(x)==='FOLLOWUP').map(x=>x.client)).size};
+  const hdr=me?me.top:null;
+  return `<div class="inbox3">
    <div class="col list">
-    <div class="lh">
-      <div class="t"><h3>My chats</h3></div>
+    <div class="lh-top">
+      <div class="t"><h3>Active chats</h3></div>
       <div class="searchrow">
-        <div class="search">${I.search}<input id="q" placeholder="Search client or category" value="${S.q}"></div>
+        <div class="search">${I.search}<input id="q" placeholder="Search clients" value="${S.q}"></div>
         ${S.role==='advisor'?ownSel():''}
       </div>
-      <div class="tabs">
-       ${['ALL','NEW','CLOSURE','FOLLOWUP'].map(k=>`<button data-tab="${k}" class="${S.tab===k?'on':''}" title="${TABL[k]}"><span class="l">${TABSHORT[k]}</span><span class="b">${cnt[k]}</span></button>`).join('')}
-      </div>
-      <div class="tabsub">${TABL[S.tab]||'Filtered'} · ${l.length}</div>
-      ${S.from?`<div class="fromb">${I.arrow} Showing <b>${S.from}</b> from your dashboard <button class="clrf" data-clearfrom="1">clear</button></div>`:''}
     </div>
-    <div class="clist">${l.length?l.map(({c,p})=>crow(c,p)).join(''):`<div class="empty">${S.own!=='all'?`No ${S.own} chats in this tab. <button class="viewall" data-own="all">Show all</button>`:'Nothing in this tab.'}</div>`}</div>
+    <div class="lh-tabs">
+      <div class="segs3 wide">
+       ${['ALL','OPEN','FOLLOWUP'].map(k=>`<button data-tab="${k}" class="${S.tab===k?'on':''}" title="${TABL[k]}"><span class="sl">${TABSHORT[k]}</span><span class="sn">${cnt[k]}</span></button>`).join('')}
+      </div>
+    </div>
+    <div class="clist">${clients.length?clients.map(urow).join(''):`<div class="empty">${S.own!=='all'?`No ${S.own} chats in this tab. <button class="viewall" data-own="all">Show all</button>`:'Nothing in this tab.'}</div>`}</div>
    </div>
-   ${c?conv(c):'<div class="col conv"><div class="empty" style="margin:auto">Pick a chat</div></div>'}
-   ${c?ctx(c):'<div class="col ctx"></div>'}
+   <div class="rightwrap">
+     ${hdr?clientHeader(hdr):''}
+     <div class="panes">
+       ${me?sessPane(me,sess):''}
+       ${c?conv(c):'<div class="col conv"><div class="empty" style="margin:auto">Pick a session</div></div>'}
+     </div>
+   </div>
+  </div>`;
+}
+
+/* pane 1 row — a user, not a session */
+function urow(u){
+  const on=u.name===S.client, sec=u.all.every(x=>ownOf(x)==='secondary');
+  const t=u.top;
+  return `<div class="crow urow ${on?'on':''}" data-client="${u.name}">
+    <span class="rail" style="background:${pcol(u.rank)}"></span>
+    <div class="av" style="background:${avc(u.name)}">${ini(u.name)}</div>
+    <div class="cb">
+      <div class="r1"><span class="nm">${u.name}${sec?'<span class="owntag">2nd</span>':''}</span>
+        <span class="rmeta">${u.unread?`<span class="unread">${u.unread}</span>`:''}</span></div>
+      <div class="pv">${t.email}</div>
+      <div class="r3"><span class="why">${u.all.length} session${u.all.length===1?'':'s'}</span></div>
+    </div></div>`;
+}
+
+/* client header — spans the sessions + chat panes */
+function clientHeader(c){
+  return `<div class="chdr">
+    <div class="av" style="width:38px;height:38px;background:${avc(c.client)}">${ini(c.client)}</div>
+    <div class="chdr-b">
+      <div class="nm">${c.client} <span class="tierchip ${c.tier}">${c.tier}</span>
+        <button class="proflink" data-profile="${c.id}">${I.ext} Profile</button></div>
+      <div class="chdr-m">
+        <span class="cpy"><span class="cv">${c.email}</span><button class="cbtn" data-copy="${c.email}" title="Copy email">${I.copy}</button></span>
+        <span class="cpy"><span class="cv">${c.phone}</span><button class="cbtn" data-copy="${c.phone}" title="Copy phone">${I.copy}</button></span>
+      </div>
+    </div></div>`;
+}
+
+/* pane 2 — sessions of the selected user */
+function sessPane(u,sess){
+  const all=sessionsOf(u.name);
+  const n=k=>k==='all'?all.length:k==='open'?all.filter(x=>!x.closed).length:all.filter(x=>x.closed).length;
+  return `<div class="col sess">
+   <div class="sh">
+     <div class="segs3">${[['all','All'],['open','Open'],['closed','Closed']]
+       .map(([k,l])=>`<button class="${S.sess===k?'on':''}" data-sess="${k}"><span class="sl">${l}</span><span class="sn">${n(k)}</span></button>`).join('')}</div>
+   </div>
+   <div class="slist">${sess.length?sess.map(sCard).join(''):`<div class="empty">No ${S.sess==='all'?'':S.sess+' '}sessions.</div>`}</div>
+  </div>`;
+}
+function sCard(c){
+  const st=statusOf(c), [k,lbl]=STP[st], u=unread(c);
+  return `<div class="scard ${c.id===S.active?'on':''}" data-sess-open="${c.id}">
+    <div class="sc1"><span class="stat-pill ${k}"><span class="d"></span>${lbl}</span>
+      <span class="sct">${u?`<span class="unread">${u}</span>`:''}${ago(c.hrs)}</span></div>
+    <div class="sctitle">${c.title||c.category}</div>
+    <div class="sc3"><span class="tag">${c.category}</span></div>
+    <div class="scprev">${prev(c)}</div>
   </div>`;
 }
 function ownSel(){
   const base=listBase();                                  /* counts scoped to the active tab */
-  const n=o=>o==='all'?base.length:base.filter(c=>ownOf(c)===o).length;
+  const users=f=>new Set(base.filter(f).map(c=>c.client)).size;
+  const n=o=>o==='all'?users(()=>true):users(c=>ownOf(c)===o);
   return `<select class="ownsel" id="ownsel" title="Filter by ownership">${[['all','All'],['primary','Primary'],['secondary','Secondary']]
-    .map(([k,lbl])=>`<option value="${k}"${S.own===k?' selected':''}>${lbl} (${n(k)})</option>`).join('')}</select>`;
+    .map(([k,lbl])=>`<option value="${k}"${S.own===k?' selected':''}>${lbl} ${n(k)}</option>`).join('')}</select>`;
 }
 function crow(c,p){
   return `<div class="crow ${c.id===S.active?'on':''}" data-chat="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
    <div class="av" style="background:${avc(c.client)}">${ini(c.client)}</div>
    <div class="cb">
-    <div class="r1"><span class="nm">${c.client}${ownOf(c)==='secondary'?'<span class="owntag">2nd</span>':''}</span><span class="tm">${ago(c.hrs)}</span></div>
+    <div class="r1"><span class="nm">${c.client}${ownOf(c)==='secondary'?'<span class="owntag">2nd</span>':''}</span><span class="rmeta">${unread(c)?`<span class="unread">${unread(c)}</span>`:''}<span class="tm">${ago(c.hrs)}</span></span></div>
     <div class="pv">${prev(c)}</div>
     <div class="r3">${p.p<3?`<span class="prio p${p.p}">${p.label}</span>`:''}<span class="why">${p.why}</span>
      ${c.reopened?`<span class="rchip y">reopened</span>`:''}${needsMyAction(c)?`<span title="Needs your action">${I.bell2}</span>`:''}${blocked(c)?`<span title="Blocked by task">${I.lock}</span>`:''}</div>
@@ -1048,10 +1174,8 @@ function conv(c){
   const showOnMe=!c.closed&&needsMyAction(c);
   return `<div class="col conv">
    <div class="ch">
-    <div class="av" style="width:38px;height:38px;background:${avc(c.client)}">${ini(c.client)}</div>
-    <div class="cb"><div class="nm">${c.client} <span class="tierchip ${c.tier}">${c.tier}</span> <button class="proflink" data-profile="${c.id}">${I.ext} Profile</button></div>
-     <div class="mt"><span>${c.category}</span> · <span>Last message ${ago(c.hrs)} ago</span></div></div>
-    <div class="acts">${c.closed?'':closeB(c)}</div>
+    <div class="cb"><div class="nm">${c.title||c.category} ${spill(c)}<span class="chmeta">Last message ${ago(c.hrs)} ago</span></div></div>
+    <div class="acts"><span class="slas row2">${slaChip('Reply',replySla(c))}${slaChip('Close',closeSla(c))}</span>${c.closed?'':closeB(c)}</div>
    </div>
    <div class="thread" id="th">${c.msgs.map(mb).join('')}</div>
    ${c.reopened&&!c.closed?`<div class="onme reopened"><div class="ic">${I.reply}</div><div class="tx"><div class="tt">Reopened by the client</div><div class="ts">The client replied after this session was closed, so it came back into <b>Open sessions</b>. The prior MOM is kept as history.</div></div></div>`:''}
@@ -1084,29 +1208,6 @@ function composer(c){
     <label class="remind" id="rmL"><input type="checkbox" id="rm"> ${I.bell2} Requires my action</label>
     <span style="font-size:11px;color:var(--ink-3)">Keeps it in <b>Action pending</b> after you send</span>
    </div></div>`;
-}
-function ctx(c){
-  const rs=replySla(c), cs=closeSla(c);
-  return `<div class="col ctx"><div class="ctxb">
-   <div class="cs"><div class="h">Customer</div><div class="ibox">
-     <div class="kv"><span class="k">Type</span><span class="v"><span class="tierchip ${c.tier}">${c.tier}</span></span></div>
-     <div class="kv"><span class="k">Email</span><span class="v cpy"><span class="cv">${c.email}</span><button class="cbtn" data-copy="${c.email}" title="Copy email">${I.copy}</button></span></div>
-     <div class="kv"><span class="k">Phone</span><span class="v cpy"><span class="cv">${c.phone}</span><button class="cbtn" data-copy="${c.phone}" title="Copy phone">${I.copy}</button></span></div>
-   </div></div>
-   <div class="cs"><div class="h">Timers</div><div class="ibox">
-     ${timerRow('Reply target',rs,`${FR_SLA}h business hours`,I.reply)}
-     ${timerRow('Close target',cs,`${RES_SLA}h target`,I.clock)}
-   </div></div>
-  </div></div>`;
-}
-/* one timer row, state-aware: met / breached / due soon / on track */
-function timerRow(label,st,sub,icon){
-  const tone={met:'var(--green)',breach:'var(--red)',soon:'var(--amber)',ok:'var(--ink-2)'}[st.k];
-  const bg={met:'var(--green-soft)',breach:'var(--red-soft)',soon:'var(--amber-soft)',ok:'var(--surface-2)'}[st.k];
-  return `<div class="clk"><div class="ci" style="background:${bg};color:${tone}">${icon}</div>
-   <div style="min-width:0"><div class="lb">${label}</div>
-     <div class="vl" style="color:${tone}">${st.t}${st.d?` · ${st.d}`:''}</div>
-     <div class="sb">${sub}</div></div></div>`;
 }
 
 /* ================= actions ================= */
@@ -1184,7 +1285,7 @@ function binds(root){root.querySelectorAll('[data-act]').forEach(el=>{const a=el
  else if(a==='simreply')el.onclick=()=>{const c=cur();
    c.closed=false;c.reopened=true;c.remind=false;c.hrs=0;c.sinceAction=0;c.openedHrs=Math.min(c.openedHrs,4);
    c.msgs.push({w:'them',t:'One more thing before we wrap up — can you confirm the final number?',tm:now()});
-   S.tab='CLOSURE';render();bot();toast('Chat reopened — now in Open session','info',I.reply);}
+   S.tab='OPEN';render();bot();toast('Chat reopened — now in Open session','info',I.reply);}
  else if(a==='clearremind')el.onclick=()=>{const c=cur();c.remind=false;if(isHolding(c))c.msgs.push({w:'sys',t:'Marked as not requiring further action',tm:now()});DAY.cleared++;render();toast('Moved to Open sessions — close it when done','info',I.check);};
  else if(a==='savet')el.onclick=()=>{const c=CHATS.find(x=>x.id===el.dataset.c),t=document.getElementById('tt').value.trim();if(!t){document.getElementById('tt').style.borderColor='var(--red)';return;}
    c.tasks.push({id:'t'+Date.now(),title:t,owner:'You',ownerId:'me',status:'OPEN',due:fd(document.getElementById('td').value),pri:document.querySelector('#tp .sb.on')?.dataset.v||'Medium'});close();render();toast('Task added · closure now blocked','',I.lock);}
@@ -1198,22 +1299,23 @@ try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pth
 
 function wire(){
  document.querySelectorAll('[data-nav]').forEach(e=>e.onclick=()=>{S.view=e.dataset.nav;render();});
- document.querySelectorAll('[data-role]').forEach(e=>e.onclick=()=>{S.role=e.dataset.role;S.view=S.role==='admin'?'adash':'dash';S.agent=null;S.from='';render();});
+ document.querySelectorAll('[data-role]').forEach(e=>e.onclick=()=>{S.role=e.dataset.role;S.view=S.role==='admin'?'adash':'dash';S.agent=null;render();});
  document.querySelectorAll('[data-agent]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();S.agent=e.dataset.agent;S.view='agent';render();});
  document.querySelectorAll('[data-adminhome]').forEach(e=>e.onclick=()=>{S.view='adash';S.agent=null;render();});
  const t=document.querySelector('[data-act="theme"]');if(t)t.onclick=theme;
- const LBL={FOLLOWUP:'Action pending',NEW:'New chats',CLOSURE:'Open session',ALL:'All chats',RISK:'At risk',UNANS:'Unanswered chats'};
  document.querySelectorAll('[data-allagents]').forEach(e=>e.onclick=()=>{S.view='agents';S.agent=null;render();});
- document.querySelectorAll('[data-goto]').forEach(e=>e.onclick=()=>{S.view='chat';S.tab=e.dataset.goto;S.from=LBL[e.dataset.goto]||'';S.q='';render();});
+ document.querySelectorAll('[data-goto]').forEach(e=>e.onclick=()=>{S.view='chat';S.tab=e.dataset.goto;S.q='';render();});
  document.querySelectorAll('[data-tasks]').forEach(e=>e.onclick=()=>{S.view='tasks';S.taskType='all';render();});
  document.querySelectorAll('[data-task]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();S.activeTask=e.dataset.task;S.view='tasks';render();});
  document.querySelectorAll('[data-ttype]').forEach(e=>e.onclick=()=>{S.taskType=e.dataset.ttype;S.activeTask=null;render();});
- document.querySelectorAll('[data-clearfrom]').forEach(e=>e.onclick=()=>{S.from='';render();});
  document.querySelectorAll('[data-join]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const m=MEETINGS.find(x=>x.id===e.dataset.join);toast(`Joining ${m.client} — ${m.type}`,'info',I.video);});
  document.querySelectorAll('[data-mom]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const m=MEETINGS.find(x=>x.id===e.dataset.mom);const c=CHATS.find(x=>x.id===m.chat);
    if(!c.tasks.some(t=>t.type==='MOM'&&t.status==='OPEN'))c.tasks.push({id:'t'+Date.now(),type:'MOM',title:`File MOM — ${m.type}`,owner:'You',ownerId:'me',status:'OPEN',due:'4 Sep 2026',pri:'Medium'});
    m.mom=true;render();toast('MOM task created — find it under Tasks','',I.check);});
- document.querySelectorAll('[data-open]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.open);S.active=c.id;S.view='chat';S.tab=statusOf(c);S.from='';render();});
+ document.querySelectorAll('[data-open]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.open);S.active=c.id;S.client=c.client;S.sess='all';S.view='chat';S.tab=c.closed?'ALL':(statusOf(c)==='FOLLOWUP'?'FOLLOWUP':'OPEN');render();});
+ document.querySelectorAll('[data-client]').forEach(e=>e.onclick=()=>{S.client=e.dataset.client;S.active=null;render();});
+ document.querySelectorAll('[data-sess]').forEach(e=>e.onclick=()=>{S.sess=e.dataset.sess;render();});
+ document.querySelectorAll('[data-sess-open]').forEach(e=>e.onclick=()=>{S.active=e.dataset.sessOpen;render();bot();});
  document.querySelectorAll('[data-chat]').forEach(e=>e.onclick=()=>{S.active=e.dataset.chat;render();bot();});
  document.querySelectorAll('[data-profile]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const c=CHATS.find(x=>x.id===e.dataset.profile);toast(`Opening ${c.client}'s profile`,'info',I.ext);});
  document.querySelectorAll('[data-copy]').forEach(e=>e.onclick=async ev=>{ev.stopPropagation();
@@ -1222,7 +1324,7 @@ function wire(){
    toast('Copied '+v,'',I.check);});
  document.querySelectorAll('[data-own]').forEach(e=>e.onclick=()=>{S.own=e.dataset.own;render();});
  const osel=document.getElementById('ownsel');if(osel)osel.onchange=e=>{S.own=e.target.value;render();};
- document.querySelectorAll('[data-tab]').forEach(e=>e.onclick=()=>{S.tab=e.dataset.tab;S.from='';render();});
+ document.querySelectorAll('[data-tab]').forEach(e=>e.onclick=()=>{S.tab=e.dataset.tab;render();});
  document.querySelectorAll('[data-tt]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();const[ci,ti]=e.dataset.tt.split(':');const c=CHATS.find(x=>x.id===ci),k=c.tasks.find(x=>x.id===ti);k.status=k.status==='OPEN'?'DONE':'OPEN';render();toast(k.status==='DONE'?'Task done':'Task reopened','',I.check);});
  const q=document.getElementById('q');if(q)q.oninput=e=>{S.q=e.target.value;const p=q.selectionStart;render();const n=document.getElementById('q');if(n){n.focus();n.setSelectionRange(p,p);}};
  const cm=document.getElementById('cmp');if(cm){const g=()=>{cm.style.height='auto';cm.style.height=Math.min(cm.scrollHeight,110)+'px';};cm.addEventListener('input',g);g();cm.onkeydown=ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();send();}};bot();}
