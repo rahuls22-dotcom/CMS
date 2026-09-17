@@ -551,7 +551,7 @@ let CHATS=[
   docs:[{n:'Salary slips (Q1)',s:'VERIFIED'}],history:[]},
 
  {id:'c8',title:'143(1) notice',client:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',advisorId:'me',advisor:'You',own:'secondary',coAdvisor:'Farah Sheikh',category:'Notice / Compliance',
-  closed:false,remind:false,hrs:40,openedHrs:44,frh:2,pings:0,burst:false,sinceAction:40,
+  closed:false,remind:false,hrs:8,openedHrs:38,frh:2,pings:0,burst:false,sinceAction:8,
   msgs:[{w:'them',t:"Got a 143(1) intimation, forwarding it now.",tm:'2 Sep, 2:00 PM'},
         {w:'me',t:"Thanks. To respond I'll also need last year's ITR-V and the demand notice PDF — could you upload both?",tm:'2 Sep, 4:15 PM'}],
   tasks:[{id:'t3',type:'MOM',title:'File MOM — notice review call',owner:'You',ownerId:'me',status:'OPEN',due:'5 Sep 2026',pri:'Low'}],
@@ -581,6 +581,26 @@ let CHATS=[
   msgs:[{w:'them',t:"Can we restructure my salary to reduce tax next year?",tm:'4 Sep, 9:00 AM'},
         {w:'me',t:"Yes — let's look at NPS and meal card components. Sharing options.",tm:'4 Sep, 10:00 AM'}],
   tasks:[],docs:[],history:[]},
+ {id:'h1',title:'80C planning',client:'Ananya Rao',email:'ananya.rao@gmail.com',phone:'+91 98330 77412',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+  closed:false,remind:false,hrs:2,openedHrs:5,sinceAction:2,frh:1,pings:0,burst:false,
+  msgs:[{w:'them',t:"Can I still add to my 80C this quarter?",tm:'4 Sep, 8:00 AM'},
+        {w:'me',t:"Yes — you have room. Sharing the options now.",tm:'4 Sep, 9:00 AM'}],tasks:[],docs:[],history:[]},
+ {id:'h2',title:'Form 16 query',client:'Rohan Mehta',email:'rohan.mehta@gmail.com',phone:'+91 99012 34455',tier:'Basic',advisorId:'me',advisor:'You',category:'General Query',
+  closed:false,remind:false,hrs:3,openedHrs:7,sinceAction:3,frh:1,pings:0,burst:false,
+  msgs:[{w:'them',t:"My employer issued a revised Form 16 — does that change anything?",tm:'4 Sep, 7:30 AM'},
+        {w:'me',t:"We'll file with the revised one. No action needed from you.",tm:'4 Sep, 8:30 AM'}],tasks:[],docs:[],history:[]},
+ {id:'h3',title:'Q2 instalment',client:'Kavya Nair',email:'kavya.nair@gmail.com',phone:'+91 97845 21093',tier:'Advanced',advisorId:'me',advisor:'You',category:'Advance Tax',
+  closed:false,remind:false,hrs:12,openedHrs:30,sinceAction:12,frh:2,pings:0,burst:false,
+  msgs:[{w:'them',t:"Reminder for my Q2 advance tax please.",tm:'3 Sep, 10:00 AM'},
+        {w:'me',t:"Noted — I'll send the computation before the 10th.",tm:'3 Sep, 12:00 PM'}],tasks:[],docs:[],history:[]},
+ {id:'h4',title:'Capital gains check',client:'Siddharth Jain',email:'siddharth.jain@gmail.com',phone:'+91 90221 66710',tier:'Elite',advisorId:'me',advisor:'You',category:'ITR Filing',
+  closed:false,remind:false,hrs:4,openedHrs:9,sinceAction:4,frh:1,pings:0,burst:false,
+  msgs:[{w:'them',t:"Sold a flat this year — what do you need from me?",tm:'4 Sep, 6:00 AM'},
+        {w:'me',t:"Sale deed and purchase cost. Sharing a checklist.",tm:'4 Sep, 7:00 AM'}],tasks:[],docs:[],history:[]},
+ {id:'h5',title:'Regime comparison',client:'Tara Menon',email:'tara.menon@gmail.com',phone:'+91 98676 40028',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
+  closed:false,remind:false,hrs:6,openedHrs:34,sinceAction:6,frh:2,pings:0,burst:false,
+  msgs:[{w:'them',t:"Old vs new regime for me this year?",tm:'3 Sep, 9:00 AM'},
+        {w:'me',t:"Ran both — new regime saves you about Rs 18,000. Details attached.",tm:'3 Sep, 11:00 AM'}],tasks:[],docs:[],history:[]},
  {id:'c9',title:'80C review',client:'Karan Bhatia',email:'karan.b@gmail.com',phone:'+91 98330 66201',tier:'Premium',advisorId:'me',advisor:'You',category:'Tax Planning',
   closed:false,remind:false,hrs:2,openedHrs:2,frh:1,pings:0,burst:false,sinceAction:2,reopened:true,
   msgs:[{w:'me',t:"All done — 80C fully utilised, you're optimised for the year.",tm:'28 Aug, 5:00 PM'},
@@ -1120,10 +1140,10 @@ function urow(u){
     <span class="rail" style="background:${pcol(u.rank)}"></span>
     <div class="av" style="background:${avc(u.name)}">${ini(u.name)}</div>
     <div class="cb">
-      <div class="r1"><span class="nm">${u.name}${sec?'<span class="owntag">2nd</span>':''}</span>
+      <div class="r1"><span class="nm">${u.name}${sec?'<span class="owntag">Secondary</span>':''}</span>
         <span class="rmeta">${u.unread?`<span class="unread">${u.unread}</span>`:''}</span></div>
-      <div class="pv">${t.email}</div>
-      <div class="r3"><span class="why">${u.ss.length} ${S.tab==='OPEN'?'open':S.tab==='FOLLOWUP'?'on me':'session'+(u.ss.length===1?'':'s')}</span></div>
+      <div class="pv">${prev(t)}</div>
+      <div class="r3"><span class="why">${t.email}</span></div>
     </div></div>`;
 }
 
@@ -1176,7 +1196,7 @@ function crow(c,p){
   return `<div class="crow ${c.id===S.active?'on':''}" data-chat="${c.id}"><span class="rail" style="background:${pcol(p.p)}"></span>
    <div class="av" style="background:${avc(c.client)}">${ini(c.client)}</div>
    <div class="cb">
-    <div class="r1"><span class="nm">${c.client}${ownOf(c)==='secondary'?'<span class="owntag">2nd</span>':''}</span><span class="rmeta">${unread(c)?`<span class="unread">${unread(c)}</span>`:''}<span class="tm">${ago(c.hrs)}</span></span></div>
+    <div class="r1"><span class="nm">${c.client}${ownOf(c)==='secondary'?'<span class="owntag">Secondary</span>':''}</span><span class="rmeta">${unread(c)?`<span class="unread">${unread(c)}</span>`:''}<span class="tm">${ago(c.hrs)}</span></span></div>
     <div class="pv">${prev(c)}</div>
     <div class="r3">${p.p<3?`<span class="prio p${p.p}">${p.label}</span>`:''}<span class="why">${p.why}</span>
      ${c.reopened?`<span class="rchip y">reopened</span>`:''}${needsMyAction(c)?`<span title="Needs your action">${I.bell2}</span>`:''}${blocked(c)?`<span title="Blocked by task">${I.lock}</span>`:''}</div>
