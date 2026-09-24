@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  color: var(--ink);
+  background: var(--page-bg);
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; font-size: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+a { color: var(--primary); text-decoration: none; }
+
+.eyebrow {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+h1 { font-size: 20px; font-weight: 700; color: var(--ink-3); margin: 2px 0 14px; }
+
+.page { padding: 18px 22px 40px; max-width: 1560px; margin: 0 auto; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 14px 18px;
+}
+.muted { color: var(--muted); }
+.row { display: flex; align-items: center; }
+.gap6 { gap: 6px; } .gap8 { gap: 8px; } .gap12 { gap: 12px; }
+.spacer { flex: 1; }
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
