@@ -58,42 +58,67 @@ interface Blueprint {
   inStage: number
 }
 
-/** Spread across every tab so each view has something to show, including the
- *  awkward cases: MoM pending, no-show, stuck, dropped mid-funnel, transacting. */
-const BLUEPRINTS: Blueprint[] = [
-  { stage: 1, status: 'New', inStage: 0 },
-  { stage: 1, status: 'New', inStage: 6 },
-  { stage: 1, status: 'Contacted', inStage: 2 },
-  { stage: 1, status: 'Contacted', inStage: 9 },
-  { stage: 1, status: 'Interested', inStage: 1 },
-  { stage: 2, status: 'Awaiting docs', inStage: 3 },
-  { stage: 2, status: 'Awaiting docs', inStage: 7 },
-  { stage: 2, status: 'Schedule meeting', inStage: 1 },
-  { stage: 2, status: 'Schedule meeting', inStage: 5 },
-  { stage: 3, status: 'Scheduled', inStage: 1 },
-  { stage: 3, status: 'Scheduled', inStage: 2 },
-  { stage: 3, status: 'Rescheduled', inStage: 4 },
-  { stage: 3, status: 'No-show', noshow: 1, inStage: 3 },
-  { stage: 3, status: 'No-show', noshow: 2, inStage: 8 },
-  { stage: 3, status: 'Completed', mom: false, inStage: 2 },
-  { stage: 3, status: 'Completed', mom: false, inStage: 6 },
-  { stage: 3, status: 'Skipped', inStage: 4 },
-  { stage: 4, status: 'KYC pending', inStage: 2 },
-  { stage: 4, status: 'KYC pending', inStage: 7 },
-  { stage: 4, status: '1st session scheduled', inStage: 1 },
-  { stage: 4, status: '1st session scheduled', inStage: 3 },
-  { stage: 4, status: 'Converted', mom: true, inStage: 5 },
-  { stage: 4, status: 'Converted', mom: true, inStage: 12 },
-  { stage: 4, status: 'Converted', mom: true, tx: 'With us', inStage: 20 },
-  { stage: 4, status: 'Converted', mom: true, tx: 'Both', inStage: 26 },
-  { stage: 4, status: 'Converted', mom: true, tx: 'With others', inStage: 30 },
-  { stage: 1, status: 'Dropped', droppedAt: 1, reason: 'Not interested', inStage: 11 },
-  { stage: 2, status: 'Dropped', droppedAt: 2, reason: 'Already has advisor', inStage: 14 },
-  { stage: 3, status: 'Dropped', droppedAt: 3, reason: 'Unreachable / no-show ×N', noshow: 3, inStage: 9 },
-  { stage: 4, status: 'Dropped', droppedAt: 4, reason: 'Pricing / fees', inStage: 16 },
-  { stage: 2, status: 'Awaiting docs', inStage: 12 },
-  { stage: 3, status: 'Scheduled', inStage: 6 },
+/** Distribution targets the prototype's admin funnel: 240 assigned, ~141 in
+ *  progress, 41 converted, 58 dropped. Deterministic — no randomness. */
+interface Blueprint {
+  stage: StageId
+  status: Status
+  noshow?: number
+  mom?: boolean
+  tx?: TxStatus
+  droppedAt?: StageId
+  reason?: Milestone['drop_reason']
+  inStage: number
+}
+
+const S1: Status[] = ['New', 'Contacted', 'Interested']
+const S2: Status[] = ['Awaiting docs', 'Schedule meeting']
+const S3: Status[] = ['Scheduled', 'Rescheduled', 'No-show', 'Completed', 'Skipped']
+const S4: Status[] = ['KYC pending', '1st session scheduled']
+const REASONS: NonNullable<Milestone['drop_reason']>[] = [
+  'Not interested', 'Already has advisor', 'Low investable surplus',
+  'Unreachable / no-show ×N', 'Pricing / fees', 'Trust / privacy concern', 'Timing — later',
 ]
+
+function buildBlueprints(): Blueprint[] {
+  const out: Blueprint[] = []
+  const age = (i: number, spread: number) => (i * 7) % spread
+
+  // Open funnel — 64 / 38 / 22 / 17 per the prototype's "clients per stage".
+  for (let i = 0; i < 64; i++) out.push({ stage: 1, status: at(S1, i), inStage: age(i, 11) })
+  for (let i = 0; i < 38; i++) out.push({ stage: 2, status: at(S2, i), inStage: age(i, 9) })
+  for (let i = 0; i < 22; i++) {
+    const st = at(S3, i)
+    out.push({
+      stage: 3, status: st, inStage: age(i, 8),
+      noshow: st === 'No-show' ? 1 + (i % 2) : 0,
+      mom: false,
+    })
+  }
+  for (let i = 0; i < 17; i++) out.push({ stage: 4, status: at(S4, i), inStage: age(i, 7) })
+
+  // Converted — 41, of which some are transacting.
+  for (let i = 0; i < 41; i++) {
+    const tx: TxStatus | undefined =
+      i % 4 === 0 ? 'With us' : i % 4 === 1 ? 'Both' : i % 7 === 3 ? 'With others' : undefined
+    out.push({ stage: 4, status: 'Converted', mom: true, tx, inStage: 5 + age(i, 28) })
+  }
+
+  // Dropped — 58, spread across stages 1-4 with the prototype's reason mix.
+  const dropStage: StageId[] = [1, 1, 2, 2, 3, 4]
+  for (let i = 0; i < 58; i++) {
+    const st = at(dropStage, i)
+    const reason = at(REASONS, i)
+    out.push({
+      stage: st, status: 'Dropped', droppedAt: st, reason,
+      noshow: reason === 'Unreachable / no-show ×N' ? 2 + (i % 2) : 0,
+      inStage: 6 + age(i, 24),
+    })
+  }
+  return out
+}
+
+const BLUEPRINTS: Blueprint[] = buildBlueprints()
 
 export interface SeedData {
   clients: Client[]

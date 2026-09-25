@@ -40,19 +40,28 @@ Flags are derived, never stored: `Dropped`, `Converted`, `MoM pending`, `No-show
 `Stuck Nd` (≥ 5 days in stage). Row tint follows the same derivation — red = RM action
 needed, amber = waiting, closed rows untinted.
 
+## Screens
+
+| Screen | Role | Status |
+|---|---|---|
+| RM dashboard — milestone strip, At risk, Upcoming wealth calls | RM | Built |
+| Advisor dashboard — Wealth calls, MoM pending | Advisor | Built |
+| Admin funnel — KPIs, per-stage bars, cohort conversion, drop-off, closed×stage | Admin | Built |
+| Client list | all | Built |
+| Client milestone page + right rail (Milestone / Chat / Documents / Meetings) | all | Built |
+| Update status · Mark as dropped · Add MoM | RM / Advisor | Built |
+
+Seeded with 240 milestones matching the prototype's funnel shape: 141 in progress,
+41 converted, 58 dropped, 64/38/22/17 across the open stages.
+
 ## Not built yet
 
-Phase 1 is the funnel core. Still to come, in handoff order:
-
-- RM dashboard (milestone strip, At risk, Upcoming wealth calls)
-- Advisor dashboard (Wealth calls, MoM pending cards)
-- Admin funnel dashboard (KPIs, per-stage bars, cohort conversion, drop-off by reason)
-- Client page right rail (Milestones / Chat / Documents / Meetings panels)
-- Book / Reschedule call dialog — currently a toast stub
-- Call Booking Flow (the second feature in the handoff)
-
-The Chat drawer and Schedule dialog are marked placeholder in the handoff pending final
-designs, so their entry points are wired but stubbed.
+- **Book / Reschedule call dialog** — books with a fixed slot; no date/advisor picker
+  (placeholder in the handoff pending final designs)
+- **Call Booking Flow** — the handoff's second feature, untouched
+- **Prototype "simulate" panel** — package activation / re-activation / reset
+- Admin period filters (Week / Month / Quarter / Custom) are rendered but do not yet
+  filter, since every milestone shares one seeded cohort
 
 ## Deviations from the handoff
 

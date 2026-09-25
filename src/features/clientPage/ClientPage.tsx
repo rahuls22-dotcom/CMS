@@ -11,6 +11,7 @@ import type { Milestone, StageId } from '../../domain/types'
 import { UpdateStatusDialog } from '../dialogs/UpdateStatusDialog'
 import { DropDialog } from '../dialogs/DropDialog'
 import { MoMDialog } from '../dialogs/MoMDialog'
+import { RightRail } from './RightRail'
 
 type Dialog = 'status' | 'drop' | 'mom' | null
 
@@ -163,7 +164,8 @@ export function ClientPage() {
   }
 
   return (
-    <div className="page">
+    <div style={{ display: 'flex', alignItems: 'stretch', minHeight: 'calc(100vh - 44px)' }}>
+    <div className="page" style={{ flex: 1, minWidth: 0 }}>
       <div className="row gap12" style={{ marginBottom: 10, flexWrap: 'wrap' }}>
         <button className="btn" onClick={() => navigate('/clients')}>← Back</button>
         <span style={{ fontSize: 17, fontWeight: 700 }}>{client.name}</span>
@@ -256,6 +258,8 @@ export function ClientPage() {
       {dialog === 'mom' ? (
         <MoMDialog milestone={m} clientName={client.name} onClose={() => setDialog(null)} />
       ) : null}
+    </div>
+    <RightRail milestone={m} client={client} onBook={bookCall} />
     </div>
   )
 }

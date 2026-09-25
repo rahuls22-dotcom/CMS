@@ -127,5 +127,12 @@ export function nextActionFor(m: Milestone): string {
   return NEXT_ACTION[m.status] ?? '—'
 }
 
-/** At risk = RM action needed now (red tint), used by the dashboard card. */
-export const isAtRisk = (m: Milestone, now = new Date()) => rowTint(m, now) === 'red'
+/** At risk = the client is actually stuck, not merely early in the funnel:
+ *  a Stuck/No-show/MoM pending flag. Matches the prototype's At risk card,
+ *  where every row carries one of those tags. */
+export function isAtRisk(m: Milestone, now = new Date()): boolean {
+  if (isClosed(m)) return false
+  return flagsFor(m, now).some(
+    (f) => f.kind === 'Stuck' || f.kind === 'No-show' || f.kind === 'MoM pending',
+  )
+}

@@ -2,6 +2,7 @@ import { useMemo, useReducer } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useToasts } from './components/ui'
 import { ClientList } from './features/clientList/ClientList'
+import { Dashboard } from './features/dashboard/Dashboard'
 import { ClientPage } from './features/clientPage/ClientPage'
 import { TopBar } from './layout/TopBar'
 import { ACTOR_NAMES, StoreContext, reducer, type AppState } from './domain/store'
@@ -28,7 +29,7 @@ export default function App() {
     <StoreContext.Provider value={value}>
       <TopBar />
       <Routes>
-        <Route path="/" element={<Navigate to="/clients" replace />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/clients" element={<ClientList />} />
         <Route path="/clients/:id" element={<ClientPage />} />
         <Route path="*" element={<Navigate to="/clients" replace />} />
