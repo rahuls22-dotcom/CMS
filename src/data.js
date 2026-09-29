@@ -15,6 +15,12 @@ const USERS=[
  {id:'u6',secondaryId:'a1',name:'Aditya Sharma',email:'aditya.s@gmail.com',phone:'+91 98111 62240',tier:'Basic',plan:'ITR Filing',city:'Delhi',advisorId:'a4',rmId:'r2',joined:'4 Sep 2026',status:'Onboarding'},
  {id:'u7',secondaryId:'a3',name:'Sana Kapoor',email:'sana.k@gmail.com',phone:'+91 90040 18876',tier:'Basic',plan:'ITR Filing',city:'Hyderabad',advisorId:'a2',rmId:'r1',joined:'15 May 2025',status:'Active'},
  {id:'u8',secondaryId:'a4',name:'Meera Iyer',email:'meera.iyer@gmail.com',phone:'+91 99870 45590',tier:'Advanced',plan:'Notice / Compliance',city:'Chennai',advisorId:'a3',rmId:'r2',joined:'2 Nov 2024',status:'Inactive'},
+ {id:'u9',secondaryId:'a1',name:'Karan Malhotra',email:'karan.m@gmail.com',phone:'+91 98330 21447',tier:'Premium',plan:'Tax Planning',city:'Kolkata',advisorId:'a5',rmId:'r1',joined:'21 Jul 2025',status:'Active'},
+ {id:'u10',secondaryId:'a7',name:'Ritu Bansal',email:'ritu.bansal@gmail.com',phone:'+91 99020 87765',tier:'Elite',plan:'Wealth + Tax',city:'Gurugram',advisorId:'a6',rmId:'r2',joined:'9 Aug 2025',status:'Active'},
+ {id:'u11',secondaryId:'a6',name:'Devansh Patel',email:'devansh.p@gmail.com',phone:'+91 97250 33019',tier:'Advanced',plan:'Advance Tax',city:'Surat',advisorId:'a7',rmId:'r1',joined:'2 Feb 2026',status:'Active'},
+ {id:'u12',secondaryId:'a9',name:'Lakshmi Prasad',email:'lakshmi.p@gmail.com',phone:'+91 90320 55178',tier:'Basic',plan:'ITR Filing',city:'Kochi',advisorId:'a8',rmId:'r2',joined:'14 Jun 2025',status:'Active'},
+ {id:'u13',secondaryId:'a8',name:'Tanvi Deshpande',email:'tanvi.d@gmail.com',phone:'+91 98904 11236',tier:'Premium',plan:'Notice / Compliance',city:'Nagpur',advisorId:'a9',rmId:'r1',joined:'30 Mar 2025',status:'Active'},
+ {id:'u14',secondaryId:'a5',name:'Zoya Khan',email:'zoya.khan@gmail.com',phone:'+91 99671 40082',tier:'Elite',plan:'Wealth + Tax',city:'Mumbai',advisorId:'w1',rmId:'r2',joined:'17 Oct 2025',status:'Active'},
 ];
 /* Internal directory — everyone here has a Workspace calendar */
 const STAFF=[
@@ -26,6 +32,11 @@ const STAFF=[
  {id:'r1',name:'Kishan Patel',role:'Relationship Manager',email:'kishan.patel@prosperr.io'},
  {id:'r2',name:'Divya Menon',role:'Relationship Manager',email:'divya.menon@prosperr.io'},
  {id:'t1',name:'Sameer Joshi',role:'Tax Specialist · Notices',email:'sameer.joshi@prosperr.io'},
+ {id:'a5',name:'Ananya Iyer',role:'Tax Advisor',email:'ananya.iyer@prosperr.io'},
+ {id:'a6',name:'Rohan Bhat',role:'Wealth Advisor',email:'rohan.bhat@prosperr.io'},
+ {id:'a7',name:'Aayush Sharma',role:'Tax Advisor',email:'aayush.sharma@prosperr.io'},
+ {id:'a8',name:'Abhyudaya Dixit',role:'Tax Advisor',email:'abhyudaya.dixit@prosperr.io'},
+ {id:'a9',name:'Divya Nair',role:'Tax Advisor',email:'divya.nair@prosperr.io'},
 ];
 const DOMAIN='prosperr.io';
 const FIREFLIES={id:'ff',name:'Fireflies Notetaker',role:'Records & summarises',email:'fred@fireflies.ai'};

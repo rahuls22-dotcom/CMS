@@ -9,8 +9,11 @@
 <script src="vendor/react-dom.development.js"></script>
 <script src="vendor/babel.min.js"></script>
 <script>window.__APP__='booking';window.__bookingMounted=window.__bookingMounted2=true;</script>
-<script src="src/data.js"></script>
+<!-- prosperr-ds.js carries a compiled copy of the whole app, data.js included, and
+     assigns window.BK at the end of it. Load the real data.js AFTER it so edits to
+     the source of truth are not silently overwritten by that copy. -->
 <script src="src/ds/prosperr-ds.js"></script>
+<script src="src/data.js"></script>
 </head><body data-app="booking"><div id="root"></div>
 
 <script type="text/babel" src="src/lib/tweaks-panel.jsx"></script>

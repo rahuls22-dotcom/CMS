@@ -23,6 +23,17 @@ function BookingApp(){
   /* The team board unmounts while the invite is reviewed. An RM books dozens in a
      sitting, so the advisors they picked and the day they were on live up here. */
   const team=React.useState({ids:[],date:B.TODAY,offset:0});
+  const [teamMenu,setTeamMenu]=React.useState(false);
+  const [teamItem,setTeamItem]=React.useState('Schedule Meetings');
+  const [menuX,setMenuX]=React.useState(236);
+  /* The menu hangs off the Team link in the top bar, so measure where that is
+     rather than hard-coding an offset that breaks when the nav changes. */
+  const toggleTeamMenu=()=>{
+    const a=Array.from(document.querySelectorAll('.pc-nav a')).find(el=>el.textContent.trim()==='Team');
+    if(a)setMenuX(Math.round(a.getBoundingClientRect().left));
+    setTeamMenu(v=>!v);
+  };
+  const goTeam=item=>{setTeamItem(item);setNav('Team');setTeamMenu(false);setUserId(null);setDraft(null);setFromTeam(false);setMode('list');};
   const [appts,setAppts]=React.useState(B.APPTS);
   const [toasts,setToasts]=React.useState([]);
   const toast=(m,tone,icon)=>{const id=Math.random();setToasts(x=>[...x,{id,m,tone,icon}]);setTimeout(()=>setToasts(x=>x.filter(y=>y.id!==id)),3400);};
@@ -54,7 +65,7 @@ function BookingApp(){
           <Crumbs items={[{label:'Team',onClick:leaveTeamDraft},{label:'Review invite'}]}/>
           <EmailDraft draft={draft} u={u} onSend={created} onBack={leaveTeamDraft}/>
         </React.Fragment>
-      : <TeamSection appts={appts} tweaks={t} toast={toast} onQuickBook={quickBook} team={team}/>;
+      : <TeamSection item={teamItem} appts={appts} tweaks={t} toast={toast} onQuickBook={quickBook} team={team}/>;
   }
   else if(nav!=='Users')body=<Card><EmptyState>{nav} isn't part of this prototype. Start from <b>Users</b> in the top bar.</EmptyState></Card>;
   else if(!u)body=<UsersList onOpen={openUser}/>;
@@ -75,9 +86,14 @@ function BookingApp(){
     } else inner=<Card><EmptyState>{section} isn't part of this prototype.</EmptyState></Card>;
     body=<UserPage u={u} section={section} setSection={setSec} crumbs={crumbs} toast={toast}>{inner}</UserPage>;
   }
-  const links=['Dashboard','Users','Team','Chat','Tasks','Sales','Coins & Refer'].map(l=>({label:l,active:nav===l,onClick:()=>{setNav(l);if(l==='Users')goUsers();else{setUserId(null);setDraft(null);setFromTeam(false);setMode('list');}}}));
+  const links=['Dashboard','Users','Team','Chat','Tasks','Sales','Coins & Refer'].map(l=>({
+    label:l,active:nav===l,
+    onClick:l==='Team'?toggleTeamMenu
+      :()=>{setNav(l);setTeamMenu(false);if(l==='Users')goUsers();else{setUserId(null);setDraft(null);setFromTeam(false);setMode('list');}},
+  }));
   return <div className="app">
     <TopBar links={links} fy="F.Y. 2026-27" right={<><span className="pc-fy" style={{gap:8}}>TAX_ADMIN</span><IconButton icon="bell" label="Notifications"/><MeBadge initials="RS"/></>}/>
+    {teamMenu&&<TeamMenu x={menuX} item={teamItem} onPick={goTeam} onClose={()=>setTeamMenu(false)}/>}
     <div className="main">{body}</div>
     <ToastStack>{toasts.map(x=><Toast key={x.id} tone={x.tone||'default'} icon={x.icon}>{x.m}</Toast>)}</ToastStack>
     <TweaksPanel>
