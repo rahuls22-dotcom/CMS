@@ -4,7 +4,7 @@ const NS=window.ProsperrAdvisorConsoleDS_c294ad;
 const {Card,Avatar,Tag,Button,Icon,Field,Input}=NS;
 const B=window.BK;
 const isInternal=email=>email.toLowerCase().endsWith('@'+B.DOMAIN);
-const DUR_BY_TYPE={'General Query':15,'ITR Filing':30,'Tax Planning':15,'Advance Tax':30,'Notice / Compliance':45,'Wealth Review':45};
+/* Defaults live in data.js so this screen and Schedule meetings agree. */
 const isWeekend=d=>{const w=new Date(d+'T00:00:00').getDay();return w===0||w===6;};
 
 function BookCall({u,appts,tweaks,reschedule,onCreated,onBack,toast}){
@@ -17,7 +17,7 @@ function BookCall({u,appts,tweaks,reschedule,onCreated,onBack,toast}){
     ...(withSec&&sec&&sec.id!==advId?[{...sec,kind:'staff',hasCalendar:true,secondary:true}]:[]),...extras.filter(p=>p.id!==advId&&!(withSec&&sec&&p.id===sec.id))],[u,adv,withSec,sec,extras,advId]);
   const setPeople=list=>setExtras(list.filter(p=>!p.locked&&!p.secondary));
   const [type,setType]=React.useState(reschedule?reschedule.type:'ITR Filing');
-  const [dur,setDur]=React.useState(reschedule?reschedule.dur:DUR_BY_TYPE['ITR Filing']);
+  const [dur,setDur]=React.useState(reschedule?reschedule.dur:B.durFor('ITR Filing'));
   const [date,setDate]=React.useState(reschedule?reschedule.date:'');
   const [sel,setSel]=React.useState(null);
   const [q,setQ]=React.useState('');const [open,setOpen]=React.useState(false);const [err,setErr]=React.useState('');
@@ -28,7 +28,7 @@ function BookCall({u,appts,tweaks,reschedule,onCreated,onBack,toast}){
   const taken=appts.filter(a=>a.status==='Scheduled'&&(!reschedule||a.id!==reschedule.id)).concat(extraTaken);
   const setDurKeep=d=>{setDur(d);};
   React.useEffect(()=>{setSel(null);},[people.length,date]);
-  const changeType=t=>{setType(t);setDur(DUR_BY_TYPE[t]||30);};
+  const changeType=t=>{setType(t);setDur(B.durFor(t));};
   const dateOk=date&&date>=B.TODAY;
   const dateErr=!date?'':date<B.TODAY?'Pick today or a later date':'';
   const avail=B.STAFF.filter(x=>!people.some(p=>p.id===x.id)&&q&&(x.name+x.role+x.email).toLowerCase().includes(q.toLowerCase()));

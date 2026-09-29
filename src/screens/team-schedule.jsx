@@ -80,7 +80,6 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
   const setOffset=fn=>setT(v=>({...v,offset:typeof fn==='function'?fn(v.offset):fn}));
 
   const [ctype,setCtype]=React.useState('');
-  const [agenda,setAgenda]=React.useState('');
   const [durOverride,setDurOverride]=React.useState(null);
   const [editingDur,setEditingDur]=React.useState(false);
   const [q,setQ]=React.useState('');
@@ -88,10 +87,9 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
   const [pick,setPick]=React.useState(null);       // {advisor,start,end}
   const [blocked,setBlocked]=React.useState(null); // {advisor,block}
 
-  const agendaList=B.AGENDAS[ctype]||[];
-  const agendaDef=agendaList.find(a=>a.label===agenda);
-  const dur=durOverride!=null?durOverride:(agendaDef?agendaDef.dur:30);
-  const ready=!!ctype&&!!agenda;                 // nothing is sized until this is set
+  /* The consultation type is the agenda: choosing it is what sizes the slots. */
+  const dur=durOverride!=null?durOverride:B.durFor(ctype);
+  const ready=!!ctype;                           // nothing is sized until this is set
 
   const days=B.weekDays(offset);
   const shown=ADVISORS.filter(a=>ids.includes(a.id));
@@ -158,22 +156,15 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
     <Card className="ucard">
       <div className="adder" style={{borderTop:0,background:'var(--surface)'}}>
         <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'flex-end'}}>
-          <label style={{display:'grid',gap:4,minWidth:190}}>
+          <label style={{display:'grid',gap:4,minWidth:260}}>
             <span className="lbl">Consultation type</span>
             <Input as="select" value={ctype} onChange={e=>{
-              setCtype(e.target.value);setAgenda('');setDurOverride(null);setEditingDur(false);
+              setCtype(e.target.value);setDurOverride(null);setEditingDur(false);
             }}>
               <option value="">Select a type…</option>
-              {B.CONSULT_TYPES.map(x=><option key={x}>{x}</option>)}
-            </Input>
-          </label>
-
-          <label style={{display:'grid',gap:4,minWidth:280}}>
-            <span className="lbl">Agenda</span>
-            <Input as="select" value={agenda} disabled={!ctype}
-              onChange={e=>{setAgenda(e.target.value);setDurOverride(null);setEditingDur(false);}}>
-              <option value="">{ctype?'Select an agenda…':'Pick a type first'}</option>
-              {agendaList.map(a=><option key={a.label} value={a.label}>{a.label} · {a.dur} min</option>)}
+              {/* Explicit value: the label carries the default length, but the value must stay
+                  the bare type or durFor() cannot look it up. */}
+              {B.CONSULT_TYPES.map(x=><option key={x} value={x}>{x} &middot; {B.durFor(x)} min</option>)}
             </Input>
           </label>
 
@@ -186,8 +177,8 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
                   {B.DURATIONS.map(m=><option key={m} value={m}>{m} minutes</option>)}
                 </Input>
               : <div className="locked" style={{padding:'8px 10px',justifyContent:'space-between'}}>
-                  {/* Until an agenda is chosen there is no length to state — naming one
-                      would contradict the hint beside it that the agenda decides it. */}
+                  {/* Until a type is chosen there is no length to state — naming one
+                      would contradict the hint beside it that the type decides it. */}
                   <span style={{fontWeight:600,fontSize:12.5,color:ready?'inherit':'var(--ink-3)'}}>
                     {ready?dur+' minutes':'—'}</span>
                   <button type="button" onClick={()=>ready&&setEditingDur(true)} disabled={!ready}
@@ -200,7 +191,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
           <span style={{flex:1,minWidth:180,fontSize:11.5,color:'var(--ink-3)',paddingBottom:9}}>
             {!ready?'Slots are sized to the call, so this comes first.'
               :durOverride!=null?'Custom length for this booking.'
-              :'Default for this agenda.'}
+              :'Default for this type.'}
           </span>
         </div>
       </div>
@@ -224,7 +215,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
         <div style={{padding:'10px 12px',display:'grid',gap:8,borderBottom:'1px solid var(--border)'}}>
           <SearchInput value={q} onChange={setQ} placeholder="Search advisors"/>
           {!ready&&<div style={{fontSize:11.5,color:'var(--ink-3)',lineHeight:1.5}}>
-            Choose the call type and agenda above, then pick who it is with.
+            Choose the call type above, then pick who it is with.
           </div>}
           <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
             {['All','Tax','Wealth','Open'].map(f=><button key={f} type="button" onClick={()=>setFilter(f)}
@@ -288,7 +279,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
           </div>
 
           {!ready
-            ? <EmptyState>Choose what kind of call this is. Slot lengths follow the agenda.</EmptyState>
+            ? <EmptyState>Choose what kind of call this is. Slot lengths follow the type.</EmptyState>
             : !shown.length
             ? <EmptyState>Tick an advisor on the left. Columns appear here as you do.</EmptyState>
             : <React.Fragment>
@@ -351,7 +342,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
     {blocked&&<BusyNote blocked={blocked} date={date} next={nextFree(blocked.advisor.id)}
       onClose={()=>setBlocked(null)} onGo={d=>{setDate(d);setBlocked(null);}}/>}
 
-    {pick&&<PickClient pick={pick} date={date} ctype={ctype} agenda={agenda} tweaks={tweaks}
+    {pick&&<PickClient pick={pick} date={date} ctype={ctype} tweaks={tweaks}
       onClose={()=>setPick(null)} onBook={onQuickBook}/>}
   </div>;
 }
@@ -379,7 +370,7 @@ function BusyNote({blocked,date,next,onClose,onGo}){
    question is who the call is for. */
 const SHOW=8;
 
-function PickClient({pick,date,ctype,agenda,tweaks,onClose,onBook}){
+function PickClient({pick,date,ctype,tweaks,onClose,onBook}){
   const {advisor,start,end}=pick;
   const dur=end-start;
   const mine=React.useMemo(()=>clientsOf(advisor.id),[advisor.id]);
@@ -405,7 +396,7 @@ function PickClient({pick,date,ctype,agenda,tweaks,onClose,onBook}){
       {id:client.id,name:client.name,email:client.email,kind:'client',hasCalendar:false,locked:true},
       {...advisor,kind:'staff',hasCalendar:true},
     ];
-    onBook({date,start,dur,type:ctype,agenda,fireflies:!!(tweaks&&tweaks.firefliesDefault),
+    onBook({date,start,dur,type:ctype,agenda:ctype,fireflies:!!(tweaks&&tweaks.firefliesDefault),
       peopleObjs:people,external:people.some(p=>!isInternal(p.email))},client);
   };
 
@@ -416,7 +407,7 @@ function PickClient({pick,date,ctype,agenda,tweaks,onClose,onBook}){
       <Button onClick={submit} disabled={!client}>{client?'Review invite':'Choose a client'}</Button>
     </React.Fragment>}>
 
-    <Note icon={<Icon name="cal" size={14}/>}>{ctype} &middot; {agenda} &middot; {dur} min</Note>
+    <Note icon={<Icon name="cal" size={14}/>}>{ctype} &middot; {dur} min</Note>
 
     {client
       ? <div className="locked" style={{marginTop:12}}>

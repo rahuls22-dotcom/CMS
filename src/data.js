@@ -81,16 +81,19 @@ const DOMAIN='prosperr.io';
 const FIREFLIES={id:'ff',name:'Fireflies Notetaker',role:'Records & summarises',email:'fred@fireflies.ai'};
 const CONSULT_TYPES=['General Query','ITR Filing','Tax Planning','Advance Tax','Notice / Compliance','Wealth Review'];
 
-/* What the call is for decides how long it needs. Each agenda carries its own default
-   length; the booker can still override it per booking. */
-const AGENDAS={
- 'General Query':[{label:'Quick clarification',dur:15},{label:'Clarify a tax notice',dur:30},{label:'Portal or account help',dur:30}],
- 'ITR Filing':[{label:'Collect documents for filing',dur:30},{label:'Review draft ITR before submission',dur:45},{label:'Post-filing verification',dur:15}],
- 'Tax Planning':[{label:'Old vs new regime comparison',dur:45},{label:'Plan investments for the year',dur:45},{label:'Quick check-in',dur:15}],
- 'Advance Tax':[{label:'Quarterly instalment review',dur:30},{label:'Recompute after an income change',dur:45}],
- 'Notice / Compliance':[{label:'Read the notice together',dur:45},{label:'Draft the response',dur:60},{label:'Status update',dur:15}],
- 'Wealth Review':[{label:'Full portfolio review',dur:60},{label:'Goal check-in',dur:45},{label:'Rebalance discussion',dur:30}],
+/* The consultation type IS the agenda — it says what the call is for, and what it is
+   for decides how long it needs. One map, shared by both booking flows, so the
+   client-first and advisor-first screens can never quote different defaults for the
+   same kind of call. The booker can still override the length per booking. */
+const DUR_BY_TYPE={
+ 'General Query':15,
+ 'ITR Filing':30,
+ 'Tax Planning':45,
+ 'Advance Tax':30,
+ 'Notice / Compliance':30,
+ 'Wealth Review':30,
 };
+const durFor=t=>DUR_BY_TYPE[t]||30;
 const DURATIONS=[15,30,45,60,90];
 
 /* Deterministic busy blocks per person per date: [startMin,endMin] */
@@ -154,5 +157,5 @@ const APPTS=[
  {id:'ap2',userId:'u1',date:'2026-08-28',start:16*60,dur:45,type:'Tax Planning',status:'Completed',people:['a1'],summary:true},
  {id:'ap3',userId:'u1',date:'2026-08-02',start:10*60+30,dur:30,type:'General Query',status:'Cancelled',people:['a1'],summary:false},
 ];
-window.BK={TODAY,NOW_MIN,DAY_START,DAY_END,PICK_START,PICK_END,isWorkDay,GRID_START,GRID_END,USERS,STAFF,DOMAIN,FIREFLIES,CONSULT_TYPES,AGENDAS,DURATIONS,APPTS,busyFor,freeSlots,freeWindows,weekDays,fmtT,fmt24,fmtD,overlaps};
+window.BK={TODAY,NOW_MIN,DAY_START,DAY_END,PICK_START,PICK_END,isWorkDay,GRID_START,GRID_END,USERS,STAFF,DOMAIN,FIREFLIES,CONSULT_TYPES,DUR_BY_TYPE,durFor,DURATIONS,APPTS,busyFor,freeSlots,freeWindows,weekDays,fmtT,fmt24,fmtD,overlaps};
 })();
