@@ -6,7 +6,7 @@ const NS=window.ProsperrAdvisorConsoleDS_c294ad;
 const {Card,Avatar,Button,Icon,Field,Input,Modal,SearchInput,EmptyState,Note,Tag,TierChip}=NS;
 const B=window.BK;
 
-const TEAM_MENU=['Onboard Advisors','Manage Advisors','Bulk Advisor Assignment','CSR Assignment','CSR Auto Assignment','Time Slot Config'];
+const TEAM_MENU=['Schedule Meetings','Onboard Advisors','Manage Advisors','Bulk Advisor Assignment','CSR Assignment','CSR Auto Assignment','Time Slot Config'];
 const ADVISORS=B.STAFF.filter(s=>/Advisor/.test(s.role));
 const isInternal=e=>e.toLowerCase().endsWith('@'+B.DOMAIN);
 
@@ -48,27 +48,14 @@ function configSlots(id,date){
 function TeamMenu({x,item,onPick,onClose}){
   return <React.Fragment>
     <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:60}}/>
-    <div style={{position:'fixed',top:52,left:x,zIndex:61,width:312,background:'var(--surface)',
-      border:'1px solid var(--border)',borderRadius:12,boxShadow:'0 14px 40px rgba(20,26,45,.18)',overflow:'hidden'}}>
-      <button type="button" onClick={()=>onPick('Schedule Meetings')}
-        style={{display:'flex',alignItems:'center',gap:12,width:'100%',padding:'13px 15px',border:0,
-          borderBottom:'1px solid var(--tint-2)',background:item==='Schedule Meetings'?'var(--tint)':'var(--surface)',
-          font:'inherit',textAlign:'left',cursor:'pointer'}}>
-        <span style={{width:32,height:32,flex:'none',borderRadius:9,background:'var(--navy)',display:'grid',placeItems:'center'}}>
-          <Icon name="cal" size={17} color="#fff"/>
-        </span>
-        <span style={{flex:1}}>
-          <span style={{display:'block',fontSize:14,fontWeight:700,color:'var(--navy-deep)'}}>Schedule Meetings</span>
-          <span style={{display:'block',fontSize:12,color:'var(--ink-2)',marginTop:1}}>Book calls across advisors</span>
-        </span>
-        <Icon name="plus" size={14} color="var(--navy)"/>
-      </button>
-      <div style={{padding:'11px 15px 5px',fontSize:10.5,fontWeight:700,letterSpacing:'.08em',
-        textTransform:'uppercase',color:'var(--ink-3)'}}>Set up the team</div>
+    <div style={{position:'fixed',top:52,left:x,zIndex:61,width:268,background:'var(--surface)',
+      border:'1px solid var(--border)',borderRadius:12,boxShadow:'0 14px 40px rgba(20,26,45,.18)',
+      overflow:'hidden',padding:'6px 0'}}>
       {TEAM_MENU.map(m=><button key={m} type="button" onClick={()=>onPick(m)}
-        style={{display:'block',width:'100%',padding:'9px 15px',border:0,background:item===m?'var(--tint)':'none',
-          font:'inherit',fontSize:13.5,color:'var(--ink)',textAlign:'left',cursor:'pointer'}}>{m}</button>)}
-      <div style={{height:8}}/>
+        style={{display:'block',width:'100%',padding:'10px 16px',border:0,
+          background:item===m?'var(--tint)':'none',font:'inherit',fontSize:13.5,
+          fontWeight:item===m?600:400,color:item===m?'var(--navy-deep)':'var(--ink)',
+          textAlign:'left',cursor:'pointer'}}>{m}</button>)}
     </div>
   </React.Fragment>;
 }
@@ -225,7 +212,9 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
                   onClick={()=>works&&setDate(d)} disabled={!works}>
                   <div className="w">{B.fmtD(d,{weekday:'short',day:undefined,month:undefined})}</div>
                   <div className="d">{new Date(d+'T12:00:00+05:30').getDate()}</div>
-                  <div className={'c '+(n?'some':'none')}>{works?(n?n+' open':'none'):'off'}</div>
+                  <div className={'c '+(n?'some':'none')}>
+                    {!shown.length?'\u2014':works?(n?n+' open':'none'):'off'}
+                  </div>
                 </button>;
               })}
             </div>
