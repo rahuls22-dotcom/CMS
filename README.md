@@ -4,9 +4,10 @@ Call booking for the Prosperr CMS, from two directions:
 
 - **Client-first** — Users → a client → Manage Appointment. The client is
   fixed and you look for a time that works for everyone on the invite.
-- **Advisor-first** — Team. The advisors are fixed and the client changes,
-  which is what an RM working down a call list actually needs. Every advisor's
-  day sits side by side; pick an open slot and choose who it's for.
+- **Advisor-first** — Team ▸ Schedule Meetings. The advisors are fixed and the
+  client changes, which is what an RM working down a call list actually needs.
+  Choose one or several advisors, read their days side by side, pick an open
+  slot, and choose which of *that advisor's* clients it's for.
 
 Both end in the same place: review the invite email, send it, and the
 appointment appears on the client's record either way.
@@ -42,7 +43,7 @@ src/
   screens/users.jsx               users list + user record
   components/time-picker.jsx      typeable 15-minute time field
   screens/book-a-call.jsx         the booking screen (client-first)
-  screens/team-schedule.jsx       every advisor's day side by side (advisor-first)
+  screens/team-schedule.jsx       Team section: rail, advisor picker, day columns
   screens/email-draft.jsx         email review, shown before the invite goes out
   screens/confirmation.jsx        confirmation, reschedule, cancel
   app.jsx                         shell, routing, toasts
@@ -65,10 +66,29 @@ demonstrating; delete both when the screens talk to a real API.
 **The data is in-memory.** `src/data.js` pins today to 2026-09-23 and holds
 every client, advisor and appointment. Nothing persists across a refresh.
 
-## The Team screen
+## The Team section
 
 `screens/team-schedule.jsx` was added after the unpack; everything else is the
 design as published.
+
+It carries the Team rail — Schedule Meetings first, then Onboard Advisors,
+Manage Advisors, Bulk Advisor Assignment, CSR Assignment, CSR Auto Assignment
+and Time Slot Config, which are placeholders.
+
+**Slots come from each advisor's Time Slot Config**, not from one global
+working day: `SLOT_CONFIG` gives every advisor their own weekdays, From/To and
+slot length + gap, so the clear band in a column is that advisor's bookable
+window and everything outside it is hatched. The config lives in this file
+rather than `data.js` so the client-first screen keeps the availability rules
+it was designed with.
+
+**The client list is scoped to the advisor you clicked.** Their assigned
+clients come first, tagged primary or secondary, with "Show all clients" as
+the way out. An advisor with nobody assigned says so.
+
+**The advisor selection survives a booking.** It lives in `app.jsx` rather than
+in the screen, because the board unmounts while the invite is reviewed and an
+RM books dozens in a sitting.
 
 It reuses what was already there rather than inventing a second way of doing
 things. `B.freeSlots` is called once per advisor instead of once for the whole

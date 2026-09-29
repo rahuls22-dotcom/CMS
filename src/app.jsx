@@ -20,6 +20,9 @@ function BookingApp(){
   const [apptId,setApptId]=React.useState(null);
   const [resched,setResched]=React.useState(null);
   const [fromTeam,setFromTeam]=React.useState(false);   // the draft came from the team board
+  /* The team board unmounts while the invite is reviewed. An RM books dozens in a
+     sitting, so the advisors they picked and the day they were on live up here. */
+  const team=React.useState({ids:[],date:B.TODAY,offset:0});
   const [appts,setAppts]=React.useState(B.APPTS);
   const [toasts,setToasts]=React.useState([]);
   const toast=(m,tone,icon)=>{const id=Math.random();setToasts(x=>[...x,{id,m,tone,icon}]);setTimeout(()=>setToasts(x=>x.filter(y=>y.id!==id)),3400);};
@@ -51,7 +54,7 @@ function BookingApp(){
           <Crumbs items={[{label:'Team',onClick:leaveTeamDraft},{label:'Review invite'}]}/>
           <EmailDraft draft={draft} u={u} onSend={created} onBack={leaveTeamDraft}/>
         </React.Fragment>
-      : <TeamSchedule appts={appts} tweaks={t} toast={toast} onQuickBook={quickBook}/>;
+      : <TeamSection appts={appts} tweaks={t} toast={toast} onQuickBook={quickBook} team={team}/>;
   }
   else if(nav!=='Users')body=<Card><EmptyState>{nav} isn't part of this prototype. Start from <b>Users</b> in the top bar.</EmptyState></Card>;
   else if(!u)body=<UsersList onOpen={openUser}/>;
