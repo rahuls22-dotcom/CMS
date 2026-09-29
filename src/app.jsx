@@ -19,6 +19,7 @@ function BookingApp(){
   const [draft,setDraft]=React.useState(null);
   const [apptId,setApptId]=React.useState(null);
   const [resched,setResched]=React.useState(null);
+  const [fromTeam,setFromTeam]=React.useState(false);   // the draft came from the team board
   const [appts,setAppts]=React.useState(B.APPTS);
   const [toasts,setToasts]=React.useState([]);
   const toast=(m,tone,icon)=>{const id=Math.random();setToasts(x=>[...x,{id,m,tone,icon}]);setTimeout(()=>setToasts(x=>x.filter(y=>y.id!==id)),3400);};
@@ -31,15 +32,28 @@ function BookingApp(){
   const meetId=()=>{const r=()=>Math.random().toString(36).slice(2,5);return `meet.google.com/${r()}-${r()}${r().slice(0,1)}-${r()}`;};
 
   const confirmed=d=>{setDraft(d);setMode('draft');window.scrollTo(0,0);};
+  const quickBook=(d,client)=>{setUserId(client.id);setDraft(d);setFromTeam(true);setMode('draft');window.scrollTo(0,0);};
+  const leaveTeamDraft=()=>{setDraft(null);setFromTeam(false);setUserId(null);setMode('list');};
   const created=({subject,body})=>{const d=draft;
     if(resched){setAppts(as=>as.map(a=>a.id===resched.id?{...a,...d,people:d.peopleObjs.filter(p=>p.kind==='staff').map(p=>p.id),rescheduled:true}:a));setApptId(resched.id);setResched(null);toast('Rescheduled · updated invites sent','good','check');}
     else{const id='ap'+Date.now();setAppts(as=>[...as,{id,userId:u.id,status:'Scheduled',meet:meetId(),people:d.peopleObjs.filter(p=>p.kind==='staff').map(p=>p.id),...d}]);setApptId(id);toast(`Invites sent to ${d.peopleObjs.length+(d.fireflies?1:0)} people`,'good','send');}
-    setDraft(null);setMode('list');window.scrollTo(0,0);};
+    setDraft(null);
+    if(fromTeam){setFromTeam(false);setUserId(null);setApptId(null);setMode('list');}
+    else setMode('list');
+    window.scrollTo(0,0);};
   const viewAppt=a=>{if(!a.peopleObjs){a.peopleObjs=[{id:u.id,name:u.name,email:u.email,kind:'client',hasCalendar:false,locked:true},...a.people.map(id=>({...B.STAFF.find(s=>s.id===id),kind:'staff',hasCalendar:true}))];a.meet=a.meet||meetId();a.external=true;}
     setApptId(a.id);setMode('confirm');};
 
   let body;
-  if(nav!=='Users')body=<Card><EmptyState>{nav} isn't part of this prototype. Start from <b>Users</b> in the top bar.</EmptyState></Card>;
+  if(nav==='Team'){
+    body=mode==='draft'&&draft&&u
+      ? <React.Fragment>
+          <Crumbs items={[{label:'Team',onClick:leaveTeamDraft},{label:'Review invite'}]}/>
+          <EmailDraft draft={draft} u={u} onSend={created} onBack={leaveTeamDraft}/>
+        </React.Fragment>
+      : <TeamSchedule appts={appts} tweaks={t} toast={toast} onQuickBook={quickBook}/>;
+  }
+  else if(nav!=='Users')body=<Card><EmptyState>{nav} isn't part of this prototype. Start from <b>Users</b> in the top bar.</EmptyState></Card>;
   else if(!u)body=<UsersList onOpen={openUser}/>;
   else{
     const crumbs=[{label:'Users',onClick:goUsers},{label:u.name,onClick:()=>setSec('User Profile')},{label:section,onClick:mode!=='list'?()=>{setResched(null);setMode('list');}:null}];
@@ -58,7 +72,7 @@ function BookingApp(){
     } else inner=<Card><EmptyState>{section} isn't part of this prototype.</EmptyState></Card>;
     body=<UserPage u={u} section={section} setSection={setSec} crumbs={crumbs} toast={toast}>{inner}</UserPage>;
   }
-  const links=['Dashboard','Users','Team','Chat','Tasks','Sales','Coins & Refer'].map(l=>({label:l,active:nav===l,onClick:()=>{setNav(l);if(l==='Users')goUsers();}}));
+  const links=['Dashboard','Users','Team','Chat','Tasks','Sales','Coins & Refer'].map(l=>({label:l,active:nav===l,onClick:()=>{setNav(l);if(l==='Users')goUsers();else{setUserId(null);setDraft(null);setFromTeam(false);setMode('list');}}}));
   return <div className="app">
     <TopBar links={links} fy="F.Y. 2026-27" right={<><span className="pc-fy" style={{gap:8}}>TAX_ADMIN</span><IconButton icon="bell" label="Notifications"/><MeBadge initials="RS"/></>}/>
     <div className="main">{body}</div>
