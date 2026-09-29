@@ -9,9 +9,13 @@ function Crumbs({items}){return <div className="crumbs">{items.map((it,i)=><Reac
 
 function UsersList({onOpen}){
   const [q,setQ]=React.useState('');const [tier,setTier]=React.useState('all');
-  const list=B.USERS.filter(u=>(tier==='all'||u.tier===tier)&&(!q||(u.name+u.email+u.phone).toLowerCase().includes(q.toLowerCase())));
+  const all=B.USERS.filter(u=>(tier==='all'||u.tier===tier)&&(!q||(u.name+u.email+u.phone).toLowerCase().includes(q.toLowerCase())));
+  /* Two thousand rows is not a table anyone reads — show a page of them and let
+     search do the finding. */
+  const PAGE=25;
+  const list=all.slice(0,PAGE);
   return <>
-    <div className="ptitle"><div><h2>Users</h2><div className="sub">{B.USERS.length} clients · click a row to open the user</div></div></div>
+    <div className="ptitle"><div><h2>Users</h2><div className="sub">{all.length.toLocaleString('en-IN')} client{all.length===1?'':'s'}{all.length>list.length?' · showing the first '+list.length+', search to narrow':' · click a row to open the user'}</div></div></div>
     <Card>
       <div className="ulist-top"><SearchInput value={q} onChange={setQ} placeholder="Search by name, email or phone"/>
         <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>{['all','Elite','Premium','Advanced','Basic'].map(t=><FilterChip key={t} active={tier===t} onClick={()=>setTier(t)}>{t==='all'?'All tiers':t}</FilterChip>)}</div></div>

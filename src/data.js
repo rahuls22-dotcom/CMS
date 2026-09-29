@@ -22,6 +22,45 @@ const USERS=[
  {id:'u13',secondaryId:'a8',name:'Tanvi Deshpande',email:'tanvi.d@gmail.com',phone:'+91 98904 11236',tier:'Premium',plan:'Notice / Compliance',city:'Nagpur',advisorId:'a9',rmId:'r1',joined:'30 Mar 2025',status:'Active'},
  {id:'u14',secondaryId:'a5',name:'Zoya Khan',email:'zoya.khan@gmail.com',phone:'+91 99671 40082',tier:'Elite',plan:'Wealth + Tax',city:'Mumbai',advisorId:'w1',rmId:'r2',joined:'17 Oct 2025',status:'Active'},
 ];
+const FIRST=['Aarav','Aditi','Advait','Akshay','Ananya','Anjali','Arnav','Bhavna','Chirag','Deepak','Devika','Farhan','Gaurav','Harini','Imran','Ishita','Jatin','Kavya','Kabir','Lavanya','Manish','Meghna','Nikhil','Nandita','Omkar','Pallavi','Pranav','Priyanka','Rajat','Reshma','Rohit','Sanjana','Shreyas','Sneha','Tarun','Trisha','Uday','Vandana','Varun','Yashika'];
+const LAST=['Agarwal','Bhat','Chandra','Deshmukh','Fernandes','Gupta','Hegde','Iyer','Jain','Kulkarni','Lal','Menon','Nair','Oberoi','Pillai','Qureshi','Rao','Sharma','Thakur','Varma','Ahuja','Banerjee','Chopra','Dutta','Ghosh','Joshi','Kapoor','Malhotra','Nambiar','Reddy','Sethi','Trivedi'];
+const CITIES=['Mumbai','Pune','Bengaluru','Delhi','Hyderabad','Chennai','Ahmedabad','Kolkata','Kochi','Jaipur'];
+const TIERS=['Basic','Advanced','Premium','Elite'];
+const PLANS=['ITR Filing','Tax Planning','Advance Tax','Wealth + Tax','ITR Filing + Tax Planning','Notice / Compliance'];
+const ADVISOR_IDS=['a1','a2','a3','a4','a5','a6','a7','a8','a9','w1'];
+
+/* Deterministic, so the same client always lands with the same advisor. */
+function generateClients(perAdvisor){
+  const out=[];let n=0;
+  for(let i=0;i<ADVISOR_IDS.length;i++){
+    for(let k=0;k<perAdvisor;k++){
+      n++;
+      /* Odometer, not two strides: stepping last name once per lap of the first-name
+         list walks every pair. Two modular strides would share a cycle and repeat a
+         handful of names across the whole book. */
+      const f=FIRST[n%FIRST.length],l=LAST[Math.floor(n/FIRST.length)%LAST.length];
+      const name=f+' '+l;
+      out.push({
+        id:'g'+n,
+        name:name,
+        email:(f+'.'+l).toLowerCase()+n+'@gmail.com',
+        phone:'+91 9'+String(1000000000+((n*7919)%899999999)).slice(0,9),
+        tier:TIERS[(n*3)%TIERS.length],
+        plan:PLANS[(n*5)%PLANS.length],
+        city:CITIES[(n*13)%CITIES.length],
+        advisorId:ADVISOR_IDS[i],
+        secondaryId:ADVISOR_IDS[(i+1+(n%3))%ADVISOR_IDS.length],
+        rmId:n%2?'r1':'r2',
+        joined:'—',
+        status:n%17===0?'Onboarding':'Active',
+        generated:true,
+      });
+    }
+  }
+  return out;
+}
+USERS.push.apply(USERS,generateClients(205));
+
 /* Internal directory — everyone here has a Workspace calendar */
 const STAFF=[
  {id:'a1',name:'Ishan Kulkarni',role:'Tax Advisor',email:'ishan.k@prosperr.io'},
@@ -41,6 +80,18 @@ const STAFF=[
 const DOMAIN='prosperr.io';
 const FIREFLIES={id:'ff',name:'Fireflies Notetaker',role:'Records & summarises',email:'fred@fireflies.ai'};
 const CONSULT_TYPES=['General Query','ITR Filing','Tax Planning','Advance Tax','Notice / Compliance','Wealth Review'];
+
+/* What the call is for decides how long it needs. Each agenda carries its own default
+   length; the booker can still override it per booking. */
+const AGENDAS={
+ 'General Query':[{label:'Quick clarification',dur:15},{label:'Clarify a tax notice',dur:30},{label:'Portal or account help',dur:30}],
+ 'ITR Filing':[{label:'Collect documents for filing',dur:30},{label:'Review draft ITR before submission',dur:45},{label:'Post-filing verification',dur:15}],
+ 'Tax Planning':[{label:'Old vs new regime comparison',dur:45},{label:'Plan investments for the year',dur:45},{label:'Quick check-in',dur:15}],
+ 'Advance Tax':[{label:'Quarterly instalment review',dur:30},{label:'Recompute after an income change',dur:45}],
+ 'Notice / Compliance':[{label:'Read the notice together',dur:45},{label:'Draft the response',dur:60},{label:'Status update',dur:15}],
+ 'Wealth Review':[{label:'Full portfolio review',dur:60},{label:'Goal check-in',dur:45},{label:'Rebalance discussion',dur:30}],
+};
+const DURATIONS=[15,30,45,60,90];
 
 /* Deterministic busy blocks per person per date: [startMin,endMin] */
 function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;}
@@ -103,5 +154,5 @@ const APPTS=[
  {id:'ap2',userId:'u1',date:'2026-08-28',start:16*60,dur:45,type:'Tax Planning',status:'Completed',people:['a1'],summary:true},
  {id:'ap3',userId:'u1',date:'2026-08-02',start:10*60+30,dur:30,type:'General Query',status:'Cancelled',people:['a1'],summary:false},
 ];
-window.BK={TODAY,NOW_MIN,DAY_START,DAY_END,PICK_START,PICK_END,isWorkDay,GRID_START,GRID_END,USERS,STAFF,DOMAIN,FIREFLIES,CONSULT_TYPES,APPTS,busyFor,freeSlots,freeWindows,weekDays,fmtT,fmt24,fmtD,overlaps};
+window.BK={TODAY,NOW_MIN,DAY_START,DAY_END,PICK_START,PICK_END,isWorkDay,GRID_START,GRID_END,USERS,STAFF,DOMAIN,FIREFLIES,CONSULT_TYPES,AGENDAS,DURATIONS,APPTS,busyFor,freeSlots,freeWindows,weekDays,fmtT,fmt24,fmtD,overlaps};
 })();

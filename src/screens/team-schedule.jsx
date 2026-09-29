@@ -31,13 +31,13 @@ const windowLabel=id=>{const c=cfgOf(id);return B.fmtT(c.from)+' – '+B.fmtT(c.
 const clientsOf=id=>B.USERS.filter(u=>u.advisorId===id||u.secondaryId===id);
 const merge=l=>{l.sort((a,b)=>a[0]-b[0]);const m=[];for(const b of l){const x=m[m.length-1];if(x&&b[0]<=x[1])x[1]=Math.max(x[1],b[1]);else m.push([b[0],b[1]]);}return m;};
 
-function configSlots(id,date){
+function configSlots(id,date,dur){
   const c=cfgOf(id);
   if(!worksOn(id,date))return [];
-  const out=[];
-  for(let t=c.from;t+c.len<=c.to;t+=c.len+c.gap){
+  const out=[],step=c.len+c.gap;
+  for(let t=c.from;t+dur<=c.to;t+=step){
     if(date===B.TODAY&&t<B.NOW_MIN+30)continue;
-    out.push([t,t+c.len]);
+    out.push([t,t+dur]);
   }
   return out;
 }
@@ -79,10 +79,19 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
   const setDate=d=>setT(v=>({...v,date:d}));
   const setOffset=fn=>setT(v=>({...v,offset:typeof fn==='function'?fn(v.offset):fn}));
 
+  const [ctype,setCtype]=React.useState('');
+  const [agenda,setAgenda]=React.useState('');
+  const [durOverride,setDurOverride]=React.useState(null);
+  const [editingDur,setEditingDur]=React.useState(false);
   const [q,setQ]=React.useState('');
   const [filter,setFilter]=React.useState('All');
   const [pick,setPick]=React.useState(null);       // {advisor,start,end}
   const [blocked,setBlocked]=React.useState(null); // {advisor,block}
+
+  const agendaList=B.AGENDAS[ctype]||[];
+  const agendaDef=agendaList.find(a=>a.label===agenda);
+  const dur=durOverride!=null?durOverride:(agendaDef?agendaDef.dur:30);
+  const ready=!!ctype&&!!agenda;                 // nothing is sized until this is set
 
   const days=B.weekDays(offset);
   const shown=ADVISORS.filter(a=>ids.includes(a.id));
@@ -90,7 +99,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
   const takenFor=id=>appts.filter(a=>a.status==='Scheduled'&&a.people.includes(id));
   const blocksFor=(id,d)=>merge(B.busyFor(id,d).map(b=>[b[0],b[1]])
     .concat(takenFor(id).filter(x=>x.date===d).map(x=>[x.start,x.start+x.dur])));
-  const openSlots=(id,d)=>{const busy=blocksFor(id,d);return configSlots(id,d).filter(s=>!busy.some(b=>B.overlaps(b,s)));};
+  const openSlots=(id,d)=>{if(!ready)return [];const busy=blocksFor(id,d);return configSlots(id,d,dur).filter(s=>!busy.some(b=>B.overlaps(b,s)));};
   const openOn=d=>shown.reduce((n,a)=>n+openSlots(a.id,d).length,0);
 
   React.useEffect(()=>{
@@ -98,7 +107,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
     if(openOn(date)>0&&days.includes(date))return;
     const better=days.find(d=>openOn(d)>0);
     if(better)setDate(better);
-  },[ids.join(','),offset]);
+  },[ids.join(','),offset,dur,ready]);
 
   /* The rail is a ranking, not a roster: what is open on this date decides the order. */
   const ranked=ADVISORS
@@ -140,8 +149,62 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
       </div>
       {!!shown.length&&<span style={{background:'var(--green-soft)',color:'var(--green-deep)',
         border:'1px solid #bfe3cb',borderRadius:20,padding:'7px 13px',fontSize:12.5,fontWeight:700}}>
-        {shown.length} selected &middot; {total} open on {B.fmtD(date)}</span>}
+        {shown.length} selected{ready?<React.Fragment> &middot; {total} open &times; {dur} min on {B.fmtD(date)}</React.Fragment>
+          :' \u00b7 pick a call type to see openings'}</span>}
     </div>
+
+    {/* What the call is decides how long it needs, so it is settled before any
+        calendar is drawn — otherwise the slots on screen are the wrong size. */}
+    <Card className="ucard">
+      <div className="adder" style={{borderTop:0,background:'var(--surface)'}}>
+        <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'flex-end'}}>
+          <label style={{display:'grid',gap:4,minWidth:190}}>
+            <span className="lbl">Consultation type</span>
+            <Input as="select" value={ctype} onChange={e=>{
+              setCtype(e.target.value);setAgenda('');setDurOverride(null);setEditingDur(false);
+            }}>
+              <option value="">Select a type…</option>
+              {B.CONSULT_TYPES.map(x=><option key={x}>{x}</option>)}
+            </Input>
+          </label>
+
+          <label style={{display:'grid',gap:4,minWidth:280}}>
+            <span className="lbl">Agenda</span>
+            <Input as="select" value={agenda} disabled={!ctype}
+              onChange={e=>{setAgenda(e.target.value);setDurOverride(null);setEditingDur(false);}}>
+              <option value="">{ctype?'Select an agenda…':'Pick a type first'}</option>
+              {agendaList.map(a=><option key={a.label} value={a.label}>{a.label} · {a.dur} min</option>)}
+            </Input>
+          </label>
+
+          <div style={{display:'grid',gap:4,minWidth:150}}>
+            <span className="lbl">Length</span>
+            {editingDur
+              ? <Input as="select" autoFocus value={dur}
+                  onChange={e=>{setDurOverride(Number(e.target.value));setEditingDur(false);}}
+                  onBlur={()=>setEditingDur(false)}>
+                  {B.DURATIONS.map(m=><option key={m} value={m}>{m} minutes</option>)}
+                </Input>
+              : <div className="locked" style={{padding:'8px 10px',justifyContent:'space-between'}}>
+                  {/* Until an agenda is chosen there is no length to state — naming one
+                      would contradict the hint beside it that the agenda decides it. */}
+                  <span style={{fontWeight:600,fontSize:12.5,color:ready?'inherit':'var(--ink-3)'}}>
+                    {ready?dur+' minutes':'—'}</span>
+                  <button type="button" onClick={()=>ready&&setEditingDur(true)} disabled={!ready}
+                    style={{border:0,background:'none',font:'inherit',fontSize:11.5,fontWeight:700,
+                      color:ready?'var(--navy)':'var(--ink-3)',cursor:ready?'pointer':'default',padding:0}}>
+                    Change</button>
+                </div>}
+          </div>
+
+          <span style={{flex:1,minWidth:180,fontSize:11.5,color:'var(--ink-3)',paddingBottom:9}}>
+            {!ready?'Slots are sized to the call, so this comes first.'
+              :durOverride!=null?'Custom length for this booking.'
+              :'Default for this agenda.'}
+          </span>
+        </div>
+      </div>
+    </Card>
 
     {/* One screen: the roster stays beside the calendar, so adding or dropping an
         advisor is a tick against the grid rather than a trip to another step. */}
@@ -160,6 +223,9 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
 
         <div style={{padding:'10px 12px',display:'grid',gap:8,borderBottom:'1px solid var(--border)'}}>
           <SearchInput value={q} onChange={setQ} placeholder="Search advisors"/>
+          {!ready&&<div style={{fontSize:11.5,color:'var(--ink-3)',lineHeight:1.5}}>
+            Choose the call type and agenda above, then pick who it is with.
+          </div>}
           <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
             {['All','Tax','Wealth','Open'].map(f=><button key={f} type="button" onClick={()=>setFilter(f)}
               style={{padding:'4px 9px',borderRadius:20,cursor:'pointer',font:'inherit',fontSize:11.5,
@@ -178,7 +244,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
             return <label key={a.id} style={{display:'flex',alignItems:'center',gap:9,padding:'8px 8px',
               borderRadius:9,cursor:'pointer',opacity:open?1:.62,
               background:on?'var(--tint)':'transparent'}}>
-              <input type="checkbox" checked={on} onChange={()=>toggle(a.id)}
+              <input type="checkbox" checked={on} disabled={!ready} onChange={()=>toggle(a.id)}
                 style={{width:15,height:15,accentColor:'var(--navy)',flex:'none'}}/>
               <Avatar name={a.name} size={26}/>
               <span style={{flex:1,minWidth:0}}>
@@ -221,7 +287,9 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
             <button className="navbtn" onClick={()=>setOffset(o=>o+1)} aria-label="Next week">&rsaquo;</button>
           </div>
 
-          {!shown.length
+          {!ready
+            ? <EmptyState>Choose what kind of call this is. Slot lengths follow the agenda.</EmptyState>
+            : !shown.length
             ? <EmptyState>Tick an advisor on the left. Columns appear here as you do.</EmptyState>
             : <React.Fragment>
             <div className="ghead" style={{gridTemplateColumns:cols}}>
@@ -283,7 +351,7 @@ function ScheduleMeetings({appts,tweaks,onQuickBook,team}){
     {blocked&&<BusyNote blocked={blocked} date={date} next={nextFree(blocked.advisor.id)}
       onClose={()=>setBlocked(null)} onGo={d=>{setDate(d);setBlocked(null);}}/>}
 
-    {pick&&<PickClient pick={pick} date={date} tweaks={tweaks}
+    {pick&&<PickClient pick={pick} date={date} ctype={ctype} agenda={agenda} tweaks={tweaks}
       onClose={()=>setPick(null)} onBook={onQuickBook}/>}
   </div>;
 }
@@ -306,18 +374,26 @@ function BusyNote({blocked,date,next,onClose,onGo}){
 }
 
 /* ------------------------------------------------------------------ pick a client -- */
-function PickClient({pick,date,tweaks,onClose,onBook}){
+/* An advisor carries a couple of hundred clients, so this is a search box with results,
+   not a list to scroll. The advisor and the time are already settled; the only open
+   question is who the call is for. */
+const SHOW=8;
+
+function PickClient({pick,date,ctype,agenda,tweaks,onClose,onBook}){
   const {advisor,start,end}=pick;
   const dur=end-start;
-  const mine=clientsOf(advisor.id);
+  const mine=React.useMemo(()=>clientsOf(advisor.id),[advisor.id]);
   const [all,setAll]=React.useState(!mine.length);
   const [q,setQ]=React.useState('');
   const [client,setClient]=React.useState(null);
-  const [type,setType]=React.useState(B.CONSULT_TYPES[1]);
   const [err,setErr]=React.useState('');
 
   const pool=all?B.USERS:mine;
-  const matches=pool.filter(u=>!q.trim()||[u.name,u.email,u.phone].some(v=>v.toLowerCase().includes(q.trim().toLowerCase())));
+  const term=q.trim().toLowerCase();
+  const hits=React.useMemo(()=>term
+    ? pool.filter(u=>u.name.toLowerCase().includes(term)||u.email.toLowerCase().includes(term)||u.phone.replace(/\s/g,'').includes(term.replace(/\s/g,'')))
+    : pool.slice(0,SHOW),[pool,term]);
+  const shown=hits.slice(0,SHOW);
 
   const submit=()=>{
     if(!client)return;
@@ -329,8 +405,8 @@ function PickClient({pick,date,tweaks,onClose,onBook}){
       {id:client.id,name:client.name,email:client.email,kind:'client',hasCalendar:false,locked:true},
       {...advisor,kind:'staff',hasCalendar:true},
     ];
-    onBook({date,start,dur,type,fireflies:!!(tweaks&&tweaks.firefliesDefault),peopleObjs:people,
-      external:people.some(p=>!isInternal(p.email))},client);
+    onBook({date,start,dur,type:ctype,agenda,fireflies:!!(tweaks&&tweaks.firefliesDefault),
+      peopleObjs:people,external:people.some(p=>!isInternal(p.email))},client);
   };
 
   return <Modal title={B.fmtT(start)+' – '+B.fmtT(end)+' · '+B.fmtD(date)}
@@ -339,8 +415,11 @@ function PickClient({pick,date,tweaks,onClose,onBook}){
       <Button variant="ghost" onClick={onClose}>Cancel</Button>
       <Button onClick={submit} disabled={!client}>{client?'Review invite':'Choose a client'}</Button>
     </React.Fragment>}>
+
+    <Note icon={<Icon name="cal" size={14}/>}>{ctype} &middot; {agenda} &middot; {dur} min</Note>
+
     {client
-      ? <div className="locked" style={{marginBottom:12}}>
+      ? <div className="locked" style={{marginTop:12}}>
           <Avatar name={client.name} size={28}/>
           <div style={{flex:1,minWidth:0}}>
             <div className="nm">{client.name} <TierChip tier={client.tier}/></div>
@@ -348,18 +427,21 @@ function PickClient({pick,date,tweaks,onClose,onBook}){
           </div>
           <Button variant="ghost" onClick={()=>{setClient(null);setErr('');}}>Change</Button>
         </div>
-      : <div style={{marginBottom:12}}>
+      : <div style={{marginTop:12}}>
           <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
             <div className="lbl" style={{flex:1}}>
-              {all?'All clients · '+B.USERS.length:'Assigned to '+advisor.name.split(' ')[0]+' · '+mine.length}
+              {all?'All clients · '+B.USERS.length.toLocaleString('en-IN')
+                 :'Assigned to '+advisor.name.split(' ')[0]+' · '+mine.length}
             </div>
             {!!mine.length&&<Button variant="ghost" onClick={()=>{setAll(v=>!v);setQ('');}}>
-              {all?'Only their clients':'Show all clients'}
+              {all?'Only their clients':'Search all clients'}
             </Button>}
           </div>
+
           <SearchInput value={q} onChange={setQ} placeholder="Search by name, email or phone"/>
-          <div style={{marginTop:8,maxHeight:230,overflowY:'auto'}}>
-            {matches.map(u=><div key={u.id} className="dd-item" onClick={()=>setClient(u)}>
+
+          <div style={{marginTop:8}}>
+            {shown.map(u=><div key={u.id} className="dd-item" onClick={()=>setClient(u)}>
               <Avatar name={u.name} size={24}/>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontWeight:600}}>{u.name}</div>
@@ -368,8 +450,16 @@ function PickClient({pick,date,tweaks,onClose,onBook}){
               {u.advisorId===advisor.id?<Tag tone="blue">primary</Tag>
                 :u.secondaryId===advisor.id?<Tag tone="violet">secondary</Tag>:null}
             </div>)}
-            {!matches.length&&<div className="muted" style={{padding:'12px 2px',fontSize:12.5}}>
-              {q?'No client matches that.':advisor.name+' has no clients assigned yet.'}
+
+            {!shown.length&&<div className="muted" style={{padding:'12px 2px',fontSize:12.5}}>
+              {term?'No client matches that.':advisor.name+' has no clients assigned yet.'}
+            </div>}
+
+            {!!shown.length&&<div className="muted" style={{padding:'8px 2px 0',fontSize:11.5}}>
+              {term
+                ? (hits.length>SHOW?hits.length+' matches — showing the closest '+SHOW+'. Keep typing to narrow.'
+                                   :hits.length+' match'+(hits.length===1?'':'es'))
+                : 'Showing '+shown.length+' of '+pool.length+'. Type a name, email or phone to find the rest.'}
             </div>}
           </div>
         </div>}
@@ -378,12 +468,6 @@ function PickClient({pick,date,tweaks,onClose,onBook}){
       <Note icon={<Icon name="alert" size={14}/>}>
         {advisor.name} is not assigned to {client.name}. You can still book it.
       </Note>}
-
-    <Field label="Consultation type">
-      <Input as="select" value={type} onChange={e=>setType(e.target.value)}>
-        {B.CONSULT_TYPES.map(x=><option key={x}>{x}</option>)}
-      </Input>
-    </Field>
 
     {err&&<Note icon={<Icon name="alert" size={14}/>}>{err}</Note>}
   </Modal>;

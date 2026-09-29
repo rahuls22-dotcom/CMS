@@ -3,6 +3,11 @@ const NS=window.ProsperrAdvisorConsoleDS_c294ad;
 const {TopBar,MeBadge,IconButton,Toast,ToastStack,EmptyState,Card}=NS;
 const B=window.BK;
 
+/* Whoever is signed in. Scheduling across advisors is a relationship manager's job,
+   not an admin's, and the top bar should say so. */
+const ME=B.STAFF.find(s=>s.role==='Relationship Manager')||B.STAFF[0];
+const initialsOf=n=>n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
 const TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{
   "googleDown": false,
   "simulateConflict": false,
@@ -92,7 +97,7 @@ function BookingApp(){
       :()=>{setNav(l);setTeamMenu(false);if(l==='Users')goUsers();else{setUserId(null);setDraft(null);setFromTeam(false);setMode('list');}},
   }));
   return <div className="app">
-    <TopBar links={links} fy="F.Y. 2026-27" right={<><span className="pc-fy" style={{gap:8}}>TAX_ADMIN</span><IconButton icon="bell" label="Notifications"/><MeBadge initials="RS"/></>}/>
+    <TopBar links={links} fy="F.Y. 2026-27" right={<><span className="pc-fy" style={{gap:8}} title={ME.name+" · "+ME.role}>RM</span><IconButton icon="bell" label="Notifications"/><MeBadge initials={initialsOf(ME.name)}/></>}/>
     {teamMenu&&<TeamMenu x={menuX} item={teamItem} onPick={goTeam} onClose={()=>setTeamMenu(false)}/>}
     <div className="main">{body}</div>
     <ToastStack>{toasts.map(x=><Toast key={x.id} tone={x.tone||'default'} icon={x.icon}>{x.m}</Toast>)}</ToastStack>
