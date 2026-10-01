@@ -19,7 +19,7 @@ const ROLES: { role: Role; actorId: string; label: string }[] = [
 const SALES_PATHS = ['/sales/referrals', '/sales/assisted', '/sales/changes']
 const USER_PATHS = ['/sales/super-saver', '/sales/permissions']
 
-interface Item { label: string; to: string; sub: string }
+interface Item { label: string; to: string }
 
 /** A nav entry that opens a menu. Closes on outside click and on choosing. */
 function Menu({ label, items, active }: { label: string; items: Item[]; active: boolean }) {
@@ -48,8 +48,7 @@ function Menu({ label, items, active }: { label: string; items: Item[]; active: 
               role="menuitem"
               onClick={() => { setOpen(false); navigate(it.to) }}
             >
-              <b>{it.label}</b>
-              <span>{it.sub}</span>
+              {it.label}
             </button>
           ))}
         </div>
@@ -67,14 +66,14 @@ export function TopBar() {
   const on = pathname.startsWith('/clients') ? 'Users' : 'Dashboard'
 
   const salesItems: Item[] = [
-    { label: 'Referrals', to: '/sales/referrals', sub: salesAdmin ? 'every referral and its payout' : 'log a referral and track yours' },
-    { label: 'Assisted sales', to: '/sales/assisted', sub: salesAdmin ? 'approve what the BDAs raise' : 'raise and track assisted sales' },
-    { label: 'Change request', to: '/sales/changes', sub: salesAdmin ? 'approve plan and detail changes' : 'raise a change for a customer' },
+    { label: 'Referrals', to: '/sales/referrals' },
+    { label: 'Assisted sales', to: '/sales/assisted' },
+    { label: 'Change request', to: '/sales/changes' },
   ]
 
   const userItems: Item[] = [
-    { label: 'Super Saver users', to: '/sales/super-saver', sub: 'customers on the Super Saver plan' },
-    { label: 'Users & permissions', to: '/sales/permissions', sub: 'who is internal and what they can see' },
+    { label: 'Super Saver users', to: '/sales/super-saver' },
+    { label: 'Users & permissions', to: '/sales/permissions' },
   ]
 
   return (

@@ -279,18 +279,17 @@ select.tsel { min-width: 180px; }
 .menu-wrap { position: relative; }
 .menu-wrap .caret { font-size: 9px; opacity: .8; }
 .navmenu {
-  position: absolute; top: calc(100% + 10px); left: 0; min-width: 270px; z-index: 60;
+  position: absolute; top: calc(100% + 10px); left: 0; min-width: 190px; z-index: 60;
   background: var(--card); border: 1px solid var(--divider); border-radius: 12px;
   box-shadow: var(--shadow-modal); padding: 6px;
 }
 .navmenu-item {
   display: block; width: 100%; text-align: left; border: 0; background: transparent;
-  padding: 8px 10px; border-radius: 8px; cursor: pointer; color: var(--ink); font: inherit;
+  padding: 7px 10px; border-radius: 8px; cursor: pointer; color: var(--ink); font: inherit;
 }
 .navmenu-item:hover { background: var(--primary-tint-3); }
 .navmenu-item.on { background: var(--primary-tint); }
-.navmenu-item b { display: block; font-size: 13px; font-weight: 600; }
-.navmenu-item span { display: block; font-size: 11px; color: var(--muted); }
+.navmenu-item { font-size: 13px; font-weight: 600; white-space: nowrap; }
 
 .drawer-overlay { justify-content: flex-end; align-items: stretch; padding: 0; }
 .drawer {
@@ -312,3 +311,8 @@ select.tsel { min-width: 180px; }
   color: var(--muted);
 }
 .fld .input { display: block; width: 100%; margin-top: 6px; letter-spacing: 0; text-transform: none; }
+
+/* list titles sit close to the table, not adrift in the page background */
+.h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.page.tight { padding-top: 12px; }
+.list-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }

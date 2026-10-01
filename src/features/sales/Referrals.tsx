@@ -4,6 +4,7 @@ import {
   REFERRAL_STATUS, SALES_EXEC, optionsOf,
   type Referral,
 } from '../../domain/sales'
+import { Pager, usePager } from './Pager'
 
 /** Referrals: the same table for both sales roles. The admin also sees the
  *  payout column — a button there only records that the BDA or the tax RM has
@@ -41,14 +42,15 @@ export function Referrals() {
 
   const soldCount = rows.filter((r) => r.sold).length
   const filtered = sold !== 'all' || status !== 'all' || bda !== 'all' || rm !== 'all' || !!q
+  const pg = usePager(rows, `${q}|${sold}|${status}|${bda}|${rm}|${admin}`)
 
   const clear = () => {
     setQ(''); setSold('all'); setStatus('all'); setBda('all'); setRm('all')
   }
 
   return (
-    <div className="page">
-      <div className="row gap12" style={{ marginBottom: 12, flexWrap: 'wrap' }}>
+    <div className="page tight">
+      <div className="list-head">
         <h2 className="h2">Referrals</h2>
         <span className="spacer" />
         <button className="btn pri" onClick={() => setOpen(true)}>+ Referral</button>
@@ -94,7 +96,7 @@ export function Referrals() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
+              {pg.slice.map((r) => (
                 <tr key={r.id}>
                   <td><b>{r.friend}</b></td>
                   <td>{r.mobile}</td>
@@ -120,9 +122,12 @@ export function Referrals() {
           </table>
         </div>
 
-        <div className="row gap12" style={{ padding: '10px 14px', borderTop: '1px solid var(--divider)' }}>
-          <span className="muted">Showing <b>{rows.length}</b> of {scope.length} referrals · {soldCount} sold</span>
-        </div>
+        <Pager
+          current={pg.current} pages={pg.pages} total={rows.length}
+          from={pg.from} to={pg.to} noun="referrals" onPage={pg.setPage}
+        >
+          <span className="muted">{soldCount} sold</span>
+        </Pager>
       </div>
 
       {open ? <LogReferralDrawer onClose={() => setOpen(false)} /> : null}

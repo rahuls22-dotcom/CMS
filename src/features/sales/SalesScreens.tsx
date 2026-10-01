@@ -1,31 +1,39 @@
+import type { ReactElement } from 'react'
 import { useStore } from '../../domain/store'
 import { DECISION_STATUS, SALES_EXEC, type DecisionStatus } from '../../domain/sales'
+import { Pager, usePager } from './Pager'
 
-/** Shared shell so every sales list reads the same: title, card, table. */
+/** Shared shell so every sales list reads the same: title, card, table, pager. */
 function ListPage({
-  title, head, body, empty, cols,
+  title, head, rows, empty, cols, noun, pageKey,
 }: {
   title: string
   head: React.ReactNode
-  body: React.ReactNode
+  rows: ReactElement[]
   empty: string
   cols: number
+  noun: string
+  pageKey: string
 }) {
-  const rows = Array.isArray(body) ? body.length : 1
+  const pg = usePager(rows, pageKey)
   return (
-    <div className="page">
-      <h2 className="h2" style={{ marginBottom: 12 }}>{title}</h2>
+    <div className="page tight">
+      <div className="list-head"><h2 className="h2">{title}</h2></div>
       <div className="card" style={{ padding: 0 }}>
         <div className="tbl-wrap">
           <table className="tbl">
             <thead><tr>{head}</tr></thead>
             <tbody>
-              {rows ? body : (
+              {rows.length ? pg.slice : (
                 <tr><td colSpan={cols}><div className="muted" style={{ padding: 20, textAlign: 'center' }}>{empty}</div></td></tr>
               )}
             </tbody>
           </table>
         </div>
+        <Pager
+          current={pg.current} pages={pg.pages} total={rows.length}
+          from={pg.from} to={pg.to} noun={noun} onPage={pg.setPage}
+        />
       </div>
     </div>
   )
@@ -49,11 +57,13 @@ export function SalesUsers({ superSaverOnly = false }: { superSaverOnly?: boolea
     <ListPage
       title={admin ? (superSaverOnly ? 'Super Saver users' : 'Users') : 'My users'}
       cols={7}
+      noun="users"
+      pageKey={`${admin}|${superSaverOnly}`}
       empty="No users yet"
       head={<>
         <th>Customer</th><th>Mobile</th><th>Plan</th><th>BDA</th><th>Tax RM</th><th>Customer since</th><th>Status</th>
       </>}
-      body={rows.map((u) => (
+      rows={rows.map((u) => (
         <tr key={u.id}>
           <td><b>{u.name}</b></td>
           <td>{u.mobile}</td>
@@ -75,9 +85,11 @@ export function Permissions() {
     <ListPage
       title="Users & permissions"
       cols={5}
+      noun="people"
+      pageKey="team"
       empty="No internal users"
       head={<><th>Name</th><th>Role</th><th>Can see</th><th>Status</th><th>Actions</th></>}
-      body={state.team.map((t) => (
+      rows={state.team.map((t) => (
         <tr key={t.id}>
           <td><b>{t.name}</b></td>
           <td>{t.role}</td>
@@ -107,12 +119,14 @@ export function AssistedSales() {
     <ListPage
       title="Assisted sales"
       cols={admin ? 7 : 6}
+      noun="assisted sales"
+      pageKey={`${admin}`}
       empty="Nothing to show"
       head={<>
         <th>Customer</th><th>Plan</th><th>Amount</th><th>BDA</th><th>Raised</th><th>Status</th>
         {admin ? <th>Decision</th> : null}
       </>}
-      body={rows.map((a) => (
+      rows={rows.map((a) => (
         <tr key={a.id}>
           <td><b>{a.client}</b></td>
           <td>{a.plan}</td>
@@ -152,12 +166,14 @@ export function ChangeRequests() {
     <ListPage
       title="Change requests"
       cols={admin ? 7 : 6}
+      noun="change requests"
+      pageKey={`${admin}`}
       empty="No change requests"
       head={<>
         <th>Customer</th><th>Request</th><th>Detail</th><th>Raised by</th><th>Raised</th><th>Status</th>
         {admin ? <th>Decision</th> : null}
       </>}
-      body={rows.map((c) => (
+      rows={rows.map((c) => (
         <tr key={c.id}>
           <td><b>{c.client}</b></td>
           <td>{c.kind}</td>
