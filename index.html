@@ -458,6 +458,74 @@ svg{flex:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:1220px){.inbox{grid-template-columns:280px 1fr}.col.ctx{display:none}.wgrid.two{grid-template-columns:1fr}.statusline{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:760px){.nav,.fy{display:none}.inbox{grid-template-columns:1fr}.col.list{display:none}.main{padding:14px}}
+
+/* ---- sales: referrals, users, assisted sales and change requests ---- */
+.rolesel{appearance:none;-webkit-appearance:none;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.18);border-radius:8px;
+ color:#fff;font:inherit;font-size:12px;font-weight:600;padding:6px 26px 6px 11px;cursor:pointer;
+ background-image:linear-gradient(45deg,transparent 50%,rgba(255,255,255,.75) 50%),linear-gradient(135deg,rgba(255,255,255,.75) 50%,transparent 50%);
+ background-position:calc(100% - 14px) 52%,calc(100% - 9px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.rolesel:hover{border-color:rgba(255,255,255,.4)}
+.rolesel option{color:var(--ink);background:var(--surface)}
+.navdd{position:relative}
+.navdd>a{display:flex;align-items:center;gap:5px}
+.navdd .car{font-size:9px;opacity:.8;transition:transform .15s}
+.navdd.open .car{transform:rotate(180deg)}
+.navmenu{position:absolute;top:calc(100% + 8px);left:0;min-width:290px;background:var(--surface);color:var(--ink);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh-lg);padding:6px;z-index:60}
+.nmi{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;border:0;background:transparent;width:100%;text-align:left;color:var(--ink);font:inherit}
+.nmi:hover{background:var(--surface-2)}
+.nmi.on{background:var(--tint)}
+.nmi .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:none;background:var(--blue-soft);color:var(--blue)}
+.nmi .tx{flex:1;min-width:0}
+.nmi .tx b{display:block;font-size:13px;font-weight:600}
+.nmi .tx span{display:block;font-size:11px;color:var(--ink-3)}
+.hmeta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.mlist{padding:0}
+.mfilters{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:11px 12px;border-bottom:1px solid var(--border);background:var(--surface-3)}
+.mfilters .spring2{flex:1}
+.mfilters .clr{font-size:12px;font-weight:600;color:var(--blue);background:none;border:0;padding:0;cursor:pointer}
+.mfilters .search.sm{padding:5px 10px;background:var(--surface);border-radius:7px}
+.mfilters .search.sm input{font-size:12px;width:170px}
+.fsel{border:1px solid var(--border-2);background:var(--surface);border-radius:7px;padding:6px 8px;font:inherit;font-size:12px;font-weight:600;color:var(--ink-2)}
+.fsel.on{border-color:var(--navy);color:var(--navy)}
+.fsel:focus{outline:2px solid var(--focus);outline-offset:1px}
+.tblwrap{overflow-x:auto}
+.mfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--border);flex-wrap:wrap}
+.mtbl th,.mtbl td{padding:11px 10px;vertical-align:middle}
+.mtbl th:first-child,.mtbl td:first-child{padding-left:16px}
+.mtbl th:last-child,.mtbl td:last-child{padding-right:16px}
+.mtbl th.r,.mtbl td.r{text-align:right}
+.mtbl td.cn{font-weight:700;color:var(--ink)}
+.mtbl td.mstat{color:var(--ink-2)}
+.mtbl td .ago{display:block;color:var(--ink-3);margin:3px 0 0;font-size:11px;font-weight:600}
+.mtbl .acts{display:flex;gap:6px;justify-content:flex-end}
+.rchip.y{background:var(--amber-soft);color:var(--amber)}
+.rchip.g{background:var(--surface-2);color:var(--ink-2)}
+.rchip.ok{background:var(--green-soft);color:var(--green-deep)}
+.reftbl td{vertical-align:middle}
+.reftbl .sold{color:var(--green-deep);font-weight:700}
+.reftbl .notsold{color:var(--amber);font-weight:600}
+.refbody{padding:14px 16px 16px}
+.refnote{margin:0 0 14px;font-size:13px;color:var(--ink-2);line-height:1.5}
+.rfl{display:block;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.rfl input{display:block;width:100%;margin-top:6px;border:1px solid var(--border);border-radius:8px;padding:9px 11px;
+ font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface);letter-spacing:0;text-transform:none}
+.rfl input:focus{outline:2px solid var(--focus);outline-offset:-1px;border-color:var(--focus)}
+.rfhint{font-size:12.5px;color:var(--ink-2);min-height:18px;margin-top:2px}
+.rfhint b{color:var(--ink)}
+.warn2{color:var(--amber);font-weight:700}
+.qa.crit{border-color:var(--red-line);color:var(--red)}
+.dwrap{position:fixed;inset:var(--nav-h) 0 0 0;z-index:60;display:flex;justify-content:flex-end}
+.dwrap .bd{position:absolute;inset:0;background:rgba(22,35,59,.28)}
+.dpanel{position:relative;width:min(900px,94vw);background:var(--surface);border-left:1px solid var(--border);
+ box-shadow:var(--sh-lg);display:flex;flex-direction:column;animation:slidein .16s ease-out}
+.dpanel.narrow{width:min(470px,94vw)}
+@keyframes slidein{from{transform:translateX(24px);opacity:.6}to{transform:none;opacity:1}}
+.dp-h{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.dp-h h3{margin:0;font-family:var(--display);font-size:15px;font-weight:800}
+.dp-h .x{margin-left:auto;border:0;background:var(--surface-2);border-radius:7px;width:28px;height:28px;cursor:pointer;color:var(--ink-2);font-size:15px;line-height:1}
+.dp-b{flex:1;overflow:auto;min-height:0}
+.dp-f{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:var(--surface-3)}
+.dp-f .qa[disabled]{opacity:.45;pointer-events:none}
 </style>
 <div class="app" id="app"></div>
 <div class="toasts" id="toasts"></div>
@@ -772,7 +840,196 @@ function agentStats(id){
 }
 const teamStats=()=>AGENTS.map(a=>agentStats(a.id)).sort((x,y)=>({r:0,y:1,g:2}[x.flag]-{r:0,y:1,g:2}[y.flag])||y.atRisk-x.atRisk||y.open-x.open);
 
-const S={role:'advisor',view:'dash',active:'c1',tab:'OPEN',client:null,sess:'all',onlyMine:false,q:'',taskType:'all',activeTask:null,agent:null,own:'all'};
+/* ================= SALES — referrals =================
+   A customer refers a friend. The friend's BDA and tax RM are copied from the
+   referring customer, never chosen here. Sold means the friend is on a paid plan;
+   the payout buttons only record that someone has been paid.                    */
+const REFSTATUS={INVITED:'Invited',USER_ALREADY_EXISTS:'Already a user',SIGNED_UP:'Signed up'};
+let REFS=[
+ {id:'r1',friend:'Zaid Ahmed',mobile:'+91-8898989123',code:'PRSP-ASDF',referrer:'Aarav Shah',status:'SIGNED_UP',bda:'Kabir Sethi',rm:'Leena Mathur',d:'1 Oct 2026, 3:08 am',sold:true,bdaPaid:false,rmPaid:false},
+ {id:'r2',friend:'Test User',mobile:'+91-8727272222',code:'PRSP-ASDF',referrer:'Aarav Shah',status:'INVITED',bda:'Kabir Sethi',rm:'Leena Mathur',d:'1 Oct 2026, 12:42 pm',sold:false,bdaPaid:false,rmPaid:false},
+ {id:'r3',friend:'Rahul Menon',mobile:'+91-9876500001',code:'PRSP-LSKF',referrer:'Dev Patel',status:'INVITED',bda:'Nidhi Arora',rm:'Anand Krishnan',d:'30 Sept 2026, 12:05 am',sold:false,bdaPaid:false,rmPaid:false},
+ {id:'r4',friend:'Sana Kapoor',mobile:'+91-9811122233',code:'PRSP-TEST',referrer:'Isha Gupta',status:'SIGNED_UP',bda:'Nidhi Arora',rm:'Divya Pillai',d:'29 Sept 2026, 7:49 am',sold:true,bdaPaid:true,rmPaid:false},
+ {id:'r5',friend:'Manav Joshi',mobile:'+91-9876543210',code:'PRSP-TEST',referrer:'Isha Gupta',status:'USER_ALREADY_EXISTS',bda:'—',rm:'—',d:'29 Sept 2026, 7:49 am',sold:false,bdaPaid:false,rmPaid:false},
+ {id:'r6',friend:'Pooja Hegde',mobile:'+91-9900011122',code:'PRSP-KMR9',referrer:'Kunal Rao',status:'SIGNED_UP',bda:'Kabir Sethi',rm:'Leena Mathur',d:'28 Sept 2026, 6:20 pm',sold:true,bdaPaid:true,rmPaid:true},
+ {id:'r7',friend:'Harsh Vora',mobile:'+91-9845566778',code:'PRSP-KMR9',referrer:'Kunal Rao',status:'INVITED',bda:'Kabir Sethi',rm:'Leena Mathur',d:'27 Sept 2026, 11:02 am',sold:false,bdaPaid:false,rmPaid:false},
+ {id:'r8',friend:'Neha Kulkarni',mobile:'+91-9123344556',code:'PRSP-RB22',referrer:'Ritika Bose',status:'SIGNED_UP',bda:'Vikas Menon',rm:'Anand Krishnan',d:'26 Sept 2026, 4:35 pm',sold:false,bdaPaid:false,rmPaid:false},
+];
+let REFN=REFS.length;
+const SALES_ME={bda:'Kabir Sethi',name:'Rohit Sharma'};   /* the signed-in sales executive */
+/* customers this sales team owns, the assisted sales in flight, and the change requests */
+const SUSERS=[
+ {id:'u1',name:'Aarav Shah',mobile:'+91-9876512345',plan:'Super Saver',bda:'Kabir Sethi',rm:'Leena Mathur',since:'12 Jul 2026',state:'Active'},
+ {id:'u2',name:'Isha Gupta',mobile:'+91-9811122233',plan:'Premium',bda:'Nidhi Arora',rm:'Divya Pillai',since:'3 Aug 2026',state:'Active'},
+ {id:'u3',name:'Kunal Rao',mobile:'+91-9900011122',plan:'Super Saver',bda:'Kabir Sethi',rm:'Leena Mathur',since:'21 Aug 2026',state:'Active'},
+ {id:'u4',name:'Dev Patel',mobile:'+91-9876500001',plan:'Basic',bda:'Nidhi Arora',rm:'Anand Krishnan',since:'2 Sept 2026',state:'Lapsed'},
+ {id:'u5',name:'Ritika Bose',mobile:'+91-9123344556',plan:'Super Saver',bda:'Vikas Menon',rm:'Anand Krishnan',since:'9 Sept 2026',state:'Active'},
+ {id:'u6',name:'Zoya Khan',mobile:'+91-9845566778',plan:'Premium',bda:'Kabir Sethi',rm:'Leena Mathur',since:'15 Sept 2026',state:'Active'},
+];
+let ASALES=[
+ {id:'a1',client:'Aarav Shah',plan:'Super Saver',amount:'₹11,800',bda:'Kabir Sethi',status:'PENDING',d:'1 Oct 2026, 11:10 am'},
+ {id:'a2',client:'Harsh Vora',plan:'Premium',amount:'₹7,200',bda:'Kabir Sethi',status:'PENDING',d:'30 Sept 2026, 4:40 pm'},
+ {id:'a3',client:'Ritika Bose',plan:'Super Saver',amount:'₹11,800',bda:'Vikas Menon',status:'APPROVED',d:'29 Sept 2026, 10:02 am'},
+ {id:'a4',client:'Dev Patel',plan:'Basic',amount:'₹3,500',bda:'Nidhi Arora',status:'REJECTED',d:'27 Sept 2026, 6:15 pm'},
+];
+let CREQS=[
+ {id:'c1',client:'Isha Gupta',type:'Plan change',detail:'Premium → Super Saver',by:'Kabir Sethi',status:'PENDING',d:'1 Oct 2026, 9:30 am'},
+ {id:'c2',client:'Kunal Rao',type:'Bank details',detail:'New account for refunds',by:'Kabir Sethi',status:'PENDING',d:'30 Sept 2026, 2:05 pm'},
+ {id:'c3',client:'Zoya Khan',type:'Mobile number',detail:'+91-9845566778 → +91-9845500011',by:'Vikas Menon',status:'APPROVED',d:'28 Sept 2026, 11:45 am'},
+];
+const TEAMUSERS=[
+ {id:'t1',name:'Rohit Sharma',role:'Sales executive',scope:'Own referrals and assisted sales',state:'Active'},
+ {id:'t2',name:'Kabir Sethi',role:'BDA',scope:'Assigned customers',state:'Active'},
+ {id:'t3',name:'Nidhi Arora',role:'BDA',scope:'Assigned customers',state:'Active'},
+ {id:'t4',name:'Vikas Menon',role:'BDA',scope:'Assigned customers',state:'Suspended'},
+ {id:'t5',name:'Leena Mathur',role:'Tax RM',scope:'Own clients and milestones',state:'Active'},
+ {id:'t6',name:'Anjali Rao',role:'Sales admin',scope:'Everything in Sales and Users',state:'Active'},
+];
+const SSTAT={PENDING:['y','Pending'],APPROVED:['ok','Approved'],REJECTED:['','Rejected']};
+const sChip=k=>`<span class="rchip ${SSTAT[k][0]}">${SSTAT[k][1]}</span>`;
+/* ================= SALES — log a referral, and the referral list ================= */
+function refStatusChip(r){
+  const c=r.status==='SIGNED_UP'?'ok':r.status==='USER_ALREADY_EXISTS'?'g':'y';
+  return `<span class="rchip ${c}">${REFSTATUS[r.status]||r.status}</span>`;}
+
+function salesTable(title,head,rows,empty){
+  return `<div class="page-h"><div><h1>${title}</h1></div></div>
+    <div class="card mlist"><div class="tblwrap"><table class="atbl mtbl reftbl"><thead>${head}</thead>
+      <tbody>${rows||`<tr><td colspan="9"><div class="empty">${empty}</div></td></tr>`}</tbody></table></div></div>`;
+}
+function usersView(){
+  const admin=S.role==='sa',ss=S.view==='ssusers';
+  const list=admin?(ss?SUSERS.filter(u=>u.plan==='Super Saver'):SUSERS):SUSERS.filter(u=>u.bda===SALES_ME.bda);
+  return salesTable(admin?(ss?'Super Saver users':'Users'):'My users',
+    `<tr><th>Customer</th><th>Mobile</th><th>Plan</th><th>BDA</th><th>Tax RM</th><th>Customer since</th><th>Status</th></tr>`,
+    list.map(u=>`<tr><td class="cn">${u.name}</td><td>${u.mobile}</td>
+      <td><span class="rchip ${u.plan==='Super Saver'?'ok':'g'}">${u.plan}</span></td>
+      <td>${u.bda}</td><td>${u.rm}</td><td class="mstat">${u.since}</td>
+      <td>${u.state==='Active'?'<b class="sold">Active</b>':'<span class="notsold">'+u.state+'</span>'}</td></tr>`).join(''),
+    'No users yet');
+}
+function permsView(){
+  return salesTable('Users &amp; permissions',
+    `<tr><th>Name</th><th>Role</th><th>Can see</th><th>Status</th><th class="r">Actions</th></tr>`,
+    TEAMUSERS.map(t=>`<tr><td class="cn">${t.name}</td><td>${t.role}</td><td class="mstat">${t.scope}</td>
+      <td>${t.state==='Active'?'<b class="sold">Active</b>':'<span class="notsold">'+t.state+'</span>'}</td>
+      <td class="r"><div class="acts"><button class="qa" data-mact="Edit permissions for ${t.name}">Edit</button>
+        <button class="qa" data-mact="${t.state==='Active'?'Suspend':'Restore'} ${t.name}">${t.state==='Active'?'Suspend':'Restore'}</button></div></td></tr>`).join(''),
+    'No internal users');
+}
+function asalesView(){
+  const admin=S.role==='sa';
+  const list=admin?ASALES:ASALES.filter(a=>a.bda===SALES_ME.bda);
+  return salesTable('Assisted sales',
+    `<tr><th>Customer</th><th>Plan</th><th>Amount</th><th>BDA</th><th>Raised</th><th>Status</th>${admin?'<th class="r">Decision</th>':''}</tr>`,
+    list.map(a=>`<tr><td class="cn">${a.client}</td><td>${a.plan}</td><td>${a.amount}</td><td>${a.bda}</td>
+      <td class="mstat">${a.d}</td><td>${sChip(a.status)}</td>
+      ${admin?`<td class="r">${a.status==='PENDING'
+        ?`<div class="acts"><button class="qa solid" data-sdec="asales:${a.id}:APPROVED">Approve</button><button class="qa crit" data-sdec="asales:${a.id}:REJECTED">Reject</button></div>`
+        :'<span class="ago" style="margin:0">—</span>'}</td>`:''}</tr>`).join(''),
+    'Nothing to show');
+}
+function creqView(){
+  const admin=S.role==='sa';
+  const list=admin?CREQS:CREQS.filter(c=>c.by===SALES_ME.bda);
+  return salesTable('Change requests',
+    `<tr><th>Customer</th><th>Request</th><th>Detail</th><th>Raised by</th><th>Raised</th><th>Status</th>${admin?'<th class="r">Decision</th>':''}</tr>`,
+    list.map(c=>`<tr><td class="cn">${c.client}</td><td>${c.type}</td><td class="mstat">${c.detail}</td><td>${c.by}</td>
+      <td class="mstat">${c.d}</td><td>${sChip(c.status)}</td>
+      ${admin?`<td class="r">${c.status==='PENDING'
+        ?`<div class="acts"><button class="qa solid" data-sdec="creq:${c.id}:APPROVED">Approve</button><button class="qa crit" data-sdec="creq:${c.id}:REJECTED">Reject</button></div>`
+        :'<span class="ago" style="margin:0">—</span>'}</td>`:''}</tr>`).join(''),
+    'No change requests');
+}
+function navMenu(key,label,on,items){
+  const open=S.nmenu===key;
+  return `<div class="navdd ${open?'open':''}">
+    <a data-nmenu="${key}" class="${on?'on':''}" tabindex="0" role="button" aria-haspopup="menu" aria-expanded="${open}">${label} <span class="car">&#9662;</span></a>
+    ${open?`<div class="navmenu" role="menu">${items.map(([v,t,sub,ic])=>
+      `<button class="nmi ${S.view===v?'on':''}" data-nav="${v}" role="menuitem">
+        <span class="ic ms-ITR">${ic}</span><span class="tx"><b>${t}</b>${sub?`<span>${sub}</span>`:''}</span></button>`).join('')}</div>`:''}
+  </div>`;
+}
+function salesNav(){
+  const admin=S.role==='sa';
+  const sales=navMenu('sales','Sales',['refs','asales','creq'].includes(S.view),
+    [['refs','Referrals',admin?'every referral and its payout':'log a referral and track yours',I.team],
+     ['asales','Assisted sales',admin?'approve what the BDAs raise':'raise and track assisted sales',I.chart],
+     ['creq','Change request',admin?'approve plan and detail changes':'raise a change for a customer',I.clipboard]]);
+  const users=admin
+    ? navMenu('users','Users',['ssusers','perms'].includes(S.view),
+        [['ssusers','Super Saver users','customers on the Super Saver plan',I.spark],
+         ['perms','Users & permissions','who is internal and what they can see',I.lock]])
+    : `<a data-nav="users" class="${S.view==='users'?'on':''}">Users</a>`;
+  return users+sales;
+}
+function refDrawer(){
+  if(!S.rfOpen)return '';
+  return `<div class="dwrap"><div class="bd" data-rfclose></div>
+    <div class="dpanel narrow">
+      <div class="dp-h"><h3>Log referral</h3>
+        <button class="x" data-rfclose aria-label="Close">&#10005;</button></div>
+      <div class="dp-b"><div class="refbody">
+        <p class="refnote">Enter the customer's referral code and the friend's name and mobile.
+          The friend's BDA and tax RM are copied from that customer — you do not choose them.</p>
+        <label class="rfl">Referral code<input id="rfcode" placeholder="Customer referral code" value="${S.rfCode}"></label>
+        <label class="rfl">Friend's name<input id="rfname" placeholder="Name" value="${S.rfName}"></label>
+        <label class="rfl">Friend's mobile<input id="rfmob" placeholder="10-digit mobile" inputmode="numeric" value="${S.rfMob}"></label>
+        <div class="rfhint" id="rfhint"></div>
+      </div></div>
+      <div class="dp-f"><button class="qa" data-rfclose>Cancel</button>
+        <button class="qa solid" id="rfsave" disabled>Log referral</button></div>
+    </div></div>`;
+}
+
+function refsView(){
+  const admin=S.role==='sa';
+  const scope=admin?REFS:REFS.filter(r=>r.bda===SALES_ME.bda);
+  const q=S.rfq.toLowerCase().trim();
+  const rows=scope.filter(r=>
+     (!q||r.friend.toLowerCase().includes(q)||r.mobile.toLowerCase().includes(q)||r.referrer.toLowerCase().includes(q)||r.code.toLowerCase().includes(q))
+     &&(S.fSold==='all'||(S.fSold==='sold'?r.sold:!r.sold))
+     &&(S.fStat==='all'||r.status===S.fStat)
+     &&(S.fBda==='all'||r.bda===S.fBda)
+     &&(S.fRm==='all'||r.rm===S.fRm));
+  const uniq=k=>[...new Set(scope.map(r=>r[k]).filter(v=>v&&v!=='—'))].sort();
+  const sold=rows.filter(r=>r.sold).length;
+  const owed=scope.filter(r=>r.sold&&(!r.bdaPaid||!r.rmPaid)).length;
+  const opt=(v,l,cur)=>`<option value="${v}" ${cur===v?'selected':''}>${l}</option>`;
+  const on=v=>v!=='all'?'on':'';
+  const payBtns=r=>!r.sold?'<span class="ago" style="margin:0">—</span>'
+    :`<div class="acts">
+        <button class="qa ${r.bdaPaid?'':'solid'}" data-refpay="${r.id}:bda" ${r.bdaPaid?'disabled':''}>${r.bdaPaid?'BDA paid':'Mark BDA paid'}</button>
+        <button class="qa ${r.rmPaid?'':'solid'}" data-refpay="${r.id}:rm" ${r.rmPaid?'disabled':''}>${r.rmPaid?'RM paid':'Mark RM paid'}</button>
+      </div>`;
+  const body=r=>`<tr><td class="cn">${r.friend}</td><td>${r.mobile}</td>
+      <td>${r.referrer}<span class="ago">${r.code}</span></td>
+      <td>${refStatusChip(r)}</td><td>${r.bda}</td><td>${r.rm}</td><td class="mstat">${r.d}</td>
+      <td>${r.sold?'<b class="sold">Sold</b>':'<span class="notsold">Not sold</span>'}</td>
+      ${admin?`<td class="r">${payBtns(r)}</td>`:''}</tr>`;
+
+  return `<div class="page-h"><div><h1>Referrals</h1></div>
+      <div class="hmeta"><button class="qa solid" data-refnew>+ Referral</button></div></div>
+    <div class="card mlist">
+      <div class="mfilters">
+        <select class="fsel ${on(S.fSold)}" id="fsold" aria-label="Sold">${opt('all','Sold: all',S.fSold)}${opt('sold','Sold: yes',S.fSold)}${opt('not','Sold: no',S.fSold)}</select>
+        <select class="fsel ${on(S.fStat)}" id="fstat" aria-label="Status">${opt('all','Status: all',S.fStat)}${Object.keys(REFSTATUS).map(k=>opt(k,'Status: '+REFSTATUS[k],S.fStat)).join('')}</select>
+        <select class="fsel ${on(S.fBda)}" id="fbda" aria-label="BDA">${opt('all','BDA: all',S.fBda)}${uniq('bda').map(v=>opt(v,'BDA: '+v,S.fBda)).join('')}</select>
+        <select class="fsel ${on(S.fRm)}" id="frm" aria-label="Tax RM">${opt('all','Tax RM: all',S.fRm)}${uniq('rm').map(v=>opt(v,'Tax RM: '+v,S.fRm)).join('')}</select>
+        ${(S.fSold!=='all'||S.fStat!=='all'||S.fBda!=='all'||S.fRm!=='all'||S.rfq)?'<button class="clr" data-refclear>Clear</button>':''}
+        <span class="spring2"></span>
+        <div class="search sm"><input id="rfq" placeholder="Search friend, mobile or referrer" value="${S.rfq}" aria-label="Search referrals"></div>
+      </div>
+      <div class="tblwrap"><table class="atbl mtbl reftbl"><thead><tr>
+        <th>Friend</th><th>Mobile</th><th>Referrer</th><th>Status</th><th>BDA</th><th>Tax RM</th><th>Date</th><th>Sold</th>${admin?'<th class="r">Payout</th>':''}</tr></thead>
+        <tbody>${rows.length?rows.map(body).join(''):`<tr><td colspan="${admin?9:8}"><div class="empty">No referrals match</div></td></tr>`}</tbody></table></div>
+      <div class="mfoot"><span>Showing <b>${rows.length}</b> of ${scope.length} referrals · ${sold} sold</span></div>
+    </div>
+    ${refDrawer()}`;
+}
+
+const S={role:'advisor',view:'dash',active:'c1',tab:'OPEN',client:null,sess:'all',onlyMine:false,q:'',taskType:'all',activeTask:null,agent:null,own:'all',
+  /* sales */ rfCode:'',rfName:'',rfMob:'',rfq:'',fSold:'all',fStat:'all',fBda:'all',fRm:'all',rfOpen:false,nmenu:null};
 const mine=()=>CHATS.filter(c=>c.advisorId==='me');
 /* whose chats the chat screen is showing: own desk, or an agent's book in admin view */
 const scope=()=>S.role==='admin'?(S.agent?CHATS.filter(c=>c.advisorId===S.agent):CHATS):mine();
@@ -781,13 +1038,15 @@ const app=()=>document.getElementById('app');
 
 function render(){
   app().innerHTML=bar()+`<div class="main${S.view==='chat'?' full':''}">${
+    S.view==='refs'?refsView():['users','ssusers'].includes(S.view)?usersView():S.view==='perms'?permsView():
+    S.view==='asales'?asalesView():S.view==='creq'?creqView():
     S.view==='adash'?adminDash():S.view==='agent'?agentView():S.view==='agents'?allAgents():
     S.view==='chat'?chat():S.view==='tasks'?tasksView():dash()}</div>`;
   wire();
 }
 function bar(){
   const ad=S.role==='admin';
-  const nav=ad
+  const nav=S.role==='sa'||S.role==='sx'?salesNav():ad
    ?`<a data-nav="adash" class="${S.view==='adash'?'on':''}">Dashboard</a><a data-nav="agents" class="${S.view==='agents'||S.view==='agent'?'on':''}">Agents</a><a data-nav="chat" class="${S.view==='chat'?'on':''}">Chats</a>`
    :`<a data-nav="dash" class="${S.view==='dash'?'on':''}">Dashboard</a><a data-nav="chat" class="${S.view==='chat'?'on':''}">Chats</a><a>Clients</a><a data-nav="tasks" class="${S.view==='tasks'?'on':''}">Tasks</a>`;
   return `<div class="topbar">
@@ -796,7 +1055,8 @@ function bar(){
    <div class="spring"></div>
    <div class="topctl">
     <div class="fy">${I.cal}F.Y. 2026-27</div>
-    <div class="roleswitch"><button data-role="advisor" class="${ad?'':'on'}">Advisor</button><button data-role="admin" class="${ad?'on':''}">Admin</button></div>
+    <select class="rolesel" id="rolesel" aria-label="View as">${[['advisor','Tax advisor'],['admin','Tax admin'],['sx','Sales executive'],['sa','Sales admin']]
+      .map(([k,l])=>`<option value="${k}" ${S.role===k?'selected':''}>${l}</option>`).join('')}</select>
     <button class="iconbtn" data-act="theme">${I.moon}</button>
     <button class="iconbtn">${I.bell}</button>
     <div class="me">${ad?'AD':'IK'}</div>
@@ -1334,7 +1594,51 @@ try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pth
 
 function wire(){
  document.querySelectorAll('[data-nav]').forEach(e=>e.onclick=()=>{S.view=e.dataset.nav;render();});
- document.querySelectorAll('[data-role]').forEach(e=>e.onclick=()=>{S.role=e.dataset.role;S.view=S.role==='admin'?'adash':'dash';S.agent=null;render();});
+ /* sales — search, filters, the + Referral modal, and the payout record */
+ document.querySelectorAll('[data-nmenu]').forEach(e=>{const t=ev=>{ev.preventDefault();ev.stopPropagation();
+   S.nmenu=S.nmenu===e.dataset.nmenu?null:e.dataset.nmenu;render();};
+   e.onclick=t;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' ')t(ev);};});
+ document.querySelectorAll('[data-sdec]').forEach(e=>e.onclick=()=>{
+   const [kind,id,to]=e.dataset.sdec.split(':');
+   const row=(kind==='asales'?ASALES:CREQS).find(x=>x.id===id);if(!row)return;
+   row.status=to;render();toast(`${kind==='asales'?'Assisted sale':'Change request'} ${to==='APPROVED'?'approved':'rejected'}`,to==='APPROVED'?'ok':'info',to==='APPROVED'?I.check:I.x);});
+ document.querySelectorAll('[data-refnew]').forEach(e=>e.onclick=()=>{S.rfOpen=true;render();});
+ document.querySelectorAll('[data-rfclose]').forEach(e=>e.onclick=()=>{S.rfOpen=false;render();});
+ if(S.rfOpen){
+   const g=id=>document.getElementById(id);
+   const check=()=>{S.rfCode=g('rfcode').value;S.rfName=g('rfname').value;S.rfMob=g('rfmob').value;
+     const code=S.rfCode.trim().toUpperCase(),src=REFS.find(r=>r.code.toUpperCase()===code);
+     g('rfhint').innerHTML=code&&src
+       ? `Referred by <b>${src.referrer}</b> · BDA <b>${src.bda}</b> · tax RM <b>${src.rm}</b>`
+       : code?'<span class="warn2">No customer found for that code — the friend will be logged without a BDA.</span>':'';
+     g('rfsave').disabled=!(S.rfCode.trim()&&S.rfName.trim()&&/^\d{10}$/.test(S.rfMob.trim()));};
+   ['rfcode','rfname','rfmob'].forEach(id=>{const el=g(id);if(el)el.oninput=check;});
+   if(g('rfcode'))check();
+   const sv=g('rfsave');
+   if(sv)sv.onclick=()=>{
+     const code=S.rfCode.trim().toUpperCase(),src=REFS.find(r=>r.code.toUpperCase()===code);
+     REFS.unshift({id:'r'+(++REFN),friend:S.rfName.trim(),mobile:'+91-'+S.rfMob.trim(),code,
+       referrer:src?src.referrer:'—',status:'INVITED',bda:src?src.bda:SALES_ME.bda,rm:src?src.rm:'—',
+       d:'1 Oct 2026, 2:15 pm',sold:false,bdaPaid:false,rmPaid:false});
+     S.rfCode='';S.rfName='';S.rfMob='';S.rfOpen=false;render();
+     toast('Referral logged · invite sent to the friend','ok',I.send);};
+ }
+ const fsel=(id,key)=>{const el=document.getElementById(id);if(el)el.onchange=()=>{S[key]=el.value;render();};};
+ fsel('fsold','fSold');fsel('fstat','fStat');fsel('fbda','fBda');fsel('frm','fRm');
+ const refq=document.getElementById('rfq');
+ if(refq)refq.oninput=()=>{S.rfq=refq.value;render();const el=document.getElementById('rfq');
+   if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}};
+ document.querySelectorAll('[data-refclear]').forEach(e=>e.onclick=()=>{
+   S.fSold='all';S.fStat='all';S.fBda='all';S.fRm='all';S.rfq='';render();});
+ document.querySelectorAll('[data-refpay]').forEach(e=>e.onclick=()=>{
+   const [id,who]=e.dataset.refpay.split(':');const r=REFS.find(x=>x.id===id);if(!r)return;
+   if(who==='bda')r.bdaPaid=true;else r.rmPaid=true;render();
+   toast(`Recorded: ${who==='bda'?r.bda+' (BDA)':r.rm+' (tax RM)'} paid`,'ok',I.check);});
+ document.onclick=ev=>{if(S.nmenu&&!ev.target.closest('.navdd')){S.nmenu=null;render();}};
+ document.querySelectorAll('[data-nav]').forEach(e=>{const f=e.onclick;e.onclick=ev=>{S.nmenu=null;f&&f(ev);};});
+ const rsel=document.getElementById('rolesel');
+ if(rsel)rsel.onchange=()=>{S.role=rsel.value;
+   S.view=S.role==='admin'?'adash':S.role==='sa'||S.role==='sx'?'refs':'dash';S.agent=null;S.nmenu=null;render();};
  document.querySelectorAll('[data-agent]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();S.agent=e.dataset.agent;S.view='agent';render();});
  document.querySelectorAll('[data-adminhome]').forEach(e=>e.onclick=()=>{S.view='adash';S.agent=null;render();});
  const t=document.querySelector('[data-act="theme"]');if(t)t.onclick=theme;
