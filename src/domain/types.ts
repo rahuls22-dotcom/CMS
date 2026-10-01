@@ -2,7 +2,7 @@
  *  can be lifted into the real CMS data layer with minimal translation. */
 
 export type StageId = 1 | 2 | 3 | 4 | 5
-export type Role = 'RM' | 'WEALTH_ADVISOR' | 'WEALTH_ADMIN'
+export type Role = 'RM' | 'WEALTH_ADVISOR' | 'WEALTH_ADMIN' | 'SALES_EXEC' | 'SALES_ADMIN'
 export type PackageName = 'Elite' | 'Premium'
 
 export type S1Status = 'New' | 'Contacted' | 'Interested'

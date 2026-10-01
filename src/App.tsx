@@ -7,6 +7,11 @@ import { ClientPage } from './features/clientPage/ClientPage'
 import { TopBar } from './layout/TopBar'
 import { ACTOR_NAMES, StoreContext, reducer, type AppState } from './domain/store'
 import { ALL_PEOPLE, RMS, buildSeed } from './domain/seed'
+import {
+  seedAssistedSales, seedChangeRequests, seedReferrals, seedSalesUsers, seedTeam,
+} from './domain/sales'
+import { Referrals } from './features/sales/Referrals'
+import { AssistedSales, ChangeRequests, Permissions, SalesUsers } from './features/sales/SalesScreens'
 
 for (const p of ALL_PEOPLE) ACTOR_NAMES[p.id] = p.name
 ACTOR_NAMES['system'] = 'System'
@@ -17,6 +22,11 @@ function initialState(): AppState {
     clients, milestones, history,
     role: 'RM',
     actorId: (RMS[0] as { id: string }).id,
+    referrals: seedReferrals(),
+    salesUsers: seedSalesUsers(),
+    assistedSales: seedAssistedSales(),
+    changeRequests: seedChangeRequests(),
+    team: seedTeam(),
   }
 }
 
@@ -32,6 +42,12 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/clients" element={<ClientList />} />
         <Route path="/clients/:id" element={<ClientPage />} />
+        <Route path="/sales/referrals" element={<Referrals />} />
+        <Route path="/sales/assisted" element={<AssistedSales />} />
+        <Route path="/sales/changes" element={<ChangeRequests />} />
+        <Route path="/sales/users" element={<SalesUsers />} />
+        <Route path="/sales/super-saver" element={<SalesUsers superSaverOnly />} />
+        <Route path="/sales/permissions" element={<Permissions />} />
         <Route path="*" element={<Navigate to="/clients" replace />} />
       </Routes>
       {host}

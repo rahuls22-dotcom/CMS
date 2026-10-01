@@ -274,3 +274,41 @@ select.tsel { min-width: 180px; }
   .page { padding: 14px 12px 32px; }
   .two-col { grid-template-columns: 1fr !important; }
 }
+
+/* ---- sales: nav menus and the right-side drawer ---- */
+.menu-wrap { position: relative; }
+.menu-wrap .caret { font-size: 9px; opacity: .8; }
+.navmenu {
+  position: absolute; top: calc(100% + 10px); left: 0; min-width: 270px; z-index: 60;
+  background: var(--card); border: 1px solid var(--divider); border-radius: 12px;
+  box-shadow: var(--shadow-modal); padding: 6px;
+}
+.navmenu-item {
+  display: block; width: 100%; text-align: left; border: 0; background: transparent;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer; color: var(--ink); font: inherit;
+}
+.navmenu-item:hover { background: var(--primary-tint-3); }
+.navmenu-item.on { background: var(--primary-tint); }
+.navmenu-item b { display: block; font-size: 13px; font-weight: 600; }
+.navmenu-item span { display: block; font-size: 11px; color: var(--muted); }
+
+.drawer-overlay { justify-content: flex-end; align-items: stretch; padding: 0; }
+.drawer {
+  width: min(470px, 94vw); background: var(--card); display: flex; flex-direction: column;
+  border-left: 1px solid var(--divider); box-shadow: var(--shadow-drawer);
+}
+.drawer-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; border-bottom: 1px solid var(--divider); font-size: 15px;
+}
+.drawer-body { flex: 1; overflow: auto; padding: 14px 16px; }
+.drawer-foot {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border-top: 1px solid var(--divider);
+}
+.fld {
+  display: block; margin-bottom: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted);
+}
+.fld .input { display: block; width: 100%; margin-top: 6px; letter-spacing: 0; text-transform: none; }

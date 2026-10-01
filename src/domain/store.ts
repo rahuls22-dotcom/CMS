@@ -3,6 +3,10 @@ import type {
   Client, DropReason, HistoryEntry, Milestone, Role, StageId, Status, TxStatus,
 } from './types'
 import { isClosed } from './funnel'
+import type {
+  AssistedSale, ChangeRequest, DecisionStatus, Referral, SalesUser, TeamMember,
+} from './sales'
+import { SALES_EXEC } from './sales'
 
 export interface Actor { id: string; name: string; role: Role }
 
@@ -12,6 +16,12 @@ export interface AppState {
   history: HistoryEntry[]
   role: Role
   actorId: string
+  /** Sales lives alongside the funnel — same store, separate collections. */
+  referrals: Referral[]
+  salesUsers: SalesUser[]
+  assistedSales: AssistedSale[]
+  changeRequests: ChangeRequest[]
+  team: TeamMember[]
 }
 
 export type Action =
@@ -22,6 +32,10 @@ export type Action =
   | { type: 'addMoM'; milestoneId: string; text: string }
   | { type: 'drop'; milestoneId: string; reason: DropReason; note?: string; noshowCount?: number }
   | { type: 'setTxStatus'; milestoneId: string; tx: TxStatus }
+  | { type: 'logReferral'; friend: string; mobile: string; code: string }
+  | { type: 'markPaid'; referralId: string; who: 'bda' | 'rm' }
+  | { type: 'decideAssistedSale'; id: string; status: DecisionStatus }
+  | { type: 'decideChangeRequest'; id: string; status: DecisionStatus }
 
 export interface SlotInput { date: string; start: string; end: string }
 
@@ -59,9 +73,59 @@ function enterStage(m: Milestone, stage: StageId, status: Status): void {
   m.stage_entered_at = new Date().toISOString()
 }
 
+let rSeq = 100
+const nextReferralId = () => `r${++rSeq}`
+
 export function reducer(state: AppState, action: Action): AppState {
   if (action.type === 'setRole') {
     return { ...state, role: action.role, actorId: action.actorId }
+  }
+
+  /** Sales actions touch their own collections and never the funnel. */
+  if (action.type === 'logReferral') {
+    const code = action.code.trim().toUpperCase()
+    const src = state.referrals.find((x) => x.code.toUpperCase() === code)
+    const referral: Referral = {
+      id: nextReferralId(),
+      friend: action.friend.trim(),
+      mobile: `+91-${action.mobile.trim()}`,
+      code,
+      referrer: src?.referrer ?? '—',
+      status: 'INVITED',
+      /** The friend inherits the referring customer's BDA and tax RM. */
+      bda: src?.bda ?? SALES_EXEC.bda,
+      rm: src?.rm ?? '—',
+      at: '1 Oct 2026, 2:15 pm',
+      sold: false,
+      bda_paid: false,
+      rm_paid: false,
+    }
+    return { ...state, referrals: [referral, ...state.referrals] }
+  }
+
+  if (action.type === 'markPaid') {
+    return {
+      ...state,
+      referrals: state.referrals.map((x) =>
+        x.id !== action.referralId ? x
+        : action.who === 'bda' ? { ...x, bda_paid: true } : { ...x, rm_paid: true }),
+    }
+  }
+
+  if (action.type === 'decideAssistedSale') {
+    return {
+      ...state,
+      assistedSales: state.assistedSales.map((x) =>
+        x.id === action.id ? { ...x, status: action.status } : x),
+    }
+  }
+
+  if (action.type === 'decideChangeRequest') {
+    return {
+      ...state,
+      changeRequests: state.changeRequests.map((x) =>
+        x.id === action.id ? { ...x, status: action.status } : x),
+    }
   }
 
   const idx = state.milestones.findIndex((x) => x.id === action.milestoneId)
